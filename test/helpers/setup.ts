@@ -28,11 +28,14 @@ export async function deployFullSuite() {
   await gateway.waitForDeployment();
 
   // 5. Deploy EscrowBridge first so KlerosCore can reference it
+  //    (admin, gateway, klerosCore placeholder=admin, xrplChainName, xrplDestinationContract)
   const EscrowBridge = await ethers.getContractFactory("EscrowBridge");
   const escrow = await upgrades.deployProxy(EscrowBridge, [
+    admin.address,
     await gateway.getAddress(),
-    ethers.ZeroAddress, // gasService mock not needed for scaffold
-    admin.address
+    admin.address,
+    "xrpl",
+    "rTestDestinationAccount"
   ], { kind: "uups" });
   await escrow.waitForDeployment();
 
@@ -64,12 +67,12 @@ export async function deployFullSuite() {
   // 8. Wire up cross-references
   await (disputeKit as any).connect(admin).setKlerosCore(await core.getAddress());
   await (sortition as any).connect(admin).setKlerosCore(await core.getAddress());
+  await (escrow as any).connect(admin).setKlerosCore(await core.getAddress());
   await (kpnk as any).connect(admin).setSortitionModule(await sortition.getAddress());
   // Seed admin with the full K-PNK supply so downstream tests that assume funded admin still work
   await (kpnk as any)
     .connect(admin)
     .initialDistribution([admin.address], [ethers.parseUnits("1000000000", 18)]);
-  // TODO: grant OPERATOR_ROLE to KlerosCore on EscrowBridge
 
   return { admin, arbitrator, juror1, juror2, juror3, claimant, respondent, daoTreasury, operationsWallet, kpnk, sortition, disputeKit, core, escrow, gateway, governor, timelock };
 }
