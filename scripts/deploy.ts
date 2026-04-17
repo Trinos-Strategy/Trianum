@@ -66,7 +66,7 @@ async function main() {
   await timelock.waitForDeployment();
   console.log("KKlerosTimelock:", await timelock.getAddress());
 
-  // 7. KKlerosGovernor
+  // 7. KKlerosGovernor (legacy Phase-3 stub)
   const Governor = await ethers.getContractFactory("KKlerosGovernor");
   const governor = await upgrades.deployProxy(Governor, [
     await kpnk.getAddress(),
@@ -75,6 +75,48 @@ async function main() {
   ], { kind: "uups" });
   await governor.waitForDeployment();
   console.log("KKlerosGovernor:", await governor.getAddress());
+
+  // 7b. Phase-1 DAO governance: OZ TimelockController + KlerosGovernor
+  const TIMELOCK_MIN_DELAY = Number(process.env.TIMELOCK_MIN_DELAY ?? 24 * 60 * 60); // 24h default
+  const VOTING_DELAY = Number(process.env.VOTING_DELAY ?? 7200);      // ~1d of 12s blocks
+  const VOTING_PERIOD = Number(process.env.VOTING_PERIOD ?? 50400);   // ~7d of 12s blocks
+  const PROPOSAL_THRESHOLD = process.env.PROPOSAL_THRESHOLD
+    ? BigInt(process.env.PROPOSAL_THRESHOLD)
+    : ethers.parseUnits("10000", 18);
+  const QUORUM_PERCENT = Number(process.env.QUORUM_PERCENT ?? 4);
+
+  const TimelockController = await ethers.getContractFactory("TimelockController");
+  const timelockController = await TimelockController.deploy(
+    TIMELOCK_MIN_DELAY,
+    [],                      // proposers — granted to governor below
+    [ethers.ZeroAddress],    // executors — anyone after delay
+    deployer.address         // initial admin (renounce after setup)
+  );
+  await timelockController.waitForDeployment();
+  console.log("TimelockController:", await timelockController.getAddress());
+
+  const KlerosGovernor = await ethers.getContractFactory("KlerosGovernor");
+  const klerosGovernor = await upgrades.deployProxy(
+    KlerosGovernor,
+    [
+      await kpnk.getAddress(),
+      await timelockController.getAddress(),
+      deployer.address,
+      VOTING_DELAY,
+      VOTING_PERIOD,
+      PROPOSAL_THRESHOLD,
+      QUORUM_PERCENT,
+    ],
+    { kind: "uups" }
+  );
+  await klerosGovernor.waitForDeployment();
+  console.log("KlerosGovernor:", await klerosGovernor.getAddress());
+
+  const PROPOSER_ROLE = await (timelockController as any).PROPOSER_ROLE();
+  const CANCELLER_ROLE = await (timelockController as any).CANCELLER_ROLE();
+  await (timelockController as any).grantRole(PROPOSER_ROLE, await klerosGovernor.getAddress());
+  await (timelockController as any).grantRole(CANCELLER_ROLE, await klerosGovernor.getAddress());
+  console.log("KlerosGovernor -> TimelockController linked (PROPOSER + CANCELLER)");
 
   // 8. Wire access control
   await (disputeKit as any).setKlerosCore(await core.getAddress());
@@ -91,7 +133,30 @@ async function main() {
     );
     console.log("KPNKToken: initial 1B distributed to deployer");
   }
-  // TODO: Grant GOVERNOR_ROLE on KlerosCore to Governor
+  // Optional: transfer ADMIN_ROLE on protocol contracts to the TimelockController
+  // so governance owns them. Opt-in via TRANSFER_ADMIN_TO_TIMELOCK=true because
+  // test harnesses typically expect the deployer to retain admin authority.
+  if (process.env.TRANSFER_ADMIN_TO_TIMELOCK === "true") {
+    const timelockAddr = await timelockController.getAddress();
+
+    const ADMIN_ROLE_CORE = await (core as any).ADMIN_ROLE();
+    await (core as any).grantRole(ADMIN_ROLE_CORE, timelockAddr);
+    await (core as any).revokeRole(ADMIN_ROLE_CORE, deployer.address);
+
+    const ADMIN_ROLE_SORT = await (sortition as any).ADMIN_ROLE();
+    await (sortition as any).grantRole(ADMIN_ROLE_SORT, timelockAddr);
+    await (sortition as any).revokeRole(ADMIN_ROLE_SORT, deployer.address);
+
+    const ADMIN_ROLE_KPNK = await (kpnk as any).ADMIN_ROLE();
+    await (kpnk as any).grantRole(ADMIN_ROLE_KPNK, timelockAddr);
+    await (kpnk as any).revokeRole(ADMIN_ROLE_KPNK, deployer.address);
+
+    const ADMIN_ROLE_ESC = await (escrow as any).ADMIN_ROLE();
+    await (escrow as any).grantRole(ADMIN_ROLE_ESC, timelockAddr);
+    await (escrow as any).revokeRole(ADMIN_ROLE_ESC, deployer.address);
+
+    console.log("ADMIN_ROLE transferred to TimelockController on Core/Sortition/KPNK/Escrow");
+  }
 
   console.log("\nDeployment complete. Remember to wire access control roles.");
 }

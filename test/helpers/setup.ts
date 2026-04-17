@@ -51,7 +51,7 @@ export async function deployFullSuite() {
   ], { kind: "uups" });
   await core.waitForDeployment();
 
-  // 7. Deploy Governor + Timelock
+  // 7. Deploy legacy Phase-3 stubs (KKlerosGovernor/KKlerosTimelock)
   const Timelock = await ethers.getContractFactory("KKlerosTimelock");
   const timelock = await upgrades.deployProxy(Timelock, [admin.address], { kind: "uups" });
   await timelock.waitForDeployment();
@@ -64,6 +64,38 @@ export async function deployFullSuite() {
   ], { kind: "uups" });
   await governor.waitForDeployment();
 
+  // 7b. Deploy Phase-1 DAO governance (OZ TimelockController + KlerosGovernor)
+  const TimelockController = await ethers.getContractFactory("TimelockController");
+  const timelockController = await TimelockController.deploy(
+    2, // minDelay (seconds) — tiny for test speed
+    [],
+    [ethers.ZeroAddress],
+    admin.address
+  );
+  await timelockController.waitForDeployment();
+
+  const KlerosGovernor = await ethers.getContractFactory("KlerosGovernor");
+  const klerosGovernor = await upgrades.deployProxy(
+    KlerosGovernor,
+    [
+      await kpnk.getAddress(),
+      await timelockController.getAddress(),
+      admin.address,
+      1,                                      // votingDelay (blocks)
+      10,                                     // votingPeriod (blocks)
+      ethers.parseUnits("10000", 18),         // proposalThreshold
+      4,                                      // quorumPercent (%)
+    ],
+    { kind: "uups" }
+  );
+  await klerosGovernor.waitForDeployment();
+
+  // Link governor into the timelock as proposer/canceller
+  const PROPOSER_ROLE = await (timelockController as any).PROPOSER_ROLE();
+  const CANCELLER_ROLE = await (timelockController as any).CANCELLER_ROLE();
+  await (timelockController as any).connect(admin).grantRole(PROPOSER_ROLE, await klerosGovernor.getAddress());
+  await (timelockController as any).connect(admin).grantRole(CANCELLER_ROLE, await klerosGovernor.getAddress());
+
   // 8. Wire up cross-references
   await (disputeKit as any).connect(admin).setKlerosCore(await core.getAddress());
   await (sortition as any).connect(admin).setKlerosCore(await core.getAddress());
@@ -74,5 +106,10 @@ export async function deployFullSuite() {
     .connect(admin)
     .initialDistribution([admin.address], [ethers.parseUnits("1000000000", 18)]);
 
-  return { admin, arbitrator, juror1, juror2, juror3, claimant, respondent, daoTreasury, operationsWallet, kpnk, sortition, disputeKit, core, escrow, gateway, governor, timelock };
+  return {
+    admin, arbitrator, juror1, juror2, juror3, claimant, respondent, daoTreasury, operationsWallet,
+    kpnk, sortition, disputeKit, core, escrow, gateway,
+    governor, timelock,                   // legacy Phase-3 stubs
+    klerosGovernor, timelockController,   // Phase-1 DAO governance
+  };
 }
