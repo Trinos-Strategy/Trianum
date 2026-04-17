@@ -8,9 +8,13 @@ export async function deployFullSuite() {
   const kpnk = await upgrades.deployProxy(KPNKToken, [admin.address], { kind: "uups" });
   await kpnk.waitForDeployment();
 
-  // 2. Deploy SortitionModule
+  // 2. Deploy SortitionModule (admin, kpnk, klerosCore placeholder=admin — wired after KlerosCore deploys)
   const SortitionModule = await ethers.getContractFactory("SortitionModule");
-  const sortition = await upgrades.deployProxy(SortitionModule, [await kpnk.getAddress(), admin.address], { kind: "uups" });
+  const sortition = await upgrades.deployProxy(SortitionModule, [
+    admin.address,
+    await kpnk.getAddress(),
+    admin.address
+  ], { kind: "uups" });
   await sortition.waitForDeployment();
 
   // 3. Deploy DisputeKit (admin, klerosCore placeholder=admin — updated after KlerosCore deploys)
@@ -59,7 +63,8 @@ export async function deployFullSuite() {
 
   // 8. Wire up cross-references
   await (disputeKit as any).connect(admin).setKlerosCore(await core.getAddress());
-  // TODO: grant OPERATOR_ROLE to KlerosCore on SortitionModule/EscrowBridge, TRANSFER_CONTROLLER_ROLE on KPNK to SortitionModule
+  await (sortition as any).connect(admin).setKlerosCore(await core.getAddress());
+  // TODO: grant OPERATOR_ROLE to KlerosCore on EscrowBridge, TRANSFER_CONTROLLER_ROLE on KPNK to SortitionModule
 
   return { admin, arbitrator, juror1, juror2, juror3, claimant, respondent, daoTreasury, operationsWallet, kpnk, sortition, disputeKit, core, escrow, gateway, governor, timelock };
 }
