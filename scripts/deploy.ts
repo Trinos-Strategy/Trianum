@@ -33,10 +33,11 @@ async function main() {
   await core.waitForDeployment();
   console.log("KlerosCore:", await core.getAddress());
 
-  // 5. EscrowBridge (needs Axelar Gateway address for target network)
-  // const AXELAR_GATEWAY = "0x..."; // Set per network
+  // 5. EscrowBridge (needs Axelar Gateway + GasService addresses for target network)
+  // const AXELAR_GATEWAY = "0x...";      // Set per network
+  // const AXELAR_GAS_SERVICE = "0x...";  // Set per network
   // const EscrowBridge = await ethers.getContractFactory("EscrowBridge");
-  // const escrow = await upgrades.deployProxy(EscrowBridge, [await core.getAddress(), AXELAR_GATEWAY, deployer.address], { kind: "uups" });
+  // const escrow = await upgrades.deployProxy(EscrowBridge, [AXELAR_GATEWAY, AXELAR_GAS_SERVICE, deployer.address], { kind: "uups" });
 
   // 6. KKlerosTimelock
   const Timelock = await ethers.getContractFactory("KKlerosTimelock");

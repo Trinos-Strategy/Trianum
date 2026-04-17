@@ -8,5 +8,5 @@ describe("EscrowBridge", function () {
     expect(await escrow.getAddress()).to.properAddress;
   });
 
-  // TODO: registerEscrow, releaseFunds, refundFunds, retryRelease, Axelar _execute
+  // TODO: createEscrow, releaseEscrow, refundEscrow, splitEscrow, bridgeToXRPL, Axelar execute()
 });

@@ -9,16 +9,18 @@ import "../libraries/DataStructures.sol";
  */
 interface IEscrowBridge {
 
-    event EscrowRegistered(bytes32 indexed escrowID, uint256 indexed disputeID, uint256 amount, address claimant, address respondent);
-    event FundsReleaseRequested(bytes32 indexed escrowID, uint256 indexed disputeID, address winner, uint256 amount);
-    event FundsRefundRequested(bytes32 indexed escrowID, uint256 indexed disputeID);
-    event RetryRequested(bytes32 indexed escrowID, uint256 retryCount);
+    event EscrowCreated(bytes32 indexed escrowID, uint256 indexed disputeID, address claimant, address respondent, uint256 amount);
+    event EscrowReleased(bytes32 indexed escrowID);
+    event EscrowRefunded(bytes32 indexed escrowID);
+    event EscrowSplit(bytes32 indexed escrowID, uint256 claimantShare, uint256 respondentShare);
+    event BridgedToXRPL(bytes32 indexed escrowID);
 
-    function registerEscrow(bytes32 _escrowID, uint256 _amount, address _claimant, address _respondent, uint96 _courtId, bytes32 _xrplCondition) external;
-    function releaseFunds(bytes32 _escrowID, address _winner) external;
-    function refundFunds(bytes32 _escrowID) external;
-    function retryRelease(bytes32 _escrowID) external;
+    function createEscrow(uint256 _disputeID, address _claimant, address _respondent, uint256 _amount) external returns (bytes32);
+    function releaseEscrow(bytes32 _escrowID) external;
+    function refundEscrow(bytes32 _escrowID) external;
+    function splitEscrow(bytes32 _escrowID, uint256 _claimantShare, uint256 _respondentShare) external;
+    function bridgeToXRPL(bytes32 _escrowID) external;
 
     function getEscrow(bytes32 _escrowID) external view returns (DataStructures.Escrow memory);
-    function getRetryCount(bytes32 _escrowID) external view returns (uint256);
+    function getEscrowByDispute(uint256 _disputeID) external view returns (DataStructures.Escrow memory);
 }

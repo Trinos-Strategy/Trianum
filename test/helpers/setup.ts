@@ -33,11 +33,11 @@ export async function deployFullSuite() {
   ], { kind: "uups" });
   await core.waitForDeployment();
 
-  // 6. Deploy EscrowBridge
+  // 6. Deploy EscrowBridge (gateway, gasService, admin)
   const EscrowBridge = await ethers.getContractFactory("EscrowBridge");
   const escrow = await upgrades.deployProxy(EscrowBridge, [
-    await core.getAddress(),
     await gateway.getAddress(),
+    ethers.ZeroAddress, // gasService mock not needed for scaffold
     admin.address
   ], { kind: "uups" });
   await escrow.waitForDeployment();
