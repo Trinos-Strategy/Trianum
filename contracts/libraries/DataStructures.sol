@@ -81,6 +81,8 @@ library DataStructures {
         uint256 ruling;             // 최종 판정 (0/1/2)
         uint256 appealCount;        // 항소 횟수
         bytes32 escrowID;           // XRPL 에스크로 ID
+        uint256 lastStatusChangeAt; // 마지막 상태 변경 타임스탬프
+        bool arbitratorSigned;      // 중재인 서명 여부
     }
 
     /// @dev 투표 라운드 정보

@@ -1,7 +1,7 @@
 import { ethers, upgrades } from "hardhat";
 
 export async function deployFullSuite() {
-  const [admin, arbitrator, juror1, juror2, juror3, claimant, respondent] = await ethers.getSigners();
+  const [admin, arbitrator, juror1, juror2, juror3, claimant, respondent, daoTreasury, operationsWallet] = await ethers.getSigners();
 
   // 1. Deploy KPNKToken
   const KPNKToken = await ethers.getContractFactory("KPNKToken");
@@ -23,17 +23,7 @@ export async function deployFullSuite() {
   const gateway = await MockGateway.deploy();
   await gateway.waitForDeployment();
 
-  // 5. Deploy KlerosCore
-  const KlerosCore = await ethers.getContractFactory("KlerosCore");
-  const core = await upgrades.deployProxy(KlerosCore, [
-    await disputeKit.getAddress(),
-    await sortition.getAddress(),
-    ethers.ZeroAddress, // EscrowBridge — set after
-    admin.address
-  ], { kind: "uups" });
-  await core.waitForDeployment();
-
-  // 6. Deploy EscrowBridge (gateway, gasService, admin)
+  // 5. Deploy EscrowBridge first so KlerosCore can reference it
   const EscrowBridge = await ethers.getContractFactory("EscrowBridge");
   const escrow = await upgrades.deployProxy(EscrowBridge, [
     await gateway.getAddress(),
@@ -41,6 +31,18 @@ export async function deployFullSuite() {
     admin.address
   ], { kind: "uups" });
   await escrow.waitForDeployment();
+
+  // 6. Deploy KlerosCore (admin, disputeKit, sortition, escrow, daoTreasury, operationsWallet)
+  const KlerosCore = await ethers.getContractFactory("KlerosCore");
+  const core = await upgrades.deployProxy(KlerosCore, [
+    admin.address,
+    await disputeKit.getAddress(),
+    await sortition.getAddress(),
+    await escrow.getAddress(),
+    daoTreasury.address,
+    operationsWallet.address
+  ], { kind: "uups" });
+  await core.waitForDeployment();
 
   // 7. Deploy Governor + Timelock
   const Timelock = await ethers.getContractFactory("KKlerosTimelock");
@@ -56,7 +58,7 @@ export async function deployFullSuite() {
   await governor.waitForDeployment();
 
   // 8. Wire up cross-references
-  // core.setEscrowBridge(escrow), grant OPERATOR_ROLE, etc.
+  // grant OPERATOR_ROLE to KlerosCore on modules, TRANSFER_CONTROLLER_ROLE to SortitionModule, etc.
 
-  return { admin, arbitrator, juror1, juror2, juror3, claimant, respondent, kpnk, sortition, disputeKit, core, escrow, gateway, governor, timelock };
+  return { admin, arbitrator, juror1, juror2, juror3, claimant, respondent, daoTreasury, operationsWallet, kpnk, sortition, disputeKit, core, escrow, gateway, governor, timelock };
 }

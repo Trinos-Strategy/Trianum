@@ -22,22 +22,32 @@ async function main() {
   await disputeKit.waitForDeployment();
   console.log("DisputeKit:", await disputeKit.getAddress());
 
-  // 4. KlerosCore (EscrowBridge = ZeroAddress, set later)
+  // 4. EscrowBridge must be deployed before KlerosCore (which requires a non-zero escrow address)
+  const AXELAR_GATEWAY = process.env.AXELAR_GATEWAY ?? ethers.ZeroAddress;
+  const AXELAR_GAS_SERVICE = process.env.AXELAR_GAS_SERVICE ?? ethers.ZeroAddress;
+  const EscrowBridge = await ethers.getContractFactory("EscrowBridge");
+  const escrow = await upgrades.deployProxy(EscrowBridge, [
+    AXELAR_GATEWAY,
+    AXELAR_GAS_SERVICE,
+    deployer.address
+  ], { kind: "uups" });
+  await escrow.waitForDeployment();
+  console.log("EscrowBridge:", await escrow.getAddress());
+
+  // 5. KlerosCore (admin, disputeKit, sortition, escrow, daoTreasury, operationsWallet)
+  const daoTreasury = process.env.DAO_TREASURY ?? deployer.address;
+  const operationsWallet = process.env.OPERATIONS_WALLET ?? deployer.address;
   const KlerosCore = await ethers.getContractFactory("KlerosCore");
   const core = await upgrades.deployProxy(KlerosCore, [
+    deployer.address,
     await disputeKit.getAddress(),
     await sortition.getAddress(),
-    ethers.ZeroAddress,
-    deployer.address
+    await escrow.getAddress(),
+    daoTreasury,
+    operationsWallet
   ], { kind: "uups" });
   await core.waitForDeployment();
   console.log("KlerosCore:", await core.getAddress());
-
-  // 5. EscrowBridge (needs Axelar Gateway + GasService addresses for target network)
-  // const AXELAR_GATEWAY = "0x...";      // Set per network
-  // const AXELAR_GAS_SERVICE = "0x...";  // Set per network
-  // const EscrowBridge = await ethers.getContractFactory("EscrowBridge");
-  // const escrow = await upgrades.deployProxy(EscrowBridge, [AXELAR_GATEWAY, AXELAR_GAS_SERVICE, deployer.address], { kind: "uups" });
 
   // 6. KKlerosTimelock
   const Timelock = await ethers.getContractFactory("KKlerosTimelock");
@@ -56,12 +66,11 @@ async function main() {
   console.log("KKlerosGovernor:", await governor.getAddress());
 
   // 8. Wire access control
-  // TODO: Grant OPERATOR_ROLE on SortitionModule/DisputeKit to KlerosCore
+  // TODO: Grant OPERATOR_ROLE on SortitionModule/DisputeKit/EscrowBridge to KlerosCore
   // TODO: Grant TRANSFER_CONTROLLER_ROLE on KPNKToken to SortitionModule
-  // TODO: Set EscrowBridge on KlerosCore
   // TODO: Grant GOVERNOR_ROLE on KlerosCore to Governor
 
-  console.log("\n✅ Deployment complete. Remember to wire access control roles.");
+  console.log("\nDeployment complete. Remember to wire access control roles.");
 }
 
 main().catch(console.error);
