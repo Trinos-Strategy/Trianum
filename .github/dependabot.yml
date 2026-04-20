@@ -1,0 +1,33 @@
+version: 2
+updates:
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 10
+
+    # The Hardhat v3 family (hardhat@^3, hardhat-toolbox@^7, hardhat-ignition@^3,
+    # hardhat-ignition-ethers@^3, ignition-core@^3, hardhat-verify@^3) is a hard
+    # break from the v2 toolchain this repo is pinned to. Upgrading any one of
+    # them forces a coordinated migration of hardhat.config.ts, the test harness
+    # (hardhat-network-helpers v1 → v2), and @openzeppelin/hardhat-upgrades
+    # (no v3-compatible release as of this writing). We revisit once the full
+    # ecosystem lands a v3-compatible stack.
+    ignore:
+      - dependency-name: "hardhat"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "@nomicfoundation/hardhat-toolbox"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "@nomicfoundation/hardhat-ignition"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "@nomicfoundation/hardhat-ignition-ethers"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "@nomicfoundation/ignition-core"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "@nomicfoundation/hardhat-verify"
+        update-types: ["version-update:semver-major"]
+
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
