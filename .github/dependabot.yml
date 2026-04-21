@@ -26,6 +26,11 @@ updates:
         update-types: ["version-update:semver-major"]
       - dependency-name: "@nomicfoundation/hardhat-verify"
         update-types: ["version-update:semver-major"]
+      # hardhat-ethers v4 / hardhat-network-helpers v2+ 는 Hardhat v3 전용이라 같은 이유로 차단.
+      - dependency-name: "@nomicfoundation/hardhat-ethers"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "@nomicfoundation/hardhat-network-helpers"
+        update-types: ["version-update:semver-major"]
 
   - package-ecosystem: "github-actions"
     directory: "/"
