@@ -1,0 +1,46 @@
+K-Kleros — NOTICE OF DERIVATIVE WORK AND THIRD-PARTY COMPONENTS
+
+Copyright (c) 2026 Trinos Strategy
+
+This product includes software developed by and originally copyrighted by
+the Kleros project, licensed under the MIT License.
+
+===============================================================================
+1. KLEROS UPSTREAM ATTRIBUTION
+===============================================================================
+
+K-Kleros is a derivative work of the Kleros protocol
+(https://github.com/kleros/kleros, https://kleros.io).
+
+The following files contain substantial code derived from Kleros upstream
+sources, adapted for the XRPL EVM Sidechain execution context and Korean
+legal-system requirements:
+
+  contracts/core/KlerosCore.sol
+  contracts/modules/DisputeKit.sol
+  contracts/modules/SortitionModule.sol
+
+Additional files in contracts/ may incorporate smaller derivative fragments.
+Where applicable, in-file SPDX identifiers and @title / @notice NatSpec
+headers identify upstream origin.
+
+The original Kleros MIT License is preserved; see LICENSE at the root of
+this repository.
+
+===============================================================================
+2. THIRD-PARTY DEPENDENCIES
+===============================================================================
+
+This project incorporates the following third-party open-source components,
+each under its own license:
+
+  - OpenZeppelin Contracts              (MIT)   openzeppelin/openzeppelin-contracts
+  - OpenZeppelin Contracts Upgradeable  (MIT)   openzeppelin/openzeppelin-contracts-upgradeable
+  - Axelar GMP SDK Solidity             (MIT)   axelarnetwork/axelar-gmp-sdk-solidity
+  - Hardhat toolchain                   (MIT)   nomicfoundation/hardhat
+
+===============================================================================
+3. CONTACT
+===============================================================================
+
+Security disclosures and legal inquiries: dk@trinos.group
