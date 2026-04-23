@@ -1,18 +1,38 @@
 {
   "name": "kkleros",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
+  "version": "0.1.0-alpha",
+  "description": "K-Kleros — Korean-localized decentralized dispute resolution protocol on XRPL EVM Sidechain. Kleros-derived arbitration core bridged via Axelar GMP. KFIP 2026 submission.",
+  "license": "MIT",
+  "author": "Trinos Strategy <dk@trinos.group>",
+  "homepage": "https://github.com/Trinos-Strategy/KKleros#readme",
   "repository": {
     "type": "git",
-        "url": "https://github.com/Trinos-Strategy/KKleros.git"
+    "url": "https://github.com/Trinos-Strategy/KKleros.git"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Trinos-Strategy/KKleros/issues"
+  },
+  "keywords": [
+    "kleros",
+    "arbitration",
+    "dispute-resolution",
+    "xrpl",
+    "xrpl-evm",
+    "axelar",
+    "solidity",
+    "hardhat",
+    "dao",
+    "kfip"
+  ],
+  "scripts": {
+    "compile": "hardhat compile",
+    "test": "hardhat test",
+    "coverage": "hardhat coverage",
+    "clean": "hardhat clean"
+  },
+  "engines": {
+    "node": ">=20"
+  },
   "devDependencies": {
     "@nomicfoundation/hardhat-chai-matchers": "^2.1.2",
     "@nomicfoundation/hardhat-ethers": "^3.1.3",
