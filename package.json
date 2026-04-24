@@ -28,7 +28,8 @@
     "compile": "hardhat compile",
     "test": "hardhat test",
     "coverage": "hardhat coverage",
-    "clean": "hardhat clean"
+    "clean": "hardhat clean",
+    "demo": "hardhat run scripts/demo.ts"
   },
   "engines": {
     "node": ">=20"
