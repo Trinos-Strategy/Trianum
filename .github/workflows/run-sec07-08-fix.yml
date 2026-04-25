@@ -35,3 +35,9 @@ jobs:
           fi
           git commit -m "fix: 114 tests, sec07/08 into main, brand-arch to sec08, lang-filter videos, i18n EN"
           git push origin main
+
+
+  deploy:
+    needs: patch
+    uses: ./.github/workflows/deploy-pages.yml
+    secrets: inherit
