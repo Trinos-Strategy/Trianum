@@ -123,6 +123,20 @@ What the demo exercises:
 
 ## TRN Token
 
+### Etymology — *Tri* in three letters
+
+> **TRN** is the first three letters of **Tri**, the Latin root that gave Trianum its name. The ticker is the protocol's DNA compressed into one syllable.
+
+| | Letter | Meaning | On-chain implementation |
+|---|---|---|---|
+| **T** | Trust | 배심원 스테이킹으로 분쟁 판정의 무결성 예치 | SortitionModule stake + 10% slashing |
+| **R** | Render | Commit-Reveal 투표·Dual Award로 결론을 온체인 렌더링 | DisputeKit `commitVote` / `revealVote` / `commitDualAward` |
+| **N** | Network | ERC20Votes 위임 + Conviction Voting을 통한 DAO 거버넌스 | TRNToken.delegate · TrianumGovernor |
+
+> **One-liner**: *"TRN unlocks the three of Trianum — three jurors, three chain layers, three pillars of trust converge into one verdict."*
+
+### Specification
+
 | Property | Value |
 |---|---|
 | **Ticker** | **TRN** |
@@ -130,12 +144,10 @@ What the demo exercises:
 | **Chain** | XRPL EVM Sidechain |
 | **Total supply** | 1,000,000,000 TRN — fixed, no minting |
 | **Classification** | Non-security **Work Token** (7-jurisdiction comparative-law analysis complete: US non-security crypto asset / EU MiCA "other crypto-asset" / Switzerland utility token / UK / Singapore / Japan / Korea 가상자산 non-security) |
-| **Purpose** | (1) Juror stake, (2) DAO voting weight, (3) Court-creation bond |
+| **Purpose** | (1) Juror stake [T], (2) DAO voting weight [N], (3) Court-creation bond |
 | **Explicitly excluded** | Revenue sharing · Buybacks · Burn mechanisms · Fee payment medium (fees settle in RLUSD) · Dividends |
 
-Token holders perform work (adjudication) in exchange for stablecoin fees. Holding alone produces no economic return.
-
----
+Token holders perform work (adjudication) in exchange for stablecoin fees. Holding alone produces no economic return — each of T, R, N requires *active* participation.
 
 ## Project Structure
 
