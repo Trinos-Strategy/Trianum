@@ -1044,6 +1044,29 @@ a, button, [role="button"] {
 .proof-card h3 {
   font-family: var(--font-display); font-size: var(--text-xl);
   color: color-mix(in oklch, var(--color-text) 92%, var(--color-navy) 8%);
+      #videos .proof-grid,
+    #trn-meaning .proof-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: var(--space-4);
+    }
+    #videos .proof-card,
+    #trn-meaning .proof-card {
+      aspect-ratio: 1 / 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      overflow: hidden;
+    }
+      @media (max-width: 48rem) {
+      #videos .proof-grid,
+      #trn-meaning .proof-grid {
+        grid-template-columns: 1fr;
+      }
+      #videos .proof-card,
+      #trn-meaning .proof-card {
+        aspect-ratio: auto;
+      }
+    }
 }
 .proof-top {
   display: flex; align-items: flex-start;
@@ -3423,6 +3446,8 @@ html[data-lang="en"] .trinity-hanja {
         <li><a href="#xrpl"    data-chapter="IV">IV</a></li>
         <li><a href="#proof"   data-chapter="V">V</a></li>
         <li><a href="#team"    data-chapter="VI">VI</a></li>
+                      <li><a href="#videos"  data-chapter="VII">VII</a></li>
+                      <li><a href="#trn-meaning" data-chapter="VIII">VIII</a></li>
       </ol>
     </nav>
 
@@ -3469,6 +3494,21 @@ html[data-lang="en"] .trinity-hanja {
         </button>
       </div>
     </div>
+
+            <div class="hero-visual hero-visual-video reveal-ready" style="margin-top:var(--space-4);">
+          <div class="texture-overlay" aria-hidden="true"></div>
+          <button type="button" class="lite-yt" data-video-id="a0DT_gRv4v8"
+                  aria-label="Live Demo 영상 재생"
+                  style="background-image:url('https://i.ytimg.com/vi/a0DT_gRv4v8/maxresdefault.jpg')">
+            <span class="lite-yt-play" aria-hidden="true">
+              <svg viewBox="0 0 68 48" xmlns="http://www.w3.org/2000/svg">
+                <path class="lite-yt-bg" d="M66.52 7.74c-.78-2.93-2.49-5.41-5.42-6.19C55.79.13 34 0 34 0S12.21.13 6.9 1.55c-2.93.78-4.64 3.26-5.42 6.19C.06 13.05 0 24 0 24s.06 10.95 1.48 16.26c.78 2.93 2.49 5.41 5.42 6.19C12.21 47.87 34 48 34 48s21.79-.13 27.1-1.55c2.93-.78 4.64-3.26 5.42-6.19C67.94 34.95 68 24 68 24s-.06-10.95-1.48-16.26z" fill="red"/>
+                <path d="M 45,24 27,14 27,34" fill="#fff"/>
+              </svg>
+            </span>
+            <span class="lite-yt-title">Live Demo 영상 재생</span>
+          </button>
+        </div>
     <span class="hairline" style="position:absolute;bottom:0;left:0;right:0;"></span>
   </section>
 
