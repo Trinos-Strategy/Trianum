@@ -19,6 +19,13 @@
  *
  * Run with:  npm run demo
  *      or:   npx hardhat run scripts/demo.ts
+ *
+ * VIDEO MODE — for screen-recording this demo as proof of working code:
+ *   VIDEO_MODE=1 npm run demo
+ *
+ *   Adds calibrated pauses between phases and key beats, stretching total
+ *   runtime to ~80-90 seconds so a viewer can read each step. Default mode
+ *   (no env var) remains fast (~1 second) for CI and quick verification.
  */
 
 import { ethers, upgrades } from "hardhat";
@@ -98,6 +105,18 @@ function sleep(ms: number) {
 }
 
 // ──────────────────────────────────────────────────────────────────────
+// Video-mode pacing — adds calibrated pauses when VIDEO_MODE=1
+// ──────────────────────────────────────────────────────────────────────
+const VIDEO_MODE = process.env.VIDEO_MODE === "1";
+const pace = (ms: number = 500): Promise<void> =>
+    VIDEO_MODE ? sleep(ms) : Promise.resolve();
+// Pause durations:
+//   pace(1800) — section boundary (intro / closing)
+//   pace(1100) — phase boundary
+//   pace(600)  — between substantial steps within a phase
+//   pace(300)  — quick beat (numeric stat reveal etc.)
+
+// ──────────────────────────────────────────────────────────────────────
 // Commit hash helper (matches DisputeKit.sol)
 // ──────────────────────────────────────────────────────────────────────
 function commitHash(vote: number, salt: bigint): string {
@@ -129,11 +148,13 @@ async function main() {
     console.log(dim("  XRPL-native decentralized dispute resolution"));
     console.log(dim("  Three-fold structure · Dual Award · 3–5 weeks · 3% fee"));
     console.log(dim("  Running on local Hardhat network (no testnet required)"));
+    await pace(1800);
 
     // ────────────────────────────────────────────────────────────────
     // PHASE 1 — Deployment
     // ────────────────────────────────────────────────────────────────
     phase(1, "Deployment");
+    await pace(900);
 
     const signers = await ethers.getSigners();
     const [
@@ -238,11 +259,13 @@ async function main() {
     const KC_ROLE = await (sortition as any).KLEROS_CORE_ROLE();
     await (sortition as any).connect(admin).grantRole(KC_ROLE, admin.address);
     info("Cross-wired KlerosCore into all modules; granted roles");
+    await pace(1100);
 
     // ────────────────────────────────────────────────────────────────
     // PHASE 2 — Setup: TRN distribution + juror staking
     // ────────────────────────────────────────────────────────────────
     phase(2, "TRN Distribution & Juror Staking");
+    await pace(900);
 
     const recipients = [
         ...jurors.map((j) => j.address),
@@ -260,9 +283,11 @@ async function main() {
     }
     info(`Claimant  (${shortAddr(claimant.address)}) → ${trn(10_000n * ONE_ETHER)}`);
     info(`Respondent (${shortAddr(respondent.address)}) → ${trn(10_000n * ONE_ETHER)}`);
+    await pace(900);
 
     step("");
     step(bold("Staking jurors in the General Court (min 10,000 TRN each):"));
+    await pace(400);
     for (let i = 0; i < jurors.length; i++) {
         await (trnToken as any).connect(jurors[i])
             .approve(await sortition.getAddress(), ethers.MaxUint256);
@@ -270,10 +295,13 @@ async function main() {
         ok(`Juror ${i + 1} staked ${trn(JUROR_STAKE)}`);
     }
 
+    await pace(1100);
+
     // ────────────────────────────────────────────────────────────────
     // PHASE 3 — Dispute creation
     // ────────────────────────────────────────────────────────────────
     phase(3, "Dispute Creation");
+    await pace(900);
 
     const disputeID = 0;
     const amount = 1_000n * ONE_ETHER;
@@ -286,6 +314,7 @@ async function main() {
     info(`Escrow:     1,000 XRP (represented as ${trn(amount)} in local demo — test token reused for amount primitives)`);
     info(`Court:      General (ID ${COURT_GENERAL})`);
     info(`Fee:        30 TRN (3% of dispute amount)`);
+    await pace(900);
 
     await (escrow as any).connect(admin).registerEscrow(
         escrowID, disputeID, amount, claimant.address, respondent.address
@@ -303,11 +332,13 @@ async function main() {
 
     let d = await (core as any).getDispute(disputeID);
     info(`Status: Created (${d.status})`);
+    await pace(1100);
 
     // ────────────────────────────────────────────────────────────────
     // PHASE 4 — Arbitration: assignment + evidence
     // ────────────────────────────────────────────────────────────────
     phase(4, "Arbitrator Assignment & Evidence");
+    await pace(900);
 
     await (core as any).connect(admin).assignArbitrator(disputeID, arbitrator.address);
     ok(`Arbitrator assigned: ${shortAddr(arbitrator.address)}`);
@@ -321,15 +352,18 @@ async function main() {
     await (core as any).connect(arbitrator).closeEvidencePeriod(disputeID);
     d = await (core as any).getDispute(disputeID);
     ok(`Evidence period closed  Status: DualAward (${d.status})`);
+    await pace(1100);
 
     // ────────────────────────────────────────────────────────────────
     // PHASE 5 — Dual Award drafting
     // ────────────────────────────────────────────────────────────────
     phase(5, "Dual Award Drafting");
+    await pace(900);
 
     step(bold("Arbitrator drafts two complete awards:"));
     info('Award A: "Plaintiff prevails — delivery verified by on-chain timestamps and off-chain receipts"');
     info('Award B: "Defendant prevails — alleged contract breach on claimant side (failed milestone 2)"');
+    await pace(1100);
 
     const awardA = ethers.keccak256(ethers.toUtf8Bytes("award-A-plaintiff-wins"));
     const awardB = ethers.keccak256(ethers.toUtf8Bytes("award-B-defendant-wins"));
@@ -338,11 +372,13 @@ async function main() {
     ok(`Award A hash committed: ${awardA.slice(0, 18)}…`);
     ok(`Award B hash committed: ${awardB.slice(0, 18)}…`);
     ok(`Case package root:      ${caseRoot.slice(0, 18)}…`);
+    await pace(1100);
 
     // ────────────────────────────────────────────────────────────────
     // PHASE 6 — Sortition: draw jury
     // ────────────────────────────────────────────────────────────────
     phase(6, "Jury Sortition (Stake-Weighted Random Draw)");
+    await pace(900);
 
     await (core as any).connect(admin).startVotingRound(disputeID);
     d = await (core as any).getDispute(disputeID);
@@ -354,11 +390,13 @@ async function main() {
         info(`→ Juror ${idx + 1}  (${shortAddr(addr)})`);
     }
     info(`Status: Commit (${d.status})`);
+    await pace(1100);
 
     // ────────────────────────────────────────────────────────────────
     // PHASE 7 — Commit phase
     // ────────────────────────────────────────────────────────────────
     phase(7, "Commit Phase (Jurors Vote Privately)");
+    await pace(900);
 
     const drawnSigners = drawn.map((a) => jurorByAddress[a.toLowerCase()]);
     const salts = [111n, 222n, 333n];
@@ -371,6 +409,7 @@ async function main() {
         await (disputeKit as any).connect(drawnSigners[i]).commitVote(disputeID, ch);
         const idx = jurors.findIndex((j) => j.address === drawnSigners[i].address) + 1;
         ok(`Juror ${idx} committed ${ch.slice(0, 12)}…  ${dim(`(secret vote: ${choiceLabel(choices[i])})`)}`);
+        await pace(450);
     }
 
     await time.increase(COMMIT_PERIOD_SEC + 1);
@@ -378,41 +417,50 @@ async function main() {
     await (core as any).advanceToReveal(disputeID);
     d = await (core as any).getDispute(disputeID);
     info(`Status: Reveal (${d.status})`);
+    await pace(1100);
 
     // ────────────────────────────────────────────────────────────────
     // PHASE 8 — Reveal phase
     // ────────────────────────────────────────────────────────────────
     phase(8, "Reveal Phase (Jurors Open Their Votes)");
+    await pace(900);
 
     for (let i = 0; i < 3; i++) {
         await (disputeKit as any).connect(drawnSigners[i])
             .revealVote(disputeID, choices[i], salts[i]);
         const idx = jurors.findIndex((j) => j.address === drawnSigners[i].address) + 1;
         ok(`Juror ${idx} revealed: ${bold(choiceLabel(choices[i]))}  ${green("(commit matched)")}`);
+        await pace(450);
     }
 
     await time.increase(REVEAL_PERIOD_SEC + 1);
     info(yellow(`⏳ Reveal period elapsed (24h simulated)`));
+    await pace(1100);
 
     // ────────────────────────────────────────────────────────────────
     // PHASE 9 — Tally
     // ────────────────────────────────────────────────────────────────
     phase(9, "Tally");
+    await pace(900);
 
     await (core as any).triggerTally(disputeID);
     d = await (core as any).getDispute(disputeID);
     const rulingLabel = d.ruling === 1n ? "AwardA (Plaintiff wins)" :
                         d.ruling === 2n ? "AwardB (Defendant wins)" : "Refused";
     step(`AwardA: 2 votes  ${green("← MAJORITY")}`);
+    await pace(500);
     step(`AwardB: 1 vote`);
+    await pace(700);
     console.log();
     ok(`${bold("Ruling: " + rulingLabel)}`);
     info(`Status: Resolved (${d.status})`);
+    await pace(1100);
 
     // ────────────────────────────────────────────────────────────────
     // PHASE 10 — Slashing & rewards
     // ────────────────────────────────────────────────────────────────
     phase(10, "Slashing & Reward Distribution");
+    await pace(900);
 
     const minorityIdx = choices.findIndex((c) => c === Vote.AwardB);
     const minority = drawnSigners[minorityIdx];
@@ -421,49 +469,62 @@ async function main() {
 
     const stakeBefore = await (sortition as any).getStake(minority.address, COURT_GENERAL);
     step(`Minority juror (Juror ${minorityJurorNum}) stake before: ${trn(stakeBefore)}`);
+    await pace(700);
     await (sortition as any).connect(admin).penalize(minority.address, disputeID);
     const stakeAfter = await (sortition as any).getStake(minority.address, COURT_GENERAL);
     ok(red(`10% slashed — stake after: ${trn(stakeAfter)}  (-${trn(stakeBefore - stakeAfter)})`));
+    await pace(900);
 
     const rewardAmount = 100n * ONE_ETHER;
     await (trnToken as any).connect(admin)
         .transfer(await sortition.getAddress(), rewardAmount * 2n);
     console.log();
     step(bold(`Rewarding majority jurors (${majority.length}):`));
+    await pace(400);
     for (const m of majority) {
         await (sortition as any).connect(admin).reward(m.address, disputeID, rewardAmount);
         const idx = jurors.findIndex((j) => j.address === m.address) + 1;
         ok(green(`Juror ${idx} rewarded: +${trn(rewardAmount)}`));
+        await pace(450);
     }
+    await pace(700);
 
     // ────────────────────────────────────────────────────────────────
     // PHASE 11 — Sign & execute
     // ────────────────────────────────────────────────────────────────
     phase(11, "Award Signing & Execution");
+    await pace(900);
 
     await (core as any).connect(arbitrator).signAward(disputeID, "0x");
     d = await (core as any).getDispute(disputeID);
     ok(`Arbitrator signed the award  Status: Appealable (${d.status})`);
+    await pace(700);
 
     await time.increase(APPEAL_PERIOD_SEC + 1);
     info(yellow(`⏳ Appeal period elapsed (7 days simulated) — no appeal filed`));
+    await pace(800);
 
     await (core as any).connect(outsider).executeRuling(disputeID);
     d = await (core as any).getDispute(disputeID);
     ok(`executeRuling() called  Status: Executed (${d.status})`);
+    await pace(1100);
 
     // ────────────────────────────────────────────────────────────────
     // PHASE 12 — On-chain side effects
     // ────────────────────────────────────────────────────────────────
     phase(12, "On-Chain Side Effects");
+    await pace(900);
 
     const finalRuling = await (mockArbitrable as any).rulings(disputeID);
     const finalEscrowStatus = await (escrow as any).getEscrowStatus(escrowID);
     ok(`MockArbitrable received ruling:  ${finalRuling === 1n ? "AwardA" : finalRuling === 2n ? "AwardB" : "Refused"}`);
+    await pace(700);
     ok(`EscrowBridge escrow status:       ${finalEscrowStatus === BigInt(EscrowStatus.ReleaseRequested) ? "ReleaseRequested" : "Other(" + finalEscrowStatus + ")"}`);
+    await pace(900);
     console.log();
     info("In production, this state would propagate through Axelar GMP to XRPL");
     info("Mainnet and auto-release the native escrow to the prevailing party.");
+    await pace(1500);
 
     // ────────────────────────────────────────────────────────────────
     // Footer
