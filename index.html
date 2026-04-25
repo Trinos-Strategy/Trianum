@@ -1,0 +1,4064 @@
+<!DOCTYPE html>
+<html data-lang="ko" lang="ko" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+  <!-- ═══════════ Primary SEO ═══════════ -->
+  <title>Trianum Protocol — XRPL 기반 탈중앙 분쟁해결 | Trinos</title>
+  <meta name="description" content="Trianum은 XRPL에서 작동하는 탈중앙 크라우드소스 스마트 컨트랙트 중재 프로토콜입니다. 조리·법리·자치의 3중 정당성이 수렴할 때 Dual Award가 스마트 에스크로로 자동 집행됩니다." />
+  <meta name="keywords" content="Trianum, XRPL, 국제중재, crowdsourced smart-contract arbitration, decentralized dispute resolution, Trianum, Dual Award, smart escrow, RLUSD, TRN, Trinos, UNCITRAL, New York Convention" />
+  <meta name="author" content="Trinos" />
+  <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1" />
+  <meta name="theme-color" content="#F8F5FC" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#140F1F" media="(prefers-color-scheme: dark)" />
+
+  <!-- ═══════════ Canonical & hreflang ═══════════ -->
+  <link rel="canonical" href="https://trianum.trinos.group/" />
+  <link rel="alternate" hreflang="ko-KR"  href="https://trianum.trinos.group/" />
+  <link rel="alternate" hreflang="en-US"  href="https://trianum.trinos.group/#/en" />
+  <link rel="alternate" hreflang="x-default" href="https://trianum.trinos.group/" />
+
+  <!-- ═══════════ Sitemap & Robots ═══════════ -->
+  <link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml" />
+
+  <!-- ═══════════ Open Graph ═══════════ -->
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Trianum Protocol" />
+  <meta property="og:locale" content="ko_KR" />
+  <meta property="og:locale:alternate" content="en_US" />
+  <meta property="og:url" content="https://trianum.trinos.group/" />
+  <meta property="og:title" content="Trianum — Ad Decisionem Per Tria" />
+  <meta property="og:description" content="3×3×3 구조의 탈중앙 크라우드소스 스마트 컨트랙트 중재 프로토콜. XRPL 에스크로 × Trianum 배심 × Dual Award." />
+  <meta property="og:image" id="og-image-tag" content="https://trianum.trinos.group/og/default.png" />
+  <meta property="og:image:width"  content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Trianum — 세 개의 정당성이 하나의 판정으로 수렴" />
+
+  <!-- ═══════════ Twitter Card ═══════════ -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:site" content="@TrianumProtocol" />
+  <meta name="twitter:creator" content="@TrinosInc" />
+  <meta name="twitter:title" content="Trianum — Ad Decisionem Per Tria" />
+  <meta name="twitter:description" content="3×3×3 구조의 탈중앙 크라우드소스 스마트 컨트랙트 중재 프로토콜. XRPL 에스크로 × Trianum 배심 × Dual Award." />
+  <meta name="twitter:image" id="twitter-image-tag" content="https://trianum.trinos.group/og/default.png" />
+  <meta name="twitter:image:alt" content="Trianum — 세 개의 정당성이 하나의 판정으로 수렴" />
+
+  <!-- ═══════════ Favicon (원본 dataURI 보존) ═══════════ -->
+  <link rel="icon" type="image/svg+xml" href='data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><path d="M32 6 L58 54 L6 54 Z" fill="none" stroke="%239b6bd6" stroke-width="3"/><path d="M32 16 L51 50 L13 50 Z" fill="none" stroke="%23d9b062" stroke-width="2.5"/><path d="M32 26 L44 46 L20 46 Z" fill="none" stroke="%234fc5c0" stroke-width="2"/></svg>'>
+
+  <!-- ═══════════ Fonts (CDN 유지 — 셀프호스트 전환 전까지 404 방지) ═══════════ -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500;600&family=Noto+Serif+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css">
+
+  <!-- ═══════════ JSON-LD: Organization ═══════════ -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "@id": "https://trianum.trinos.group/#organization",
+    "name": "Trinos",
+    "alternateName": ["Trinos", "트리노스"],
+    "url": "https://trianum.trinos.group/",
+    "logo": "https://trianum.trinos.group/assets/trinos-logo.svg",
+    "description": "Trinos is a Seoul-based legal-technology company issuing the Trianum Protocol and the TRN work token for decentralized crowdsourced smart-contract arbitration on XRPL.",
+    "foundingDate": "2025",
+    "legalName": "Trinos",
+    "address": {
+      "@type": "PostalAddress",
+      "addressCountry": "KR",
+      "addressRegion": "Seoul",
+      "addressLocality": "Dobong-gu"
+    },
+    "sameAs": [
+      "https://github.com/trinos-inc",
+      "https://x.com/TrianumProtocol",
+      "https://www.linkedin.com/company/trinos-inc"
+    ],
+    "memberOf": [
+      { "@type": "Organization", "name": "Kleros Fellowship" },
+      { "@type": "Organization", "name": "Seoul Fintech Lab" },
+      { "@type": "Organization", "name": "XRPL Korea" }
+    ],
+    "knowsAbout": [
+      "International Commercial Arbitration",
+      "UNCITRAL Model Law",
+      "XRPL Escrow",
+      "Trianum Dispute Kit",
+      "EU MiCA Regulation"
+    ]
+  }
+  </script>
+
+  <!-- ═══════════ JSON-LD: SoftwareApplication ═══════════ -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "@id": "https://trianum.trinos.group/#software",
+    "name": "Trianum Protocol",
+    "alternateName": "Ad Decisionem Per Tria",
+    "applicationCategory": "LegalService",
+    "applicationSubCategory": "DecentralizedDisputeResolution",
+    "operatingSystem": "XRPL Mainnet, XRPL EVM Sidechain",
+    "softwareVersion": "Rules 3.5 / Architecture v6",
+    "releaseNotes": "REGULATE-2026-04-18 — Dual Award DAO 4-Phase; XRPL Testnet escrow deployed.",
+    "license": "https://opensource.org/licenses/MIT",
+    "codeRepository": "https://github.com/trinos-inc/trianum",
+    "programmingLanguage": ["Solidity", "TypeScript", "XRPL Hooks"],
+    "publisher": { "@id": "https://trianum.trinos.group/#organization" },
+    "offers": {
+      "@type": "Offer",
+      "price": "0.00001",
+      "priceCurrency": "XRP",
+      "description": "Per-transaction XRPL fee; jury staking in TRN work token."
+    },
+    "featureList": [
+      "3×3×3 Three-Fold Legitimacy Structure",
+      "Commit-Reveal Jury Voting",
+      "Dual Award A/B Drafting",
+      "XRPL Layer-1 Escrow Auto-Execution",
+      "Trianum Sortition on EVM Sidechain",
+      "RLUSD Stablecoin Settlement"
+    ]
+  }
+  </script>
+
+  <!-- ═══════════ JSON-LD: FAQPage ═══════════ -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "@id": "https://trianum.trinos.group/#faq",
+    "inLanguage": ["ko-KR", "en-US"],
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Trianum은 기존 중재기관을 대체하나요?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "아니요. Trianum은 ICC·KCAB·SIAC 등 기존 중재기관을 대체하지 않습니다. 당사자가 사전에 합의한 규칙 3개를 XRPL 스마트 에스크로에 고정하고, Trianum 배심단의 Commit-Reveal 투표로 Dual Award 중 하나를 선택하는 보조적 집행 계층(enforcement layer)입니다."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "TRN 토큰은 증권으로 분류되나요?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "TRN는 Work Token으로, EU MiCA 규정상 'other crypto-asset (utility token)'으로 분류되며 금융증권에 해당하지 않습니다. 한국·미국·영국·싱가포르·홍콩·일본·UAE 7개 법역에 대한 분류 분석이 완료되었습니다."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Dual Award란 무엇인가요?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Dual Award는 중재인이 A안과 B안 두 개의 판정문을 동시에 작성하는 Trianum의 고유 메커니즘입니다. 각 안은 법적 근거(실정법·협약·규칙)를 필수로 포함하며, 무작위 추첨된 10인의 배심원이 Commit-Reveal 투표로 하나를 선택합니다."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "왜 XRPL을 선택했나요?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "XRPL은 3-5초의 결제 파이낼리티, 0.00001 XRP의 거래 수수료, RLUSD 스테이블코인 통합을 제공합니다. Layer 1 에스크로가 분쟁을 트리거하고, 2026년 Q4 메인넷 예정인 Layer 2 EVM 사이드체인이 Trianum 컨트랙트를 실행합니다."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "뉴욕협약(New York Convention)상 집행 가능한가요?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Trianum의 Dual Award는 중재인이 서명한 법적 근거 기반 판정문을 XRPL Memo 필드에 해시로 앵커링합니다. 당사자가 사전 합의한 중재지(seat)의 법에 따라 뉴욕협약 가맹국에서 승인·집행 신청이 가능하도록 설계되었습니다."
+        }
+      }
+    ]
+  }
+  </script>
+
+  <!-- ═══════════ i18n Dictionary (inline JSON — 스위처는 Step 4에서 활성화) ═══════════ -->
+  <script id="i18n-dict" type="application/json">
+  {
+  "ko": {
+    "meta.title": "Trianum Protocol — XRPL 기반 크라우드소스 스마트 컨트랙트 중재 | Trinos",
+    "meta.description": "Trianum은 XRPL 위에서 작동하는 탈중앙 크라우드소스 스마트 컨트랙트 중재 프로토콜입니다. 조리·법리·자치의 3중 정당성이 수렴할 때 Dual Award가 스마트 에스크로로 자동 집행됩니다.",
+    "og.title": "Trianum — Ad Decisionem Per Tria",
+    "og.description": "3×3×3 구조의 탈중앙 크라우드소스 스마트 컨트랙트 중재 프로토콜. XRPL 에스크로 × Kleros 배심 × Dual Award.",
+    "og.alt": "Trianum — 세 개의 정당성이 하나의 판정으로 수렴",
+    "nav.structure": "3중 구조",
+    "nav.how": "작동 원리",
+    "nav.xrpl": "왜 XRPL인가",
+    "nav.proof": "증명",
+    "nav.team": "팀",
+    "lang.toggle": "EN",
+    "a11y.skip": "콘텐츠로 건너뛰기",
+
+    "hero.kicker": "Ad Decisionem Per Tria",
+    "hero.sub": "세 정당성이 하나의 판결로.",
+    "hero.body": "<strong>Trianum</strong>은 XRPL 위에서 실행되는 탈중앙 분쟁해결 프로토콜입니다. <strong>3 × 3 × 3</strong> 구조 — 조리·법리·자치 — 가 수렴할 때 스마트 에스크로가 자동 집행됩니다. <em>Dual Award</em> 지원.",
+    "hero.meta": "MIT 라이선스 &nbsp;·&nbsp; NOTICE &nbsp;·&nbsp; 테스트 117건 통과 &nbsp;·&nbsp; 7개국 법제 분석",
+    "hero.cta1": "데모 보기 <span aria-hidden=\"true\">▸ 2분</span>",
+    "hero.cta2": "GitHub 보기",
+
+    "sec02.label": "02&nbsp;&nbsp;&nbsp;세 정당성의 구조",
+    "sec02.title": "세 정당성으로 구성된 판정부.",
+    "sec02.body": "Trianum은 <em>tria</em>·<em>-num</em> — 세 개의 수렴하는 판단 축 — 을 결합합니다. 어떤 단일 축도 단독으로는 집행 불가합니다.",
+    "sec03.label": "03&nbsp;&nbsp;&nbsp;작동 원리",
+    "sec03.title": "분쟁에서 집행까지, 3‑5주.",
+    "sec04.label": "04&nbsp;&nbsp;&nbsp;왜 XRPL인가",
+    "sec04.title": "XRPL 결제 레일 위 네이티브로 구축.",
+    "sec05.label": "05&nbsp;&nbsp;&nbsp;증명",
+    "sec05.title": "오픈소스. 동료 검토. 즉시 배포 가능.",
+    "sec06.label": "06&nbsp;&nbsp;&nbsp;팀",
+    "sec06.title": "법적 전문성과 암호학적 엄밀성.",
+
+    "tri1.h3": "Common Reason",
+    "tri1.p": "배심원 3인 이상이 공유하는 판단 기준. 투표 단계에서 Commit-Reveal로 검증",
+    "tri1.link": "↳ Commit-Reveal 투표",
+    "tri2.h3": "Legal Doctrine",
+    "tri2.p": "쌍방의 주장·증거에 따른 법리적으로 완전한 판정문 초안 2개",
+    "tri2.link": "↳ Dual Award A/B 중재인의 판정문 작성",
+    "tri3.h3": "Party Autonomy",
+    "tri3.p": "당사자들이 합의한 바에 따라 스마트 컨트랙트를 통한 중재 판정 즉시 집행",
+    "tri3.link": "↳ XRP L2 에스크로 자동 집행",
+
+    "tl1.h3": "분쟁 등록",
+    "tl1.p": "당사자가 XRPL Trianum 스마트 컨트랙트에 분쟁을 제출합니다. Trianum이 에스크로를 잠급니다.",    "tl4.h3": "자동 집행",
+    "tl4.p": "다수 판정문이 XRPL 에스크로를 즉시 해제합니다. 트랜잭션 Memo에 판정 해시가 앵커링됩니다.",
+
+    "stat.time": "3주",
+    "stat.fee": "0.00001 XRP",
+    "stat.timeVs": "10×",
+    "stat.costVs": "15×",
+    "stat.timeLabel": "판정 소요",
+    "stat.feeLabel": "트랜잭션 수수료",
+    "stat.timeVsLabel": "법원 대비",
+    "stat.costVsLabel": "중재 대비",
+
+    "xrpl1.h3": "결제와 분쟁의 통합",
+    "xrpl1.p": "Layer 1 XRPL 에스크로가 분쟁을 트리거하고, Layer 2 EVM 사이드체인이 Trianum 컨트랙트를 실행합니다.",
+    "xrpl2.h3": "속도 & 비용",
+    "xrpl2.p": "3‑5초 결제 파이낼리티. XRP 트랜잭션 수수료 0.00001 XRP. RLUSD 스테이블코인 통합.",
+    "xrpl3.h3": "Smart Escrow 로드맵",
+    "xrpl3.p": "2026년 XRPL EVM 사이드체인 메인넷 이후 완전 온체인 자동 집행이 예정되어 있습니다.",
+
+    "pf1.h3": "스마트 컨트랙트 스위트",
+    "pf2.h3": "규제 분석",
+    "pf2.p1": "<strong>TRN Work Token</strong> — 비보안 암호자산",
+    "pf2.p2": "EU MiCA: <strong>other crypto-asset</strong> (유틸리티 토큰) 분류, 금융증권 해당 없음.",
+    "pf2.p3": "한국·미국·영국·싱가포르·홍콩·일본·UAE 분석 완료.",
+    "pf3.h3": "설계 문서",
+    "pf4.h3": "라이브 산출물",
+    "pf4.p1": "XRPL Testnet 에스크로 배포 완료.",
+    "pf4.p2": "Hardhat 테스트넷: TrianumCore + Sortition.",
+    "pf4.p3": "↳ EVM 메인넷 2026년 Q4 예정.",
+
+    "tm.role1": "팀 리드",
+    "tm.role2": "법인 구조",
+    "tm.role3": "브랜드 아키텍처",
+    "tm.corp": "한국 법인. Trianum Protocol 및 TRN 토큰 발행사."
+  },
+  "en": {
+    "meta.title": "Trianum Protocol — Crowdsourced Smart-Contract Arbitration on XRPL | Trinos",
+    "meta.description": "Trianum is a decentralized crowdsourced smart-contract arbitration protocol on XRPL. When three legitimacies — Jori (common reason), Beopri (legal doctrine), Jachi (party autonomy) — converge, the Dual Award auto-executes via smart escrow.",
+    "og.title": "Trianum — Ad Decisionem Per Tria",
+    "og.description": "A 3×3×3 decentralized crowdsourced smart-contract arbitration protocol. XRPL escrow × Kleros jury × Dual Award.",
+    "og.alt": "Trianum — three legitimacies converging into one verdict",
+    "nav.structure": "Structure",
+    "nav.how": "How It Works",
+    "nav.xrpl": "Why XRPL",
+    "nav.proof": "Proof",
+    "nav.team": "Team",
+    "lang.toggle": "KO",
+    "a11y.skip": "Skip to content",
+
+    "hero.kicker": "Ad Decisionem Per Tria",
+    "hero.sub": "Three legitimacies, one verdict.",
+    "hero.body": "<strong>Trianum</strong> is a decentralized dispute-resolution protocol running on XRPL. When the <strong>3 × 3 × 3</strong> structure — Jori, Beopri, Jachi — converges, smart escrow auto-executes. <em>Dual Award</em> supported.",
+    "hero.meta": "MIT License &nbsp;·&nbsp; NOTICE &nbsp;·&nbsp; 117 tests passing &nbsp;·&nbsp; 7 jurisdictions analyzed",
+    "hero.cta1": "Watch the Demo <span aria-hidden=\"true\">▸ 2 min</span>",
+    "hero.cta2": "View on GitHub",
+
+    "sec02.label": "02&nbsp;&nbsp;&nbsp;The Three-Fold Structure",
+    "sec02.title": "A tribunal composed of three legitimacies.",
+    "sec02.body": "Trianum unites <em>tria</em>·<em>-num</em> — three converging axes of judgment. No single axis can execute on its own.",
+    "sec03.label": "03&nbsp;&nbsp;&nbsp;How It Works",
+    "sec03.title": "From dispute to enforcement in 3–5 weeks.",
+    "sec04.label": "04&nbsp;&nbsp;&nbsp;Why XRPL",
+    "sec04.title": "Built natively on the XRPL settlement rail.",
+    "sec05.label": "05&nbsp;&nbsp;&nbsp;Proof",
+    "sec05.title": "Open source. Peer-reviewed. Deployment-ready.",
+    "sec06.label": "06&nbsp;&nbsp;&nbsp;Team",
+    "sec06.title": "Legal expertise meets cryptographic rigor.",
+
+    "tri1.h3": "Common Reason",
+    "tri1.p": "A criterion shared by at least three jurors, verified through Commit-Reveal voting",
+    "tri1.link": "↳ Commit-Reveal voting",
+    "tri2.h3": "Legal Doctrine",
+    "tri2.p": "Two legally complete draft awards reflecting both parties' arguments and evidence",
+    "tri2.link": "↳ Dual Award A/B drafting",
+    "tri3.h3": "Party Autonomy",
+    "tri3.p": "Immediate execution of the arbitral award via smart contract according to the parties' agreement",
+    "tri3.link": "↳ XRP L2 escrow auto-execution",
+
+    "tl1.h3": "Dispute Registration",
+    "tl1.p": "The parties submit a dispute to the XRPL Trianum smart contract. Trianum then locks the escrow.",    "tl4.h3": "Auto-Execution",
+    "tl4.p": "The majority award immediately releases the XRPL escrow. The award hash is anchored in the transaction Memo.",
+
+    "stat.time": "3 weeks",
+    "stat.fee": "0.00001 XRP",
+    "stat.timeVs": "10×",
+    "stat.costVs": "15×",
+    "stat.timeLabel": "Time to Verdict",
+    "stat.feeLabel": "Tx Fee",
+    "stat.timeVsLabel": "vs. Courts",
+    "stat.costVsLabel": "vs. Arbitration",
+
+    "xrpl1.h3": "Settlement × Dispute Unified",
+    "xrpl1.p": "Layer-1 XRPL escrow triggers the dispute; a Layer-2 EVM sidechain runs the Trianum contract.",
+    "xrpl2.h3": "Speed & Cost",
+    "xrpl2.p": "3–5 second settlement finality. XRP tx fee of 0.00001 XRP. RLUSD stablecoin integration.",
+    "xrpl3.h3": "Smart Escrow Roadmap",
+    "xrpl3.p": "Full on-chain auto-execution is scheduled after the 2026 XRPL EVM sidechain mainnet launch.",
+
+    "pf1.h3": "Smart Contract Suite",
+    "pf2.h3": "Regulatory Analysis",
+    "pf2.p1": "<strong>TRN Work Token</strong> — non-security crypto-asset",
+    "pf2.p2": "EU MiCA: classified as <strong>other crypto-asset</strong> (utility token); not a financial security.",
+    "pf2.p3": "Analyzed in KR, US, UK, SG, HK, JP, UAE.",
+    "pf3.h3": "Design Documents",
+    "pf4.h3": "Live Artifacts",
+    "pf4.p1": "XRPL Testnet escrow deployed.",
+    "pf4.p2": "Hardhat testnet: TrianumCore + Sortition.",
+    "pf4.p3": "↳ EVM mainnet planned for Q4 2026.",
+
+    "tm.role1": "Team Lead",
+    "tm.role2": "Corporate Structure",
+    "tm.role3": "Brand Architecture",
+    "tm.corp": "Korean entity. Issuer of Trianum Protocol and TRN token."
+  }
+}
+  </script>
+
+<style>/* @layer cascade declared by Step 2 */
+@layer reset, tokens, base, layout, components, motion, utilities;
+
+@keyframes reveal-up {
+  from { opacity: 0; transform: translate3d(0, 0.5rem, 0); }
+  to   { opacity: 1; transform: translate3d(0, 0, 0); }
+}
+@keyframes fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes reveal-clip {
+  to { clip-path: inset(0 0 0% 0); }
+}
+@keyframes draw-circle {
+  to { stroke-dashoffset: 0; }
+}
+@keyframes venn-pulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.72; }
+}
+@keyframes count-up {
+  from { --stat-c: 0; }
+  to   { --stat-c: var(--stat-target, 0); }
+}
+
+@layer tokens {
+
+/* ============================================================
+   Step 2 — Motion Tokens + reduced-motion 전역 가드
+   (Motion System v2 사전 인프라. 실제 사용은 Step 6)
+   ============================================================ */
+:root {
+  --ease-judicial: cubic-bezier(0.65, 0, 0.35, 1);
+  --ease-settle:   cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-reveal:   cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-exit:     cubic-bezier(0.4, 0, 1, 1);
+
+  --dur-instant: 120ms;
+  --dur-quick:   240ms;
+  --dur-base:    480ms;
+  --dur-morph:   720ms;
+  --dur-settle:  400ms;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --dur-instant: 1ms;
+    --dur-quick:   1ms;
+    --dur-base:    1ms;
+    --dur-morph:   1ms;
+    --dur-settle:  1ms;
+  }
+  *, *::before, *::after {
+    animation-duration: 1ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 1ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+}
+
+@layer components {
+
+/* ─── DESIGN TOKENS ─── */
+:root {
+  color-scheme: light;
+  --color-bg: #F8F5FC;
+  --color-surface: #FFFFFF;
+  --color-surface-2: #F2ECF8;
+  --color-surface-offset: #ECE4F5;
+  --color-text: #251C31;
+  --color-text-muted: #61556F;
+  --color-text-faint: #8E84A0;
+  --color-primary: #6F52D9;
+  --color-secondary: #8C74E8;
+  --color-accent: #B49AF8;
+  --color-navy: #312642;
+  --color-border: color-mix(in oklch, var(--color-navy) 14%, transparent);
+  --color-divider: color-mix(in oklch, var(--color-navy) 10%, transparent);
+
+  --font-display: 'EB Garamond', Georgia, serif;
+  --font-body: 'Pretendard Variable', 'Pretendard', 'Inter', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+
+  --text-xs:   clamp(0.75rem,  0.7rem  + 0.25vw, 0.875rem);
+  --text-sm:   clamp(0.875rem, 0.8rem  + 0.35vw, 1rem);
+  --text-base: clamp(1rem,     0.95rem + 0.25vw, 1.125rem);
+  --text-lg:   clamp(1.125rem, 1rem    + 0.75vw, 1.5rem);
+  --text-xl:   clamp(1.5rem,   1.2rem  + 1.25vw, 2.25rem);
+  --text-2xl:  clamp(2rem,     1.2rem  + 2.5vw,  3.5rem);
+  --text-hero: clamp(3rem,     1rem    + 5vw,    6rem);
+
+  --space-1: 0.25rem; --space-2: 0.5rem;  --space-3: 0.75rem;
+  --space-4: 1rem;    --space-5: 1.25rem; --space-6: 1.5rem;
+  --space-8: 2rem;    --space-10: 2.5rem; --space-12: 3rem;
+  --space-16: 4rem;   --space-20: 5rem;   --space-24: 6rem;
+
+  --radius-sm: 0.375rem; --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;  --radius-xl: 1rem;
+  --radius-full: 9999px;
+
+  --shadow-sm: 0 1px 2px oklch(0.32 0.04 300 / 0.08), 0 1px 1px oklch(0.55 0.04 300 / 0.04);
+  --shadow-md: 0 10px 24px oklch(0.28 0.04 300 / 0.12), 0 2px 6px oklch(0.52 0.04 300 / 0.06);
+  --shadow-lg: 0 20px 48px oklch(0.24 0.04 300 / 0.16), 0 8px 18px oklch(0.48 0.04 300 / 0.08);
+
+  --transition-interactive: 180ms cubic-bezier(0.16, 1, 0.3, 1);
+  --content-narrow: 640px;
+  --content-default: 960px;
+  --content-wide: 1200px;
+  --container-pad: clamp(1.25rem, 1rem + 1.25vw, 2.5rem);
+  --header-height: 5.25rem;
+}
+
+[data-theme="dark"] {
+  color-scheme: dark;
+  --color-bg: #140F1F;
+  --color-surface: #1B1530;
+  --color-surface-2: #231B3A;
+  --color-surface-offset: #100B1A;
+  --color-text: #F4EEFA;
+  --color-text-muted: #C8BED8;
+  --color-text-faint: #978AAC;
+  --color-primary: #A98CFF;
+  --color-secondary: #8F73EA;
+  --color-accent: #C9B3FF;
+  --color-navy: #E9E1F7;
+  --color-border: color-mix(in oklch, var(--color-text) 14%, transparent);
+  --color-divider: color-mix(in oklch, var(--color-text) 10%, transparent);
+  --shadow-sm: 0 1px 2px oklch(0 0 0 / 0.26), 0 0 0 1px oklch(0.85 0.03 300 / 0.04);
+  --shadow-md: 0 12px 28px oklch(0 0 0 / 0.34), 0 2px 10px oklch(0.88 0.03 300 / 0.05);
+  --shadow-lg: 0 24px 56px oklch(0 0 0 / 0.44), 0 10px 24px oklch(0.90 0.03 300 / 0.06);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    color-scheme: dark;
+    --color-bg: #140F1F;
+    --color-surface: #1B1530;
+    --color-surface-2: #231B3A;
+    --color-surface-offset: #100B1A;
+    --color-text: #F4EEFA;
+    --color-text-muted: #C8BED8;
+    --color-text-faint: #978AAC;
+    --color-primary: #A98CFF;
+    --color-secondary: #8F73EA;
+    --color-accent: #C9B3FF;
+    --color-navy: #E9E1F7;
+    --color-border: color-mix(in oklch, var(--color-text) 14%, transparent);
+    --color-divider: color-mix(in oklch, var(--color-text) 10%, transparent);
+    --shadow-sm: 0 1px 2px oklch(0 0 0 / 0.26), 0 0 0 1px oklch(0.85 0.03 300 / 0.04);
+    --shadow-md: 0 12px 28px oklch(0 0 0 / 0.34), 0 2px 10px oklch(0.88 0.03 300 / 0.05);
+    --shadow-lg: 0 24px 56px oklch(0 0 0 / 0.44), 0 10px 24px oklch(0.90 0.03 300 / 0.06);
+  }
+}
+
+/* ─── BASE RESET ─── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html {
+  -webkit-text-size-adjust: none; text-size-adjust: none;
+  -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility; scroll-behavior: smooth;
+  scroll-padding-top: var(--header-height);
+}
+body {
+  min-height: 100dvh;
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+img, picture, svg, canvas, video { display: block; max-width: 100%; }
+ul, ol { list-style: none; }
+button, input, textarea, select { font: inherit; color: inherit; }
+a { color: inherit; text-decoration: none; }
+h1, h2, h3, h4, h5, h6 { text-wrap: balance; line-height: 1.15; }
+p, li, figcaption { text-wrap: pretty; max-width: 72ch; }
+hr { border: 0; border-top: 1px solid var(--color-divider); }
+button { background: transparent; border: 0; cursor: pointer; }
+table { border-collapse: collapse; width: 100%; }
+::selection { background: color-mix(in oklch, var(--color-accent) 22%, transparent); color: var(--color-text); }
+:focus-visible { outline: 2px solid var(--color-primary); outline-offset: 3px; border-radius: var(--radius-sm); }
+
+/* ─── TRANSITIONS ─── */
+a, button, [role="button"] {
+  transition: color var(--transition-interactive),
+              background var(--transition-interactive),
+              border-color var(--transition-interactive),
+              box-shadow var(--transition-interactive),
+              transform var(--transition-interactive),
+              opacity var(--transition-interactive);
+}
+
+/* ─── UTILITIES ─── */
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border-width: 0; }
+.display-en { font-family: var(--font-display); }
+.display-kr { font-family: 'Noto Serif KR', var(--font-display); }
+.section-label {
+  font-size: var(--text-xs); text-transform: uppercase;
+  letter-spacing: 0.15em; color: var(--color-accent);
+}
+.hairline {
+  display: block; height: 1px; width: 100%;
+  background: linear-gradient(90deg, transparent, var(--color-accent), transparent);
+  opacity: 0.55;
+}
+.container {
+  width: min(100% - var(--container-pad) * 2, var(--content-wide));
+  margin-inline: auto;
+}
+.container-narrow {
+  width: min(100% - var(--container-pad) * 2, var(--content-narrow));
+  margin-inline: auto;
+}
+
+/* ─── ANIMATIONS ─── */
+
+
+
+
+
+/* Stat counter via CSS @property */
+@property --stat-c {
+  syntax: '<integer>';
+  initial-value: 0;
+  inherits: false;
+}
+
+
+/* ─── SCROLL ANIMATIONS (progressive enhancement) ─── */
+@supports (animation-timeline: scroll()) {
+  .reveal-scroll {
+    clip-path: inset(0 0 100% 0);
+    animation: reveal-clip linear both;
+    animation-timeline: view();
+    animation-range: entry 0% entry 50%;
+  }
+  .fade-scroll {
+    opacity: 0;
+    animation: fade-in linear both;
+    animation-timeline: view();
+    animation-range: entry 8% cover 28%;
+  }
+}
+
+/* Fallback for browsers without scroll-driven animations */
+.reveal-ready {
+  opacity: 0;
+  transform: translateY(1rem);
+  transition: opacity 700ms cubic-bezier(0.16, 1, 0.3, 1),
+              transform 700ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+.reveal-ready.in-view {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ─── HEADER ─── */
+.site-header {
+  position: sticky; top: 0; z-index: 50;
+  padding: var(--space-4) 0;
+  transition: padding var(--transition-interactive),
+              background-color var(--transition-interactive),
+              border-color var(--transition-interactive),
+              backdrop-filter var(--transition-interactive),
+              box-shadow var(--transition-interactive);
+}
+.site-header.scrolled {
+  padding: var(--space-2) 0;
+  background: color-mix(in oklch, var(--color-bg) 72%, transparent);
+  border-bottom: 1px solid var(--color-divider);
+  backdrop-filter: blur(18px) saturate(150%);
+  box-shadow: var(--shadow-sm);
+}
+.header-inner {
+  width: min(100% - var(--container-pad) * 2, var(--content-wide));
+  margin-inline: auto;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: var(--space-6);
+}
+.brand {
+  display: inline-flex; align-items: center; gap: var(--space-3);
+  min-height: 44px;
+}
+.brand svg { width: 2.25rem; height: 2.25rem; flex: none; }
+.brand-name {
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 1.25rem + 0.9vw, 2rem);
+  line-height: 1; color: var(--color-navy); letter-spacing: 0.01em;
+}
+[data-theme="dark"] .brand-name { color: var(--color-text); }
+
+.nav-desktop {
+  display: flex; justify-content: center;
+  gap: clamp(1rem, 1vw + 0.5rem, 2rem);
+}
+.nav-link {
+  position: relative; min-height: 44px;
+  display: inline-flex; align-items: center;
+  font-size: var(--text-sm); color: var(--color-text-muted);
+}
+.nav-link:hover { color: var(--color-text); }
+.nav-link::after {
+  content: ''; position: absolute; left: 0; bottom: 0.625rem;
+  width: 100%; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--color-accent), transparent);
+  transform: scaleX(0); transform-origin: left center;
+  transition: transform var(--transition-interactive);
+}
+.nav-link:hover::after, .nav-link:focus-visible::after { transform: scaleX(1); }
+
+.header-actions { display: flex; align-items: center; gap: var(--space-3); }
+
+.theme-toggle {
+  width: 44px; height: 44px;
+  display: inline-grid; place-items: center;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-full);
+  background: color-mix(in oklch, var(--color-surface) 88%, transparent);
+  box-shadow: var(--shadow-sm);
+  color: var(--color-text-muted);
+}
+.theme-toggle:hover { color: var(--color-text); box-shadow: var(--shadow-md); transform: translateY(-1px); }
+.theme-toggle svg { width: 1.125rem; height: 1.125rem; }
+
+.nav-toggle {
+  display: none; width: 44px; height: 44px;
+  position: relative;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-full);
+  background: color-mix(in oklch, var(--color-surface) 88%, transparent);
+  box-shadow: var(--shadow-sm);
+}
+.nav-toggle span,
+.nav-toggle::before,
+.nav-toggle::after {
+  content: ''; position: absolute;
+  width: 1.125rem; height: 1.5px;
+  background: currentColor; border-radius: 999px;
+  left: 50%; transform: translateX(-50%);
+  transition: transform var(--transition-interactive), opacity var(--transition-interactive);
+}
+.nav-toggle span { top: 50%; transform: translate(-50%, -50%); }
+.nav-toggle::before { top: calc(50% - 0.35rem); transform: translateX(-50%); }
+.nav-toggle::after  { top: calc(50% + 0.35rem); transform: translateX(-50%); }
+.nav-toggle[aria-expanded="true"] span { opacity: 0; }
+.nav-toggle[aria-expanded="true"]::before { transform: translateX(-50%) rotate(45deg) translateY(0.35rem); }
+.nav-toggle[aria-expanded="true"]::after  { transform: translateX(-50%) rotate(-45deg) translateY(-0.35rem); }
+
+.header-cta, .button-primary, .button-secondary {
+  min-height: 44px; padding: 0.6rem 1.25rem;
+  border-radius: var(--radius-full);
+  display: inline-flex; align-items: center; justify-content: center;
+  gap: var(--space-2); font-size: var(--text-sm); font-weight: 600;
+  letter-spacing: 0.01em; box-shadow: var(--shadow-sm);
+}
+.header-cta, .button-primary {
+  background: var(--color-primary); color: #FBF8FF;
+  border: 1px solid color-mix(in oklch, var(--color-primary) 70%, black 10%);
+}
+.header-cta:hover, .button-primary:hover { transform: translateY(-1px); box-shadow: var(--shadow-md); filter: brightness(1.08); }
+.header-cta:active, .button-primary:active { transform: translateY(0); box-shadow: var(--shadow-sm); }
+.button-secondary {
+  background: transparent; color: var(--color-text);
+  border: 1px solid var(--color-border);
+}
+.button-secondary:hover { background: color-mix(in oklch, var(--color-surface) 70%, transparent); transform: translateY(-1px); }
+
+.nav-drawer {
+  display: none;
+  width: min(100% - var(--container-pad) * 2, var(--content-wide));
+  margin: var(--space-3) auto 0;
+  padding: var(--space-4);
+  border: 1px solid var(--color-border); border-radius: var(--radius-xl);
+  background: color-mix(in oklch, var(--color-surface) 92%, transparent);
+  backdrop-filter: blur(18px) saturate(140%);
+  box-shadow: var(--shadow-md);
+}
+.nav-drawer.open { display: grid; gap: var(--space-2); }
+.nav-drawer a {
+  min-height: 44px; display: flex; align-items: center;
+  padding: 0.75rem 0.875rem; border-radius: var(--radius-md);
+  color: var(--color-text-muted);
+}
+.nav-drawer a:hover { background: color-mix(in oklch, var(--color-accent) 10%, transparent); color: var(--color-text); }
+
+/* ─── HERO ─── */
+.hero {
+  position: relative; min-height: 100svh;
+  display: flex; align-items: center;
+  overflow: clip;
+  padding: clamp(6rem, 10svh, 8rem) 0 var(--space-20);
+}
+.hero-bg {
+  position: absolute; inset: 0;
+  opacity: 0.04;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='420' height='320' viewBox='0 0 420 320'%3E%3Cg fill='none' stroke='%23B49AF8' stroke-width='1.2'%3E%3Ccircle cx='120' cy='110' r='74'/%3E%3Ccircle cx='204' cy='110' r='74'/%3E%3Ccircle cx='162' cy='180' r='74'/%3E%3C/g%3E%3C/svg%3E");
+  background-size: 28rem 21rem; background-repeat: repeat; background-position: center;
+}
+.hero-grid {
+  position: relative; z-index: 1;
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(18rem, 0.85fr);
+  gap: clamp(2rem, 3vw, 4rem);
+  align-items: center;
+}
+.hero-copy { display: grid; gap: var(--space-6); }
+.hero-kicker { font-style: italic; letter-spacing: 0.28em; }
+.hero-title {
+  font-family: var(--font-display);
+  font-size: var(--text-hero);
+  line-height: 0.96; letter-spacing: -0.03em;
+  color: color-mix(in oklch, var(--color-text) 94%, var(--color-navy) 6%);
+  max-width: 11ch;
+}
+.hero-word {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(1rem);
+  animation: reveal-up 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation-delay: calc(var(--word-index, 0) * 90ms);
+}
+.hero-word + .hero-word { margin-left: 0.22em; }
+.hero-subtitle { font-size: clamp(1.25rem, 1rem + 1vw, 2rem); font-weight: 500; color: var(--color-text); }
+.hero-body { max-width: 37rem; color: var(--color-text-muted); font-size: var(--text-lg); }
+.hero-actions { display: flex; flex-wrap: wrap; gap: var(--space-3); }
+.hero-meta { font-size: var(--text-xs); letter-spacing: 0.04em; color: var(--color-text-muted); }
+
+/* Hero Visual (Venn) */
+.hero-visual {
+  position: relative;
+  padding: clamp(1rem, 2vw, 1.5rem);
+  border: 1px solid var(--color-border);
+  border-radius: clamp(1.25rem, 3vw, 2rem);
+  background: linear-gradient(180deg,
+    color-mix(in oklch, var(--color-surface) 92%, transparent),
+    color-mix(in oklch, var(--color-surface-2) 100%, transparent),
+    var(--color-surface));
+  box-shadow: var(--shadow-lg); overflow: hidden;
+}
+.venn-diagram { width: 100%; height: auto; }
+.venn-circle {
+  stroke-dasharray: 600; stroke-dashoffset: 600;
+  transition: stroke-dashoffset 1.6s cubic-bezier(0.16, 1, 0.3, 1),
+              opacity 220ms ease, transform 220ms ease;
+  transform-origin: center;
+}
+.hero-visual.in-view .venn-circle { stroke-dashoffset: 0; }
+.venn-group:hover .venn-circle { opacity: 0.38; }
+.venn-group:hover .venn-circle:hover { opacity: 1; transform: scale(1.02); }
+
+/* Animated venn circles after drawing */
+.venn-circle.drawing:nth-child(1) {
+  animation: draw-circle 1.4s both, venn-pulse 4s 1.5s ease-in-out infinite;
+}
+.venn-circle.drawing:nth-child(2) {
+  animation: draw-circle 1.4s 0.35s both, venn-pulse 4s 2.85s ease-in-out infinite;
+}
+.venn-circle.drawing:nth-child(3) {
+  animation: draw-circle 1.4s 0.7s both, venn-pulse 4s 4.1s ease-in-out infinite;
+}
+
+/* ─── SECTIONS ─── */
+.section {
+  position: relative;
+  padding: clamp(5rem, 7vw, 7rem) 0;
+}
+.section-alt {
+  background: color-mix(in oklch, var(--color-surface-2) 62%, transparent);
+  border-top: 1px solid var(--color-divider);
+  border-bottom: 1px solid var(--color-divider);
+}
+.section-head {
+  display: grid; gap: var(--space-4);
+  margin-bottom: var(--space-12); max-width: 48rem;
+}
+.section-title {
+  font-family: var(--font-display);
+  font-size: var(--text-2xl); line-height: 1.02;
+  color: color-mix(in oklch, var(--color-text) 94%, var(--color-navy) 6%);
+}
+.section-body { color: var(--color-text-muted); font-size: var(--text-lg); }
+
+/* ─── TRINITY CARDS ─── */
+.trinity-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-6); margin-top: var(--space-12);
+}
+.trinity-card, .team-card, .proof-card {
+  position: relative; padding: clamp(1.25rem, 2vw, 2rem);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-top: 2px solid var(--color-accent);
+  border-radius: var(--radius-lg); box-shadow: var(--shadow-md);
+  transition: transform var(--transition-interactive), box-shadow var(--transition-interactive);
+}
+.trinity-card:hover, .team-card:hover, .proof-card:hover {
+  transform: translateY(-3px); box-shadow: var(--shadow-lg);
+}
+.trinity-card-top {
+  display: flex; align-items: baseline;
+  justify-content: space-between; gap: var(--space-3);
+}
+.trinity-char { font-size: var(--text-2xl); line-height: 1; }
+.trinity-roman { font-style: italic; font-size: var(--text-sm); color: var(--color-text-muted); }
+.trinity-card h3 {
+  margin-top: var(--space-4); font-family: var(--font-display);
+  font-size: var(--text-xl);
+  color: color-mix(in oklch, var(--color-text) 92%, var(--color-navy) 8%);
+}
+.trinity-card p + p { margin-top: var(--space-4); }
+.trinity-card .hairline { margin: var(--space-5) 0; }
+.section-quote {
+  margin-top: var(--space-10); font-size: var(--text-lg);
+  color: var(--color-text-muted); font-style: italic;
+}
+
+/* ─── TIMELINE ─── */
+.timeline {
+  position: relative; margin-top: var(--space-12);
+  display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(1.5rem, 3vw, 2.5rem);
+}
+.timeline::before {
+  content: ''; position: absolute;
+  top: 1.1875rem; left: 1.1875rem; right: 1.1875rem;
+  border-top: 1px dashed color-mix(in oklch, var(--color-accent) 55%, transparent);
+  opacity: 0.8; z-index: 0;
+}
+.timeline-step {
+  position: relative; z-index: 1;
+  display: grid; align-content: start; gap: var(--space-4);
+  animation: reveal-up 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation-delay: var(--step-delay, 0s);
+}
+.timeline-node {
+  width: 38px; height: 38px; border-radius: 999px;
+  background: var(--color-primary); color: #FBF8FF;
+  display: grid; place-items: center;
+  font-family: var(--font-display); font-size: 1rem;
+  box-shadow: var(--shadow-md);
+  border: 1px solid color-mix(in oklch, var(--color-accent) 25%, transparent);
+}
+[data-theme="dark"] .timeline-node { color: #140F1F; }
+.timeline-card {
+  padding: var(--space-5); border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border);
+  background: var(--color-surface); box-shadow: var(--shadow-sm);
+}
+.timeline-meta {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: var(--space-3); margin-bottom: var(--space-3);
+}
+.timeline-step-label {
+  font-family: var(--font-display); font-style: italic;
+  color: var(--color-accent); font-size: var(--text-sm);
+}
+.timeline-day {
+  font-size: var(--text-xs); letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: color-mix(in oklch, var(--color-text) 70%, var(--color-navy) 30%);
+  font-weight: 700;
+}
+.timeline-card h3 {
+  font-family: var(--font-display); font-size: var(--text-lg);
+  color: color-mix(in oklch, var(--color-text) 92%, var(--color-navy) 8%);
+  margin-bottom: var(--space-3);
+}
+.step-code {
+  margin: var(--space-4) 0; padding: var(--space-3) var(--space-4);
+  display: inline-block;
+  background: color-mix(in oklch, var(--color-surface-offset) 100%, transparent);
+  border: 1px solid var(--color-border); border-radius: var(--radius-md);
+  font-size: var(--text-sm); font-family: var(--font-mono);
+}
+
+/* ─── STATS BAND ─── */
+.stats-band {
+  position: relative;
+  background: linear-gradient(180deg, color-mix(in oklch, var(--color-surface) 40%, var(--color-bg)), color-mix(in oklch, var(--color-surface-2) 80%, var(--color-bg))); color: var(--color-text);
+  border-top: 1px solid var(--color-divider); border-bottom: 1px solid var(--color-divider);
+  padding: clamp(2.5rem, 4vw, 4rem) 0; overflow: clip;
+}
+[data-theme="dark"] .stats-band { background: linear-gradient(180deg, color-mix(in oklch, var(--color-surface) 80%, transparent), color-mix(in oklch, var(--color-surface-2) 90%, transparent)); color: var(--color-text); }
+.stats-band::before {
+  content: ''; position: absolute; inset: 0;
+  background:
+    radial-gradient(circle at 20% 20%, color-mix(in oklch, var(--color-accent) 22%, transparent), transparent 32%),
+    radial-gradient(circle at 80% 80%, color-mix(in oklch, var(--color-primary) 28%, transparent), transparent 28%);
+  opacity: 0.35; pointer-events: none;
+}
+.stats-grid {
+  position: relative; z-index: 1;
+  display: grid; grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--space-6); align-items: center;
+}
+.stat { text-align: center; padding: var(--space-4); }
+.stat-value {
+  display: block; font-family: var(--font-display);
+  font-size: clamp(2.5rem, 2rem + 2vw, 4.5rem);
+  line-height: 0.9; letter-spacing: -0.04em;
+  color: var(--color-text); font-variant-numeric: tabular-nums;
+}
+[data-theme="dark"] .stat-value { color: var(--color-text); }
+
+/* Counting animation */
+.stat-value[data-target] {
+  --stat-c: 0;
+  counter-reset: stat var(--stat-c);
+}
+.stat-value[data-target].counting {
+  animation: count-up 1.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+.stat-value[data-target]::before {
+  content: counter(stat) attr(data-suffix);
+}
+.stat-label {
+  display: block; margin-top: var(--space-2);
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+}
+[data-theme="dark"] .stat-label { color: var(--color-text-muted); }
+
+/* ─── XRPL SECTION ─── */
+.xrpl-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 3fr) minmax(18rem, 2fr);
+  gap: clamp(2rem, 4vw, 4rem); align-items: start;
+}
+.feature-list { display: grid; gap: var(--space-6); margin-top: var(--space-10); }
+.feature-item { padding-left: var(--space-6); position: relative; }
+.feature-item::before {
+  content: '✦'; position: absolute; left: 0; top: 0.1em;
+  font-family: var(--font-display); color: var(--color-accent); font-size: 1.1em;
+}
+.feature-item h3 {
+  font-family: var(--font-display); font-size: var(--text-xl);
+  margin-bottom: var(--space-2);
+  color: color-mix(in oklch, var(--color-text) 92%, var(--color-navy) 8%);
+}
+.xrpl-diagram {
+  position: relative;
+  border: 1px solid var(--color-border);
+  border-radius: clamp(1rem, 2vw, 1.5rem);
+  background: linear-gradient(180deg,
+    color-mix(in oklch, var(--color-surface) 92%, transparent),
+    color-mix(in oklch, var(--color-surface-2) 100%, transparent),
+    var(--color-surface));
+  box-shadow: var(--shadow-md);
+  padding: clamp(1rem, 2vw, 1.5rem);
+  overflow: hidden;
+}
+
+/* ─── PROOF CARDS ─── */
+.proof-grid {
+  display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-6);
+}
+.proof-card { border-top-width: 1px; }
+.proof-card h3 {
+  font-family: var(--font-display); font-size: var(--text-xl);
+  color: color-mix(in oklch, var(--color-text) 92%, var(--color-navy) 8%);
+}
+.proof-top {
+  display: flex; align-items: flex-start;
+  justify-content: space-between; gap: var(--space-4);
+  margin-bottom: var(--space-5);
+}
+.badge {
+  display: inline-flex; align-items: center; min-height: 1.875rem;
+  padding: 0.25rem 0.625rem; border-radius: 999px;
+  font-size: 0.72rem; font-weight: 700;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  border: 1px solid currentColor; white-space: nowrap;
+}
+.badge-emerald { color: var(--color-secondary); background: color-mix(in oklch, var(--color-secondary) 10%, transparent); }
+.badge-burgundy { color: var(--color-primary);   background: color-mix(in oklch, var(--color-primary) 10%, transparent); }
+.badge-gold     { color: var(--color-accent);    background: color-mix(in oklch, var(--color-accent) 10%, transparent); }
+.badge-navy     {
+  color: var(--color-navy);
+  background: color-mix(in oklch, var(--color-navy) 10%, transparent);
+}
+[data-theme="dark"] .badge-navy {
+  color: color-mix(in oklch, var(--color-text) 80%, transparent);
+  background: color-mix(in oklch, var(--color-text) 8%, transparent);
+}
+
+/* Terminal */
+.terminal {
+  position: relative; overflow: hidden;
+  border: 1px solid color-mix(in oklch, var(--color-accent) 24%, transparent);
+  border-radius: var(--radius-lg);
+  background: linear-gradient(180deg, oklch(0.18 0.010 70) 0%, oklch(0.14 0.010 70) 100%);
+  color: oklch(0.93 0.010 85);
+  box-shadow: var(--shadow-md), inset 0 1px 0 oklch(0.92 0.020 78 / 0.05);
+}
+.texture-overlay {
+  position: absolute; inset: 0; pointer-events: none; opacity: 0.025;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240' viewBox='0 0 240 240'%3E%3Cfilter id='p'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23p)'/%3E%3C/svg%3E");
+  background-size: 240px 240px; mix-blend-mode: multiply;
+}
+.terminal-bar {
+  display: flex; align-items: center; gap: 0.45rem;
+  padding: 0.875rem 1rem;
+  border-bottom: 1px solid color-mix(in oklch, white 10%, transparent);
+  background: color-mix(in oklch, black 10%, transparent);
+}
+.dot { width: 0.625rem; height: 0.625rem; border-radius: 999px; display: inline-block; }
+.dot.red    { background: #ff5f57; }
+.dot.yellow { background: #febc2e; }
+.dot.green  { background: #28c840; }
+.terminal-title {
+  margin-left: var(--space-2); font-size: 0.78rem;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  color: color-mix(in oklch, white 72%, transparent);
+  font-family: var(--font-mono);
+}
+.terminal-body {
+  padding: 1rem 1.125rem 1.125rem;
+  overflow: auto; font-size: var(--text-sm);
+  font-family: var(--font-mono);
+  line-height: 1.8; white-space: pre-wrap; color: inherit;
+}
+.proof-copy { margin-top: var(--space-5); color: var(--color-text-muted); }
+.proof-copy p + p, .proof-copy ul + p, .proof-copy p + ul { margin-top: var(--space-4); }
+
+.button-link {
+  display: inline-flex; align-items: center; gap: var(--space-2);
+  color: var(--color-primary); font-weight: 600; margin-top: var(--space-4);
+}
+.button-link:hover { color: var(--color-secondary); }
+[data-theme="dark"] .button-link:hover { color: var(--color-accent); }
+
+/* ─── XRPL ADDRESS ─── */
+.xrpl-address {
+  display: inline-block; width: 100%;
+  margin-top: var(--space-4); padding: var(--space-4);
+  border-radius: var(--radius-md); border: 1px solid var(--color-border);
+  background: color-mix(in oklch, var(--color-surface-offset) 100%, transparent);
+  font-size: 0.82rem; font-family: var(--font-mono);
+  line-height: 1.5; word-break: break-all; cursor: pointer;
+  transition: border-color var(--transition-interactive), box-shadow var(--transition-interactive);
+}
+.xrpl-address:hover {
+  border-color: color-mix(in oklch, var(--color-accent) 40%, transparent);
+  box-shadow: var(--shadow-sm);
+}
+
+/* ─── TEAM ─── */
+.team-grid {
+  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-6);
+}
+.team-card { box-shadow: var(--shadow-sm); border-top-width: 1px; border-radius: var(--radius-lg); }
+.team-meta {
+  font-size: var(--text-xs); text-transform: uppercase;
+  letter-spacing: 0.12em; color: var(--color-accent); margin-bottom: var(--space-3);
+}
+.team-card h3 {
+  font-family: var(--font-display); font-size: var(--text-xl);
+  color: color-mix(in oklch, var(--color-text) 92%, var(--color-navy) 8%);
+}
+.team-avatar {
+  width: 60px; height: 60px; border-radius: 999px;
+  display: grid; place-items: center;
+  background: var(--color-primary); color: #FBF8FF;
+  font-family: var(--font-display); font-size: 1.5rem;
+  margin-bottom: var(--space-4); box-shadow: var(--shadow-sm);
+}
+[data-theme="dark"] .team-avatar { color: #140F1F; }
+.team-card .hairline { margin: var(--space-5) 0; }
+.brand-architecture {
+  padding: var(--space-4); border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+  background: color-mix(in oklch, var(--color-surface-2) 100%, transparent);
+  font-size: var(--text-sm); font-family: var(--font-mono);
+  line-height: 1.75; white-space: pre-wrap; color: var(--color-text-muted);
+}
+
+/* ─── FOOTER ─── */
+.site-footer {
+  border-top: 1px solid var(--color-divider);
+  background: color-mix(in oklch, var(--color-surface) 98%, transparent);
+}
+.motto-sep {
+  display: grid; grid-template-columns: 1fr auto 1fr;
+  align-items: center; gap: var(--space-4);
+  padding: var(--space-10) 0 var(--space-8);
+  color: var(--color-text-muted);
+}
+.footer-grid {
+  display: grid; grid-template-columns: 1.2fr 1fr 1fr;
+  gap: var(--space-8); padding-bottom: var(--space-10);
+}
+.footer-brand { display: flex; align-items: center; gap: var(--space-3); margin-bottom: var(--space-4); }
+.footer-brand span {
+  font-family: var(--font-display); font-size: 1.5rem;
+  color: color-mix(in oklch, var(--color-text) 94%, var(--color-navy) 6%);
+}
+.footer-title {
+  font-size: var(--text-xs); text-transform: uppercase;
+  letter-spacing: 0.12em; color: var(--color-accent); margin-bottom: var(--space-4);
+}
+.footer-links { display: grid; gap: var(--space-2); }
+.footer-links a { color: var(--color-text-muted); }
+.footer-links a:hover { color: var(--color-primary); }
+.footer-meta {
+  border-top: 1px solid var(--color-divider);
+}
+.footer-meta-inner {
+  width: min(100% - var(--container-pad) * 2, var(--content-wide));
+  margin-inline: auto; padding: var(--space-4) 0;
+  display: flex; align-items: center; justify-content: space-between;
+  gap: var(--space-4); color: var(--color-text-faint); font-size: var(--text-xs);
+}
+
+/* ─── RESPONSIVE ─── */
+@media (max-width: 1023px) {
+  .nav-desktop, .header-cta { display: none; }
+  .nav-toggle { display: inline-grid; }
+  .hero-grid, .xrpl-grid, .footer-grid {
+    grid-template-columns: 1fr;
+  }
+  .proof-grid, .team-grid, .trinity-grid { grid-template-columns: 1fr; }
+  .timeline {
+    grid-template-columns: 1fr; gap: var(--space-5);
+    padding-left: var(--space-8);
+  }
+  .timeline::before {
+    top: 0; bottom: 0; left: 1.1875rem; right: auto;
+    border-top: 0; border-left: 1px dashed color-mix(in oklch, var(--color-accent) 55%, transparent);
+  }
+  .timeline-step {
+    grid-template-columns: auto 1fr;
+    align-items: start; gap: var(--space-4);
+  }
+  .timeline-card { margin-top: 0; }
+  .stats-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .footer-meta-inner { flex-direction: column; align-items: flex-start; }
+}
+@media (max-width: 767px) {
+  .site-header { padding: var(--space-3) 0; }
+  .hero { padding-top: 6.5rem; }
+  .hero-actions { flex-direction: column; align-items: stretch; }
+  .button-primary, .button-secondary { width: 100%; }
+  .stats-grid { grid-template-columns: 1fr; }
+  .motto-sep { grid-template-columns: 1fr; text-align: center; }
+}
+
+/* ─── REDUCED MOTION ─── */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .hero-word { opacity: 1 !important; transform: none !important; }
+  .venn-circle { stroke-dashoffset: 0 !important; animation: none !important; }
+  .stat-value { animation: none !important; }
+  .reveal-ready { opacity: 1 !important; transform: none !important; }
+  .reveal-scroll, .fade-scroll { clip-path: none !important; opacity: 1 !important; }
+}
+
+
+/* ============================================================
+   Step 3 — Typography Refactor (modular scale 1.250)
+   진단결과 축 2 해결: hero↔section 스케일 점프 제거,
+   opsz 활용, KO/EN baseline 정렬, Trinity x-height 정렬
+   ============================================================ */
+
+/* 1) Fluid Type Scale — Major Third (1.250) */
+:root {
+  --ms-ratio: 1.250;
+  --text-xs:        clamp(0.80rem, 0.76rem + 0.20vw, 0.875rem);
+  --text-sm:        clamp(0.875rem, 0.83rem + 0.25vw, 1rem);
+  --text-base:      clamp(1rem, 0.96rem + 0.25vw, 1.125rem);
+  --text-lg:        clamp(1.25rem, 1.18rem + 0.40vw, 1.40625rem);
+  --text-xl:        clamp(1.5625rem, 1.46rem + 0.55vw, 1.7578rem);
+  --text-2xl:       clamp(1.9531rem, 1.78rem + 0.90vw, 2.1972rem);
+  --text-3xl:       clamp(2.4414rem, 2.16rem + 1.50vw, 2.7466rem);
+  --text-display-2: clamp(3.0518rem, 2.62rem + 2.30vw, 3.4332rem);
+  --text-hero:      clamp(3.815rem, 3.15rem + 3.50vw, 4.2915rem);
+}
+
+/* 2) Heading font-variation-settings (opsz 축) */
+.hero-title {
+  font-size: var(--text-hero);
+  font-variation-settings: "opsz" 144, "wght" 500;
+  font-feature-settings: "lnum", "ss01", "kern";
+  line-height: 0.98;
+  letter-spacing: -0.025em;
+  text-wrap: balance;
+}
+.section-title {
+  font-size: var(--text-3xl);
+  font-variation-settings: "opsz" 72, "wght" 500;
+  line-height: 1.06;
+  text-wrap: balance;
+}
+.trinity-card h3,
+.timeline-card h3,
+.proof-card h3,
+.team-card h3 {
+  font-size: var(--text-xl);
+  font-variation-settings: "opsz" 24, "wght" 600;
+  font-feature-settings: "onum";
+}
+
+/* 3) KO/EN baseline 정렬 (text-box-trim + translateY 폴백) */
+.hero-title,
+.section-title,
+.display-en,
+.display-kr {
+  vertical-align: baseline;
+}
+@supports (text-box-trim: trim-both) {
+  .hero-title,
+  .section-title {
+    text-box-trim: trim-both;
+    text-box-edge: cap alphabetic;
+  }
+  :is(h1, h2, h3) :lang(ko),
+  :is(h1, h2, h3) .display-kr {
+    text-box-trim: trim-both;
+    text-box-edge: cap alphabetic;
+  }
+}
+@supports not (text-box-trim: trim-both) {
+  :is(h1, h2, h3) .display-kr,
+  :is(h1, h2, h3) :lang(ko) {
+    display: inline-block;
+    transform: translateY(0.04em);
+  }
+}
+
+/* 4) KO/EN 혼용 — word-spacing을 :lang()으로 분기 */
+:lang(ko) {
+  word-spacing: -0.05em;
+  letter-spacing: -0.005em;
+}
+:lang(en) {
+  word-spacing: normal;
+}
+.hero-body :lang(en),
+.section-body :lang(en),
+p :lang(en) {
+  word-spacing: 0.02em;
+  margin-inline: 0.05em;
+}
+
+/* 5) Trinity 카드 — 한자(리/법/자치) x-height 정렬 */
+.trinity-char {
+  font-family: "Noto Serif KR", var(--font-display, serif);
+  font-size: var(--text-xl);
+  font-weight: 600;
+  line-height: 1;
+  align-self: baseline;
+  transform: translateY(calc(-0.5ex + 0.25em));
+  font-feature-settings: "palt";
+}
+@supports (text-box-trim: trim-both) {
+  .trinity-char {
+    text-box-trim: trim-both;
+    text-box-edge: cap alphabetic;
+    transform: none;
+  }
+}
+.trinity-roman {
+  font-style: italic;
+  font-size: var(--text-sm);
+  font-variation-settings: "opsz" 12;
+  align-self: baseline;
+}
+
+/* 6) section-label & hero-kicker — optical letter-spacing */
+.section-label {
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-variation-settings: "opsz" 12, "wght" 500;
+  font-feature-settings: "cpsp", "case";
+  font-variant-numeric: lining-nums tabular-nums;
+}
+@supports (text-box-trim: trim-both) {
+  .section-label {
+    text-box-trim: trim-both;
+    text-box-edge: cap alphabetic;
+    letter-spacing: 0.16em;
+  }
+}
+.hero-kicker {
+  font-style: italic;
+  letter-spacing: 0.18em;
+  font-size: 0.78rem;
+  font-variation-settings: "opsz" 12, "wght" 400;
+}
+@supports (text-box-trim: trim-both) {
+  .hero-kicker {
+    text-box-trim: trim-both;
+    text-box-edge: cap alphabetic;
+    letter-spacing: 0.16em;
+  }
+}
+
+}
+
+@layer utilities {
+
+/* ============================================================
+   Step 2 — Container Queries on .trinity-grid
+   (진단결과 축 5 Technical Craft — container-type inline-size)
+   ============================================================ */
+.trinity-grid {
+  container-type: inline-size;
+  container-name: trinity;
+}
+@container trinity (max-width: 48rem) {
+  .trinity-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+
+/* ============================================================
+   Step 5 — Narrative / IA 개선 (non-destructive)
+   ============================================================ */
+
+/* 5-a: Chapter Rail — 좌측 sticky 로마숫자 */
+.chapter-rail {
+  position: fixed;
+  left: clamp(0.75rem, 2vw, 2rem);
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 50;
+  font-family: var(--font-display, "EB Garamond", serif);
+  font-feature-settings: "smcp", "onum";
+  pointer-events: none;
+}
+.chapter-rail ol {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.75rem;
+}
+.chapter-rail li { display: block; }
+.chapter-rail a {
+  pointer-events: auto;
+  display: inline-block;
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  color: var(--color-text-muted, #888);
+  text-decoration: none;
+  font-variant-numeric: lining-nums;
+  opacity: 0.55;
+  transition: opacity var(--dur-quick) var(--ease-reveal, ease),
+              color    var(--dur-quick) var(--ease-reveal, ease);
+  padding: 0.125rem 0.25rem;
+}
+.chapter-rail a:hover,
+.chapter-rail a:focus-visible {
+  opacity: 1;
+  color: var(--color-accent, currentColor);
+  outline: none;
+}
+@media (max-width: 60rem) {
+  .chapter-rail { display: none; }  /* 모바일에서는 숨김 */
+}
+
+/* 5-b: Trinity 카드 상단 border 색분기
+   조리=navy / 법리=primary / 자치=accent
+   (DOM에 data-lobe 가 없으므로 :nth-child로 매핑) */
+.trinity-grid > .trinity-card:nth-child(1) {
+  border-top: 2px solid var(--color-secondary);
+}
+.trinity-grid > .trinity-card:nth-child(2) {
+  border-top: 2px solid var(--color-primary);
+}
+.trinity-grid > .trinity-card:nth-child(3) {
+  border-top: 2px solid var(--color-accent);
+}
+
+/* 5-c: timeline-card 하단 tx-hash 모킹 라벨 (::after 로 DOM 무영향) */
+.timeline-card {
+  position: relative;
+}
+.timeline-card::after {
+  content: "rCxy" counter(tx-hash) "…8fA2 · EscrowFinish";
+  counter-increment: tx-hash;
+  display: block;
+  margin-top: 0.75rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid var(--color-divider, rgba(0,0,0,0.08));
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 0.6875rem;
+  letter-spacing: 0.02em;
+  color: var(--color-text-muted, #888);
+  font-variant-numeric: tabular-nums;
+}
+/* Timeline 컨테이너에서 카운터 초기화 */
+#how {
+  counter-reset: tx-hash;
+}
+
+/* 5-d: ::selection 인용 부호 + hanging-punctuation */
+::selection {
+  background: color-mix(in oklch, var(--color-primary) 28%, transparent);
+}
+blockquote {
+  hanging-punctuation: first last;
+}
+
+
+/* Step 6-d 추가 수정: .section-label 하단 여백 복구 (Why XRPL 겹침 방지) */
+.section-label {
+  display: block;
+  margin-bottom: 0.75rem;
+}
+.hero-kicker {
+  display: block;
+  margin-bottom: 1rem;
+}
+
+
+/* Step 7.1 — 한자 병기 스타일 */
+.trinity-hanja {
+  display: inline-block;
+  margin-left: 0.35em;
+  font-family: "Noto Serif KR", "EB Garamond", serif;
+  font-size: 0.42em;
+  font-weight: 400;
+  vertical-align: 0.35em;
+  opacity: 0.6;
+  letter-spacing: 0.02em;
+}
+
+
+/* ============================================================
+   Step 9 — 레이아웃/타이포 보정
+   ============================================================ */
+
+/* 9-B: Chapter Rail 겹침 해결
+   - 본문에 좌측 패딩 확보
+   - Rail은 뷰포트 가장자리로 */
+.chapter-rail {
+  left: 0.75rem !important;
+}
+.chapter-rail a {
+  font-size: 0.7rem !important;
+  opacity: 0.35;
+}
+@media (min-width: 60rem) {
+  .container {
+    padding-left: max(var(--gutter, 1.5rem), 4.5rem);
+  }
+  .stats-grid {
+    padding-left: max(var(--gutter, 1.5rem), 4.5rem);
+  }
+}
+@media (min-width: 90rem) {
+  .container { padding-left: 5.5rem; }
+}
+
+
+/* Step 10 — 영문 section-label 확대 (04 WHY XRPL 등) */
+.section-label {
+  font-size: clamp(0.82rem, 0.72rem + 0.5vw, 1.05rem) !important;
+  letter-spacing: 0.18em !important;
+  display: block;
+  margin-bottom: 1.25rem;
+  font-weight: 500;
+  line-height: 1.5 !important;
+  padding-block: 0.2em !important;
+  text-box-trim: none !important;
+  overflow: visible !important;
+}
+.hero-kicker {
+  font-size: clamp(1rem, 0.8rem + 1vw, 1.5rem) !important;
+  letter-spacing: 0.22em;
+  margin-bottom: 1.5rem;
+}
+
+/* 9-E: Venn 이미지 모드 — .venn-diagram 대신 .venn-image 사용 시 */
+.venn-image {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-width: 520px;
+  margin: 0 auto;
+  filter: drop-shadow(0 20px 60px rgba(0,0,0,0.5));
+  border-radius: 0.5rem;
+}
+
+/* ╔═══════════════════════════════════════════════════════════╗
+   ║  TRIANUM — COLOR SYSTEM v13                               ║
+   ║  Unified Purple Architecture                              ║
+   ║  Light: #F8F5FC bg / #251C31 text / #6F52D9 accent       ║
+   ║  Dark:  #140F1F bg / #F4EEFA text / #A98CFF accent       ║
+   ╚═══════════════════════════════════════════════════════════╝ */
+
+
+@keyframes vt-fade-out { to { opacity: 0; } }
+@keyframes vt-fade-in  { from { opacity: 0; } }
+@keyframes glyph-settle {
+  from { opacity: 0; transform: scale(0.92); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+@layer motion {
+
+/* ============================================================
+   Step 6-a — reveal-up 최적화
+   - filter: blur 제거 (GPU paint 비용↓, LCP·INP 개선)
+   - translateY 0.5rem 로 축소 (원래 1rem)
+   - will-change 로 합성 레이어 승격 힌트 제공
+   - 사용 끝나면 will-change: auto 로 리셋 필요하나,
+     reveal-up 은 짧은 once 애니메이션이므로 실무상 허용
+   ============================================================ */
+[data-reveal],
+[class*="reveal"],
+.reveal-up,
+[style*="animation: reveal-up"] {
+  will-change: transform, opacity;
+}
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal],
+  [class*="reveal"],
+  .reveal-up {
+    will-change: auto;
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
+
+
+/* ============================================================
+   Step 6-b — View Transitions: Venn ↔ Trinity glyph morph
+   ============================================================ */
+::view-transition-group(root) { animation-duration: 0ms; }
+
+::view-transition-group(venn-legal),
+::view-transition-group(venn-autonomy),
+::view-transition-group(venn-reason) {
+  animation-duration: var(--dur-morph);
+  animation-timing-function: var(--ease-judicial);
+}
+::view-transition-old(venn-legal),
+::view-transition-old(venn-autonomy),
+::view-transition-old(venn-reason) {
+  animation: vt-fade-out var(--dur-morph) var(--ease-exit) both;
+}
+::view-transition-new(venn-legal),
+::view-transition-new(venn-autonomy),
+::view-transition-new(venn-reason) {
+  animation: vt-fade-in var(--dur-morph) var(--ease-reveal) both;
+}
+
+/* View Transition 진행 중 원본/대상 상태 전환 */
+html[data-venn-state="distributed"] .venn-diagram { opacity: 0; }
+html[data-venn-state="converged"]   .venn-diagram { opacity: 1; }
+
+/* 폴백: View Transition API 미지원 (Firefox 등) */
+@supports not (view-transition-name: none) {
+  .trinity-char {
+    animation: glyph-settle var(--dur-base) var(--ease-reveal) both;
+  }
+}
+
+
+/* ============================================================
+   Step 6-c — Scroll-Timeline Venn 수렴
+   Hero 스크롤 진행도 0→1 동안 세 원이 중심(240,200)으로 수렴
+   @property로 CSS 변수를 animatable number 타입으로 등록
+   ============================================================ */
+@property --venn-convergence {
+  syntax: '<number>';
+  inherits: true;
+  initial-value: 0;
+}
+
+#hero {
+  view-timeline-name: --hero-scroll;
+  view-timeline-axis: block;
+}
+
+.venn-diagram {
+  animation: venn-converge linear both;
+  animation-timeline: --hero-scroll;
+  animation-range: entry 0% exit 80%;
+}
+
+@keyframes venn-converge {
+  0%   { --venn-convergence: 0; }
+  100% { --venn-convergence: 1; }
+}
+
+/* 세 원을 각각 중심(240,200) 방향으로 translate
+   view-transition-name이 transform과 충돌 가능하므로 translate 속성 사용 */
+.venn-circle[data-lobe="legal"] {
+  translate:
+    calc((240px - 176px) * var(--venn-convergence))
+    calc((200px - 156px) * var(--venn-convergence));
+}
+.venn-circle[data-lobe="autonomy"] {
+  translate:
+    calc((240px - 304px) * var(--venn-convergence))
+    calc((200px - 156px) * var(--venn-convergence));
+}
+.venn-circle[data-lobe="reason"] {
+  translate:
+    calc((240px - 240px) * var(--venn-convergence))
+    calc((200px - 268px) * var(--venn-convergence));
+}
+
+/* 수렴도에 따라 투명도 상승 */
+.venn-circle {
+  fill-opacity: calc(0.16 + 0.24 * var(--venn-convergence));
+  stroke-opacity: calc(0.6 + 0.4 * var(--venn-convergence));
+  transition: none;
+}
+
+/* View Transition 중 distributed 상태에서 Scroll-Timeline 정지 */
+html[data-venn-state="distributed"] .venn-diagram {
+  animation: none;
+}
+
+/* 폴백: Scroll-Timeline 미지원 (Firefox, Safari 일부) */
+@supports not (animation-timeline: view()) {
+  .venn-diagram {
+    animation: none;
+  }
+  .venn-circle[data-lobe] {
+    translate: 0 0;
+    animation: venn-converge-static var(--dur-base) var(--ease-judicial) both;
+  }
+  @keyframes venn-converge-static {
+    from { opacity: 0.6; }
+    to   { opacity: 1; }
+  }
+}
+
+/* reduced-motion: Scroll-Timeline 완전 무력화 */
+@media (prefers-reduced-motion: reduce) {
+  .venn-diagram { animation: none !important; }
+  .venn-circle[data-lobe] { translate: 0 0 !important; }
+}
+
+
+/* ============================================================
+   Step 6-d — Step 번호 Elastic Counter-up (≤400ms)
+   ============================================================ */
+.timeline-step-label {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.375em;
+}
+.timeline-step-num {
+  display: inline-block;
+  font-variant-numeric: lining-nums tabular-nums;
+  font-feature-settings: "tnum", "lnum";
+  min-width: 1.5em;
+  text-align: left;
+  opacity: 0;
+  transform: scale(0.88);
+}
+.timeline-step-num.is-settling {
+  animation: step-settle var(--dur-settle) var(--ease-settle) both;
+}
+@keyframes step-settle {
+  0%   { transform: scale(0.88); opacity: 0; }
+  60%  { transform: scale(1.08); opacity: 1; }
+  100% { transform: scale(1.00); opacity: 1; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .timeline-step-num {
+    opacity: 1 !important;
+    transform: none !important;
+    animation: none !important;
+  }
+}
+}
+
+
+
+/* ╔═══════════════════════════════════════════════════════════════╗
+   ║  TRIANUM PURPLE SYSTEM — Final Component Overrides v13       ║
+   ╚═══════════════════════════════════════════════════════════════╝ */
+
+/* ── Dark mode SVG text adaptation ── */
+[data-theme="dark"] .xrpl-diagram svg text {
+  fill: var(--color-text-muted);
+}
+[data-theme="dark"] .xrpl-diagram svg text[font-family*="Garamond"],
+[data-theme="dark"] .xrpl-diagram svg text[font-family*="EB Garamond"] {
+  fill: var(--color-text);
+}
+
+/* ── Button primary — solid purple, no gradient ── */
+.header-cta,
+.button-primary {
+  background: var(--color-primary);
+  color: #FBF8FF;
+  border: 1px solid color-mix(in oklch, var(--color-primary) 72%, black 10%);
+}
+.header-cta:hover,
+.button-primary:hover {
+  background: color-mix(in oklch, var(--color-primary) 88%, white 12%);
+  filter: none;
+}
+
+/* ── Nav drawer hover ── */
+.nav-drawer a:hover {
+  background: color-mix(in oklch, var(--color-primary) 9%, transparent);
+  color: var(--color-text);
+}
+
+/* ── Badge colours — all in purple family ── */
+.badge-emerald {
+  color: var(--color-secondary);
+  background: color-mix(in oklch, var(--color-secondary) 12%, transparent);
+  border-color: color-mix(in oklch, var(--color-secondary) 35%, transparent);
+}
+.badge-burgundy {
+  color: var(--color-primary);
+  background: color-mix(in oklch, var(--color-primary) 12%, transparent);
+  border-color: color-mix(in oklch, var(--color-primary) 35%, transparent);
+}
+.badge-gold {
+  color: var(--color-accent);
+  background: color-mix(in oklch, var(--color-accent) 12%, transparent);
+  border-color: color-mix(in oklch, var(--color-accent) 35%, transparent);
+}
+.badge-navy {
+  color: var(--color-navy);
+  background: color-mix(in oklch, var(--color-navy) 12%, transparent);
+  border-color: color-mix(in oklch, var(--color-navy) 28%, transparent);
+}
+[data-theme="dark"] .badge-navy {
+  color: var(--color-accent);
+  background: color-mix(in oklch, var(--color-accent) 10%, transparent);
+  border-color: color-mix(in oklch, var(--color-accent) 25%, transparent);
+}
+
+/* ── Stats band gradient (purple depth) ── */
+.stats-band::before {
+  background:
+    radial-gradient(circle at 20% 20%, color-mix(in oklch, var(--color-secondary) 18%, transparent), transparent 36%),
+    radial-gradient(circle at 80% 80%, color-mix(in oklch, var(--color-primary) 14%, transparent), transparent 30%);
+  opacity: 0.5;
+}
+
+/* ── Stats value in stats-band context ── */
+.stats-band .stat-value { color: var(--color-text); }
+.stats-band .stat-label { color: var(--color-text-muted); }
+
+/* ── Section quote — stays muted ── */
+.section-quote { color: var(--color-text-muted); }
+
+/* ── Hero background subtle gradient (replaces old tile pattern) ── */
+.hero-bg {
+  background-image:
+    radial-gradient(ellipse at 15% 30%, color-mix(in oklch, var(--color-primary) 10%, transparent), transparent 45%),
+    radial-gradient(ellipse at 85% 75%, color-mix(in oklch, var(--color-secondary) 8%, transparent), transparent 40%),
+    radial-gradient(ellipse at 50% 10%, color-mix(in oklch, var(--color-accent) 6%, transparent), transparent 35%);
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  opacity: 0.55;
+}
+
+/* ── Footer title / team meta accents ── */
+.footer-title,
+.team-meta,
+.section-label,
+.timeline-step-label,
+.hero-kicker {
+  color: var(--color-accent);
+}
+
+/* ── Feature item bullet accent ── */
+.feature-item::before { color: var(--color-accent); }
+
+/* ── Hairline divider ── */
+.hairline {
+  background: linear-gradient(90deg, transparent, var(--color-accent), transparent);
+  opacity: 0.55;
+}
+
+/* ── Link / button-link ── */
+.button-link { color: var(--color-primary); }
+.button-link:hover { color: var(--color-secondary); }
+[data-theme="dark"] .button-link:hover { color: var(--color-accent); }
+
+/* ── Terminal dark bg stays consistent ── */
+.terminal {
+  border-color: color-mix(in oklch, var(--color-primary) 26%, transparent);
+  background: linear-gradient(180deg, oklch(0.13 0.03 295) 0%, oklch(0.10 0.03 295) 100%);
+  color: #EEE8FA;
+}
+
+/* ── Heading color-mix keeps readability ── */
+.hero-title,
+.section-title,
+.brand-name {
+  color: color-mix(in oklch, var(--color-text) 92%, var(--color-navy) 8%);
+}
+
+/* ── focus-visible ring in purple ── */
+:focus-visible { outline-color: var(--color-primary); }
+
+/* ── Selection ── */
+::selection {
+  background: color-mix(in oklch, var(--color-primary) 24%, transparent);
+  color: var(--color-text);
+}
+
+/* ── Dark body/surface consistency ── */
+[data-theme="dark"] body { background-color: var(--color-bg); }
+[data-theme="dark"] .site-footer {
+  background: color-mix(in oklch, var(--color-surface) 96%, transparent);
+}
+
+/* ── Dark stats-band node/avatar text ── */
+[data-theme="dark"] .timeline-node,
+[data-theme="dark"] .team-avatar { color: #140F1F; }
+
+/* ── theme-color meta will be updated by JS toggle ── */
+
+
+
+/* ╔═════════════════════════════════════════════════════════════╗
+   ║  TRIANUM — LUXURY SPECTRAL SYSTEM v15                      ║
+   ║                                                             ║
+   ║  Philosophy (from Stripe Press / Hermès / Aman research):  ║
+   ║  • Restraint in surfaces → colour lives in type            ║
+   ║  • Jewel tones only on headings, stats, labels             ║
+   ║  • Cards: glass morphism with micro-tint, not flat colour  ║
+   ║  • Never more than 2 coloured hues per viewport at once    ║
+   ╚═════════════════════════════════════════════════════════════╝ */
+
+/* ── 0. Jewel-tone palette (custom properties) ── */
+:root {
+  --jewel-sapphire:    oklch(0.52 0.22 268);   /* 깊은 사파이어 블루 */
+  --jewel-amethyst:    oklch(0.52 0.22 306);   /* 자수정 바이올렛 */
+  --jewel-fuchsia:     oklch(0.54 0.26 328);   /* 짙은 푸시아 */
+  --jewel-rose:        oklch(0.60 0.20 355);   /* 로즈 */
+  --jewel-aqua:        oklch(0.66 0.15 208);   /* 아쿠아마린 */
+  --jewel-gold:        oklch(0.76 0.15  72);   /* 18K 골드 */
+  --jewel-emerald:     oklch(0.54 0.18 162);   /* 에메랄드 */
+}
+
+[data-theme="dark"] {
+  --jewel-sapphire:    oklch(0.68 0.20 268);
+  --jewel-amethyst:    oklch(0.72 0.20 306);
+  --jewel-fuchsia:     oklch(0.74 0.24 328);
+  --jewel-rose:        oklch(0.78 0.19 355);
+  --jewel-aqua:        oklch(0.80 0.14 208);
+  --jewel-gold:        oklch(0.86 0.14  72);
+  --jewel-emerald:     oklch(0.74 0.17 162);
+}
+
+/* ── 1. Glass card utility ── */
+/* backdrop-filter 지원 여부에 따라 자동 폴백 */
+.glass {
+  background: oklch(from var(--color-surface) l c h / 0.72);
+  backdrop-filter: blur(18px) saturate(1.4);
+  -webkit-backdrop-filter: blur(18px) saturate(1.4);
+  border: 1px solid oklch(from var(--color-text) l c h / 0.07);
+  box-shadow:
+    0 1px 0 oklch(1 0 0 / 0.06) inset,
+    var(--shadow-md);
+}
+@supports not (backdrop-filter: blur(1px)) {
+  .glass {
+    background: var(--color-surface);
+  }
+}
+
+/* ── 2. Gradient-text utility ── */
+.grad-text {
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+
+/* ── 3. Section label overrides — jewel tone per section ── */
+/* 각 섹션 라벨: 소문자, 좁은 자간, 보석 톤 */
+#trinity .section-label {
+  background-image: linear-gradient(90deg in oklch, var(--jewel-sapphire), var(--jewel-amethyst));
+}
+#how .section-label {
+  background-image: linear-gradient(90deg in oklch, var(--jewel-amethyst), var(--jewel-fuchsia));
+}
+#xrpl .section-label {
+  background-image: linear-gradient(90deg in oklch, var(--jewel-aqua), var(--jewel-sapphire));
+}
+#proof .section-label {
+  background-image: linear-gradient(90deg in oklch, var(--jewel-fuchsia), var(--jewel-rose));
+}
+#team .section-label {
+  background-image: linear-gradient(90deg in oklch, var(--jewel-gold), var(--jewel-rose));
+}
+
+.section-label {
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  display: inline-block;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-size: var(--text-xs);
+}
+
+/* ── 4. Section title — subtle jewel tint, NOT gradient (too noisy) ── */
+/* 타이틀은 강한 그라디언트 X, 대신 미세 보석 톤으로 색감만 */
+#trinity .section-title {
+  color: color-mix(in oklch, var(--color-text) 86%, var(--jewel-sapphire) 14%);
+}
+#how .section-title {
+  color: color-mix(in oklch, var(--color-text) 86%, var(--jewel-fuchsia) 14%);
+}
+#xrpl .section-title {
+  color: color-mix(in oklch, var(--color-text) 86%, var(--jewel-aqua) 14%);
+}
+#proof .section-title {
+  color: color-mix(in oklch, var(--color-text) 86%, var(--jewel-rose) 14%);
+}
+#team .section-title {
+  color: color-mix(in oklch, var(--color-text) 86%, var(--jewel-gold) 14%);
+}
+
+/* ── 5. Hero 타이틀 — Stripe Press 스타일: 세리프 + 두 톤 분리 ── */
+/* 첫 단어는 무거운 그라디언트, 나머지는 일반 색 */
+.hero-kicker {
+  background-image: linear-gradient(90deg in oklch, var(--jewel-gold), var(--jewel-rose));
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  display: inline-block;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-size: var(--text-xs);
+}
+
+/* ── 6. Stats — 각 숫자가 하나의 보석 톤 ── */
+/* 배경 흰색 flat → 글래스 카드 */
+.stats-band {
+  position: relative;
+  background: oklch(from var(--color-surface) l c h / 0.55) !important;
+  backdrop-filter: blur(24px) saturate(1.3);
+  -webkit-backdrop-filter: blur(24px) saturate(1.3);
+  border-top: 1px solid oklch(from var(--color-text) l c h / 0.07);
+  border-bottom: 1px solid oklch(from var(--color-text) l c h / 0.07);
+}
+.stats-band::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 12% 50%, oklch(from var(--jewel-sapphire) l c h / 0.08), transparent 35%),
+    radial-gradient(circle at 88% 50%, oklch(from var(--jewel-rose) l c h / 0.07), transparent 32%);
+  pointer-events: none;
+}
+
+.stat:nth-child(1) .stat-value {
+  background-image: linear-gradient(135deg in oklch, var(--jewel-sapphire), var(--jewel-amethyst));
+  background-clip: text; -webkit-background-clip: text;
+  color: transparent; -webkit-text-fill-color: transparent;
+}
+.stat:nth-child(2) .stat-value {
+  background-image: linear-gradient(135deg in oklch, var(--jewel-amethyst), var(--jewel-fuchsia));
+  background-clip: text; -webkit-background-clip: text;
+  color: transparent; -webkit-text-fill-color: transparent;
+}
+.stat:nth-child(3) .stat-value {
+  background-image: linear-gradient(135deg in oklch, var(--jewel-aqua), var(--jewel-sapphire));
+  background-clip: text; -webkit-background-clip: text;
+  color: transparent; -webkit-text-fill-color: transparent;
+}
+.stat:nth-child(4) .stat-value {
+  background-image: linear-gradient(135deg in oklch, var(--jewel-gold), var(--jewel-rose));
+  background-clip: text; -webkit-background-clip: text;
+  color: transparent; -webkit-text-fill-color: transparent;
+}
+.stat-value {
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+.stat-label { color: var(--color-text-muted) !important; }
+
+/* ── 7. Cards — 글래스모피즘 (배경색 X, 유리 질감) ── */
+.trinity-card,
+.timeline-card,
+.proof-card,
+.team-card {
+  background: oklch(from var(--color-surface) l c h / 0.64) !important;
+  backdrop-filter: blur(16px) saturate(1.35);
+  -webkit-backdrop-filter: blur(16px) saturate(1.35);
+  border: 1px solid oklch(from var(--color-text) l c h / 0.07) !important;
+  border-top: none !important;
+  box-shadow:
+    0 1px 0 oklch(1 0 0 / 0.08) inset,
+    0 4px 16px oklch(from var(--color-bg) 0.2 0 0 / 0.12),
+    0 1px 3px oklch(from var(--color-bg) 0.2 0 0 / 0.08);
+  transition: transform 220ms cubic-bezier(0.16,1,0.3,1),
+              box-shadow 220ms cubic-bezier(0.16,1,0.3,1);
+}
+
+/* 카드 상단: 색 구분 없이 2px 밝은 선 → 고급감 */
+.trinity-card::before,
+.timeline-card::before,
+.proof-card::before,
+.team-card::before {
+  content: '';
+  display: block;
+  height: 2px;
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  margin: 0;
+}
+.trinity-card:nth-child(1)::before {
+  background: linear-gradient(90deg in oklch, var(--jewel-sapphire), var(--jewel-amethyst));
+}
+.trinity-card:nth-child(2)::before {
+  background: linear-gradient(90deg in oklch, var(--jewel-amethyst), var(--jewel-fuchsia));
+}
+.trinity-card:nth-child(3)::before {
+  background: linear-gradient(90deg in oklch, var(--jewel-rose), var(--jewel-fuchsia));
+}
+
+/* 호버: 살짝 떠오름 + 글로우 */
+.trinity-card:hover,
+.proof-card:hover,
+.team-card:hover {
+  transform: translateY(-3px);
+  box-shadow:
+    0 1px 0 oklch(1 0 0 / 0.10) inset,
+    0 16px 48px oklch(from var(--color-primary) l c h / 0.14),
+    0 4px 12px oklch(from var(--color-bg) 0.2 0 0 / 0.10);
+}
+
+/* ── 8. Trinity char (큰 글자) — 각각 보석 톤 ── */
+.trinity-card:nth-child(1) .trinity-char {
+  background-image: linear-gradient(135deg in oklch, var(--jewel-sapphire), var(--jewel-amethyst));
+  background-clip: text; -webkit-background-clip: text;
+  color: transparent; -webkit-text-fill-color: transparent;
+}
+.trinity-card:nth-child(2) .trinity-char {
+  background-image: linear-gradient(135deg in oklch, var(--jewel-amethyst), var(--jewel-fuchsia));
+  background-clip: text; -webkit-background-clip: text;
+  color: transparent; -webkit-text-fill-color: transparent;
+}
+.trinity-card:nth-child(3) .trinity-char {
+  background-image: linear-gradient(135deg in oklch, var(--jewel-rose), var(--jewel-gold));
+  background-clip: text; -webkit-background-clip: text;
+  color: transparent; -webkit-text-fill-color: transparent;
+}
+
+/* ── 9. Badge — 보석 톤 pill (배경 낮은 투명도) ── */
+.badge-emerald {
+  color: var(--jewel-emerald) !important;
+  background: oklch(from var(--jewel-emerald) l c h / 0.10) !important;
+  border: 1px solid oklch(from var(--jewel-emerald) l c h / 0.26) !important;
+}
+.badge-burgundy {
+  color: var(--jewel-fuchsia) !important;
+  background: oklch(from var(--jewel-fuchsia) l c h / 0.10) !important;
+  border: 1px solid oklch(from var(--jewel-fuchsia) l c h / 0.26) !important;
+}
+.badge-gold {
+  color: var(--jewel-gold) !important;
+  background: oklch(from var(--jewel-gold) l c h / 0.10) !important;
+  border: 1px solid oklch(from var(--jewel-gold) l c h / 0.26) !important;
+}
+.badge-navy {
+  color: var(--jewel-sapphire) !important;
+  background: oklch(from var(--jewel-sapphire) l c h / 0.10) !important;
+  border: 1px solid oklch(from var(--jewel-sapphire) l c h / 0.22) !important;
+}
+
+/* ── 10. Timeline 노드 — 보석 그라디언트 원 ── */
+.timeline-node {
+  background: linear-gradient(135deg in oklch, var(--jewel-amethyst), var(--jewel-sapphire)) !important;
+  color: #fff !important;
+  box-shadow: 0 0 0 4px oklch(from var(--jewel-amethyst) l c h / 0.14);
+}
+
+/* ── 11. Team avatar — 각각 다른 보석 배경 ── */
+.team-card:nth-child(1) .team-avatar {
+  background: linear-gradient(135deg in oklch, var(--jewel-amethyst), var(--jewel-sapphire)) !important;
+  color: #fff !important;
+}
+.team-card:nth-child(2) .team-avatar {
+  background: linear-gradient(135deg in oklch, var(--jewel-aqua), var(--jewel-emerald)) !important;
+  color: #fff !important;
+}
+.team-card:nth-child(3) .team-avatar {
+  background: linear-gradient(135deg in oklch, var(--jewel-gold), var(--jewel-rose)) !important;
+  color: #fff !important;
+}
+.team-card:nth-child(1) .team-meta {
+  color: var(--jewel-amethyst) !important;
+}
+.team-card:nth-child(2) .team-meta {
+  color: var(--jewel-aqua) !important;
+}
+.team-card:nth-child(3) .team-meta {
+  color: var(--jewel-gold) !important;
+}
+
+/* ── 12. CTA 버튼 — 사파이어-에메랄드 그라디언트 (NO gradient — 고급은 단색) ── */
+.header-cta,
+.button-primary {
+  background: var(--jewel-amethyst) !important;
+  color: #fff !important;
+  border: none !important;
+  box-shadow: 0 4px 16px oklch(from var(--jewel-amethyst) l c h / 0.28);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+.header-cta:hover,
+.button-primary:hover {
+  background: color-mix(in oklch, var(--jewel-amethyst) 88%, white 12%) !important;
+  box-shadow: 0 6px 24px oklch(from var(--jewel-amethyst) l c h / 0.38);
+  transform: translateY(-1px);
+}
+
+/* ── 13. 구분선 (hairline) — 보석 무지개 ── */
+.hairline {
+  background: linear-gradient(
+    90deg in oklch,
+    transparent,
+    var(--jewel-sapphire),
+    var(--jewel-amethyst),
+    var(--jewel-fuchsia),
+    var(--jewel-rose),
+    var(--jewel-gold),
+    transparent
+  ) !important;
+  opacity: 0.45;
+  height: 1px;
+}
+
+/* ── 14. hero-bg — 보석 메시 글로우 ── */
+.hero-bg {
+  background-image:
+    radial-gradient(ellipse at 18% 32%, oklch(from var(--jewel-sapphire) l c h / 0.13), transparent 44%),
+    radial-gradient(ellipse at 82% 20%, oklch(from var(--jewel-fuchsia) l c h / 0.11), transparent 40%),
+    radial-gradient(ellipse at 72% 80%, oklch(from var(--jewel-aqua) l c h / 0.09), transparent 36%),
+    radial-gradient(ellipse at 28% 86%, oklch(from var(--jewel-gold) l c h / 0.08), transparent 34%) !important;
+  opacity: 0.80;
+}
+
+/* ── 15. footer title accent ── */
+.footer-title {
+  background-image: linear-gradient(90deg in oklch, var(--jewel-gold), var(--jewel-rose));
+  background-clip: text; -webkit-background-clip: text;
+  color: transparent !important; -webkit-text-fill-color: transparent;
+  display: inline-block;
+}
+
+/* ── 16. section-alt 배경 — 살짝 다른 바이올렛 틴트 ── */
+.section-alt {
+  background: color-mix(in oklch, var(--color-surface-2) 72%, oklch(from var(--jewel-amethyst) l c h / 0.04)) !important;
+}
+
+/* ── 17. venn SVG 원 — 보석 톤으로 업데이트 ── */
+circle[stroke="#8C74E8"] { stroke: var(--jewel-amethyst) !important; }
+circle[stroke="#6F52D9"] { stroke: var(--jewel-sapphire) !important; }
+circle[stroke="#B49AF8"] { stroke: var(--jewel-fuchsia) !important; }
+
+/* ── 18. selection 색상 ── */
+::selection {
+  background: oklch(from var(--jewel-amethyst) l c h / 0.24) !important;
+  color: var(--color-text);
+}
+
+/* ── 19. focus ring ── */
+:focus-visible {
+  outline-color: var(--jewel-sapphire) !important;
+}
+
+/* ── 20. 다크 모드 보정 — glass card 투명도 ── */
+[data-theme="dark"] .trinity-card,
+[data-theme="dark"] .timeline-card,
+[data-theme="dark"] .proof-card,
+[data-theme="dark"] .team-card {
+  background: oklch(from var(--color-surface) l c h / 0.56) !important;
+  border: 1px solid oklch(from var(--color-text) l c h / 0.10) !important;
+  border-top: none !important;
+}
+[data-theme="dark"] .stats-band {
+  background: oklch(from var(--color-surface) l c h / 0.46) !important;
+}
+
+/* ── 21. XRPL 다이어그램 — 보석 톤 스트로크 ── */
+[data-theme="dark"] .xrpl-diagram {
+  background: oklch(from var(--color-surface-2) l c h / 0.62) !important;
+  backdrop-filter: blur(12px);
+}
+
+/* ── 22. 버튼 링크 ── */
+.button-link {
+  color: var(--jewel-amethyst) !important;
+}
+.button-link:hover {
+  color: var(--jewel-fuchsia) !important;
+}
+[data-theme="dark"] .button-link {
+  color: var(--jewel-fuchsia) !important;
+}
+[data-theme="dark"] .button-link:hover {
+  color: var(--jewel-rose) !important;
+}
+
+/* ── 23. card heading — 미세 보석 틴트 ── */
+.trinity-card h3 {
+  color: color-mix(in oklch, var(--color-text) 78%, var(--jewel-sapphire) 22%);
+}
+.proof-card h3 {
+  color: color-mix(in oklch, var(--color-text) 78%, var(--jewel-fuchsia) 22%);
+}
+.team-card h3 {
+  color: color-mix(in oklch, var(--color-text) 80%, var(--jewel-amethyst) 20%);
+}
+
+/* ── 24. typography — 약간 더 강한 자간 for labels ── */
+.section-label,
+.hero-kicker,
+.timeline-step-label,
+.stat-label {
+  letter-spacing: 0.10em;
+  font-size: var(--text-xs);
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+/* ── 25. XRPL feature item heading ── */
+#xrpl .feature-item h3 {
+  color: color-mix(in oklch, var(--color-text) 74%, var(--jewel-aqua) 26%);
+}
+#xrpl .feature-item::before {
+  color: var(--jewel-aqua) !important;
+}
+
+/* 모바일: backdrop-filter 성능 보정 */
+@media (max-width: 768px) {
+  .trinity-card,
+  .timeline-card,
+  .proof-card,
+  .team-card {
+    backdrop-filter: blur(10px) saturate(1.2);
+    -webkit-backdrop-filter: blur(10px) saturate(1.2);
+  }
+}
+
+
+
+/* === v16 attached-image fixes === */
+/* 1. Trinity top labels were clipping vertically. Reduce size and add safe top padding. */
+.trinity-card {
+  padding-top: clamp(1.5rem, 2.2vw, 2.1rem) !important;
+  overflow: visible !important;
+}
+.trinity-char {
+  font-size: clamp(2rem, 1.55rem + 1.5vw, 2.8rem) !important;
+  line-height: 1.12 !important;
+  padding-top: 0.08em;
+  padding-bottom: 0.08em;
+  overflow: visible !important;
+}
+.trinity-roman {
+  font-size: clamp(1rem, 0.92rem + 0.35vw, 1.2rem) !important;
+  line-height: 1.2 !important;
+  padding-top: 0.08em;
+  padding-bottom: 0.08em;
+}
+
+/* 2. Section / proof headings clipping top and bottom. */
+.section-title,
+.proof-card h3,
+.timeline-card h3,
+.hero-title {
+  line-height: 1.12 !important;
+  padding-top: 0.08em;
+  padding-bottom: 0.08em;
+  overflow: visible !important;
+}
+.proof-card h3 {
+  font-size: clamp(1.85rem, 1.45rem + 1.1vw, 2.5rem) !important;
+}
+
+/* 3. Language-only display controls */
+html[data-lang="ko"] .lang-en,
+html[data-lang="en"] .lang-ko {
+  display: none !important;
+}
+html[data-lang="ko"] .lang-ko,
+html[data-lang="en"] .lang-en {
+  display: inline !important;
+}
+html[data-lang="ko"] .lang-ko.block,
+html[data-lang="en"] .lang-en.block {
+  display: block !important;
+}
+
+/* 4. If mixed bilingual headings were authored in one node, allow stacked spans only. */
+.bilingual-split > .lang-ko,
+.bilingual-split > .lang-en {
+  display: block;
+}
+html[data-lang="ko"] .bilingual-split > .lang-en,
+html[data-lang="en"] .bilingual-split > .lang-ko {
+  display: none !important;
+}
+
+
+/* ── FIX 4: 카드 h3 줄바꿈 정책 ── */
+.proof-card h3,
+.trinity-card h3 {
+  white-space: nowrap;
+  overflow: visible;
+  font-size: clamp(1rem, 0.88rem + 0.6vw, 1.25rem) !important;
+  letter-spacing: -0.01em;
+  max-width: none !important;
+}
+.timeline-card h3 {
+  white-space: normal;
+  font-size: clamp(1rem, 0.88rem + 0.6vw, 1.2rem) !important;
+  letter-spacing: -0.01em;
+  max-width: none !important;
+  word-break: keep-all;
+  overflow-wrap: break-word;
+}
+@media (max-width: 420px) {
+  .proof-card h3, .trinity-card h3 {
+    white-space: normal;
+    font-size: clamp(0.95rem, 0.82rem + 0.6vw, 1.15rem) !important;
+  }
+}
+
+/* ── FIX: timeline 2열 겹침 방지 ── */
+.timeline {
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  gap: clamp(1.5rem, 3vw, 2.5rem) !important;
+  align-items: stretch;
+}
+.timeline-step {
+  min-width: 0;
+  overflow: visible;
+}
+.timeline-card {
+  min-width: 0;
+  overflow: hidden;
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+}
+@media (max-width: 767px) {
+  .timeline {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* ── FIX 5b: 카드 내부 h3·hairline·본문 간격 ── */
+.trinity-card h3,
+.proof-card h3,
+.timeline-card h3 {
+  margin-bottom: 0.65rem !important;
+}
+.trinity-card .hairline,
+.proof-card .hairline,
+.timeline-card .hairline {
+  margin-block: 0.85rem 0.85rem !important;
+}
+.trinity-card p,
+.proof-card p,
+.timeline-card p {
+  line-height: 1.75 !important;
+  margin-top: 0.3rem !important;
+}
+.trinity-card-top {
+  padding-bottom: 0.5rem !important;
+  margin-bottom: 0.3rem !important;
+}
+
+/* ── FIX 6: 영문 2면 — 국문 한글(조리/법리/자치) 및 로마자 숨김 ── */
+html[lang="en"] .trinity-char,
+html[data-lang="en"] .trinity-char,
+html[lang="en"] .trinity-roman,
+html[data-lang="en"] .trinity-roman,
+html[lang="en"] .trinity-hanja,
+html[data-lang="en"] .trinity-hanja {
+  display: none !important;
+}
+
+
+/* ── FIX v19: 2면 trinity-card 상단 여백 확보 (윗선 글자 붙음 해소) ── */
+.trinity-card {
+  padding-top: clamp(1.5rem, 2.5vw, 2rem) !important;
+}
+.trinity-card > .trinity-card-top {
+  margin-top: 0.25rem;
+  padding-top: 0.5rem;
+  align-items: center;
+}
+.trinity-card .trinity-char {
+  line-height: 1.15;
+  padding-top: 0.1em;
+}
+
+
+/* ── FIX v20: 2·5·6면 박스별 은은한 색감 부여 ── */
+
+/* === 2면 Trinity: 법리 / 조리 / 자치 (순서) — 사파이어 / 자수정 / 에메랄드 === */
+.trinity-card:nth-of-type(1) {
+  background:
+    linear-gradient(180deg,
+      color-mix(in oklch, var(--jewel-sapphire, #4b7bd6) 8%, transparent) 0%,
+      transparent 38%),
+    oklch(from var(--color-surface) l c h / 0.66) !important;
+  border-color: color-mix(in oklch, var(--jewel-sapphire, #4b7bd6) 22%, var(--color-border)) !important;
+}
+.trinity-card:nth-of-type(2) {
+  background:
+    linear-gradient(180deg,
+      color-mix(in oklch, var(--jewel-amethyst, #9b6bd6) 8%, transparent) 0%,
+      transparent 38%),
+    oklch(from var(--color-surface) l c h / 0.66) !important;
+  border-color: color-mix(in oklch, var(--jewel-amethyst, #9b6bd6) 22%, var(--color-border)) !important;
+}
+.trinity-card:nth-of-type(3) {
+  background:
+    linear-gradient(180deg,
+      color-mix(in oklch, var(--jewel-emerald, #3fb28a) 7%, transparent) 0%,
+      transparent 38%),
+    oklch(from var(--color-surface) l c h / 0.66) !important;
+  border-color: color-mix(in oklch, var(--jewel-emerald, #3fb28a) 22%, var(--color-border)) !important;
+}
+
+/* === 5면 Proof — 아쿠아 / 사파이어 / 자수정 / 골드 === */
+.proof-card:nth-of-type(1) {
+  background:
+    linear-gradient(180deg,
+      color-mix(in oklch, var(--jewel-aqua, #4fc5c0) 7%, transparent) 0%,
+      transparent 40%),
+    oklch(from var(--color-surface) l c h / 0.66) !important;
+  border-color: color-mix(in oklch, var(--jewel-aqua, #4fc5c0) 22%, var(--color-border)) !important;
+}
+.proof-card:nth-of-type(2) {
+  background:
+    linear-gradient(180deg,
+      color-mix(in oklch, var(--jewel-sapphire, #4b7bd6) 7%, transparent) 0%,
+      transparent 40%),
+    oklch(from var(--color-surface) l c h / 0.66) !important;
+  border-color: color-mix(in oklch, var(--jewel-sapphire, #4b7bd6) 22%, var(--color-border)) !important;
+}
+.proof-card:nth-of-type(3) {
+  background:
+    linear-gradient(180deg,
+      color-mix(in oklch, var(--jewel-amethyst, #9b6bd6) 7%, transparent) 0%,
+      transparent 40%),
+    oklch(from var(--color-surface) l c h / 0.66) !important;
+  border-color: color-mix(in oklch, var(--jewel-amethyst, #9b6bd6) 22%, var(--color-border)) !important;
+}
+.proof-card:nth-of-type(4) {
+  background:
+    linear-gradient(180deg,
+      color-mix(in oklch, var(--jewel-gold, #d9b062) 8%, transparent) 0%,
+      transparent 40%),
+    oklch(from var(--color-surface) l c h / 0.66) !important;
+  border-color: color-mix(in oklch, var(--jewel-gold, #d9b062) 22%, var(--color-border)) !important;
+}
+
+/* === 6면 Team — 로즈 / 푸시아 / 사파이어 / 에메랄드 / 골드 (순환) === */
+.team-card:nth-of-type(5n+1) {
+  background:
+    linear-gradient(180deg,
+      color-mix(in oklch, var(--jewel-rose, #d97a96) 7%, transparent) 0%,
+      transparent 42%),
+    oklch(from var(--color-surface) l c h / 0.66) !important;
+  border-color: color-mix(in oklch, var(--jewel-rose, #d97a96) 22%, var(--color-border)) !important;
+}
+.team-card:nth-of-type(5n+2) {
+  background:
+    linear-gradient(180deg,
+      color-mix(in oklch, var(--jewel-fuchsia, #c85db0) 7%, transparent) 0%,
+      transparent 42%),
+    oklch(from var(--color-surface) l c h / 0.66) !important;
+  border-color: color-mix(in oklch, var(--jewel-fuchsia, #c85db0) 22%, var(--color-border)) !important;
+}
+.team-card:nth-of-type(5n+3) {
+  background:
+    linear-gradient(180deg,
+      color-mix(in oklch, var(--jewel-sapphire, #4b7bd6) 7%, transparent) 0%,
+      transparent 42%),
+    oklch(from var(--color-surface) l c h / 0.66) !important;
+  border-color: color-mix(in oklch, var(--jewel-sapphire, #4b7bd6) 22%, var(--color-border)) !important;
+}
+.team-card:nth-of-type(5n+4) {
+  background:
+    linear-gradient(180deg,
+      color-mix(in oklch, var(--jewel-emerald, #3fb28a) 7%, transparent) 0%,
+      transparent 42%),
+    oklch(from var(--color-surface) l c h / 0.66) !important;
+  border-color: color-mix(in oklch, var(--jewel-emerald, #3fb28a) 22%, var(--color-border)) !important;
+}
+.team-card:nth-of-type(5n+5) {
+  background:
+    linear-gradient(180deg,
+      color-mix(in oklch, var(--jewel-gold, #d9b062) 7%, transparent) 0%,
+      transparent 42%),
+    oklch(from var(--color-surface) l c h / 0.66) !important;
+  border-color: color-mix(in oklch, var(--jewel-gold, #d9b062) 22%, var(--color-border)) !important;
+}
+
+/* 다크모드 — 톤을 약간 더 진하게 */
+[data-theme="dark"] .trinity-card:nth-of-type(1),
+[data-theme="dark"] .proof-card:nth-of-type(2),
+[data-theme="dark"] .team-card:nth-of-type(5n+3) {
+  background:
+    linear-gradient(180deg,
+      color-mix(in oklch, var(--jewel-sapphire, #4b7bd6) 14%, transparent) 0%,
+      transparent 45%),
+    oklch(from var(--color-surface) l c h / 0.58) !important;
+}
+[data-theme="dark"] .trinity-card:nth-of-type(2),
+[data-theme="dark"] .proof-card:nth-of-type(3) {
+  background:
+    linear-gradient(180deg,
+      color-mix(in oklch, var(--jewel-amethyst, #9b6bd6) 14%, transparent) 0%,
+      transparent 45%),
+    oklch(from var(--color-surface) l c h / 0.58) !important;
+}
+[data-theme="dark"] .trinity-card:nth-of-type(3),
+[data-theme="dark"] .team-card:nth-of-type(5n+4) {
+  background:
+    linear-gradient(180deg,
+      color-mix(in oklch, var(--jewel-emerald, #3fb28a) 13%, transparent) 0%,
+      transparent 45%),
+    oklch(from var(--color-surface) l c h / 0.58) !important;
+}
+[data-theme="dark"] .proof-card:nth-of-type(1) {
+  background:
+    linear-gradient(180deg,
+      color-mix(in oklch, var(--jewel-aqua, #4fc5c0) 13%, transparent) 0%,
+      transparent 45%),
+    oklch(from var(--color-surface) l c h / 0.58) !important;
+}
+[data-theme="dark"] .proof-card:nth-of-type(4),
+[data-theme="dark"] .team-card:nth-of-type(5n+5) {
+  background:
+    linear-gradient(180deg,
+      color-mix(in oklch, var(--jewel-gold, #d9b062) 14%, transparent) 0%,
+      transparent 45%),
+    oklch(from var(--color-surface) l c h / 0.58) !important;
+}
+[data-theme="dark"] .team-card:nth-of-type(5n+1) {
+  background:
+    linear-gradient(180deg,
+      color-mix(in oklch, var(--jewel-rose, #d97a96) 13%, transparent) 0%,
+      transparent 45%),
+    oklch(from var(--color-surface) l c h / 0.58) !important;
+}
+[data-theme="dark"] .team-card:nth-of-type(5n+2) {
+  background:
+    linear-gradient(180deg,
+      color-mix(in oklch, var(--jewel-fuchsia, #c85db0) 13%, transparent) 0%,
+      transparent 45%),
+    oklch(from var(--color-surface) l c h / 0.58) !important;
+}
+
+
+/* ── FIX v21: 박스 색 구분 강화 ── */
+
+/* === 2면 Trinity === */
+.trinity-card:nth-of-type(1) {
+  background:
+    linear-gradient(160deg,
+      color-mix(in oklch, var(--jewel-sapphire, #4b7bd6) 22%, transparent) 0%,
+      color-mix(in oklch, var(--jewel-sapphire, #4b7bd6) 6%, transparent) 55%,
+      transparent 100%),
+    oklch(from var(--color-surface) l c h / 0.72) !important;
+  border-color: color-mix(in oklch, var(--jewel-sapphire, #4b7bd6) 45%, var(--color-border)) !important;
+}
+.trinity-card:nth-of-type(2) {
+  background:
+    linear-gradient(160deg,
+      color-mix(in oklch, var(--jewel-amethyst, #9b6bd6) 22%, transparent) 0%,
+      color-mix(in oklch, var(--jewel-amethyst, #9b6bd6) 6%, transparent) 55%,
+      transparent 100%),
+    oklch(from var(--color-surface) l c h / 0.72) !important;
+  border-color: color-mix(in oklch, var(--jewel-amethyst, #9b6bd6) 45%, var(--color-border)) !important;
+}
+.trinity-card:nth-of-type(3) {
+  background:
+    linear-gradient(160deg,
+      color-mix(in oklch, var(--jewel-emerald, #3fb28a) 20%, transparent) 0%,
+      color-mix(in oklch, var(--jewel-emerald, #3fb28a) 6%, transparent) 55%,
+      transparent 100%),
+    oklch(from var(--color-surface) l c h / 0.72) !important;
+  border-color: color-mix(in oklch, var(--jewel-emerald, #3fb28a) 42%, var(--color-border)) !important;
+}
+
+/* === 5면 Proof === */
+.proof-card:nth-of-type(1) {
+  background:
+    linear-gradient(160deg,
+      color-mix(in oklch, var(--jewel-aqua, #4fc5c0) 20%, transparent) 0%,
+      color-mix(in oklch, var(--jewel-aqua, #4fc5c0) 5%, transparent) 55%,
+      transparent 100%),
+    oklch(from var(--color-surface) l c h / 0.72) !important;
+  border-color: color-mix(in oklch, var(--jewel-aqua, #4fc5c0) 42%, var(--color-border)) !important;
+}
+.proof-card:nth-of-type(2) {
+  background:
+    linear-gradient(160deg,
+      color-mix(in oklch, var(--jewel-sapphire, #4b7bd6) 20%, transparent) 0%,
+      color-mix(in oklch, var(--jewel-sapphire, #4b7bd6) 5%, transparent) 55%,
+      transparent 100%),
+    oklch(from var(--color-surface) l c h / 0.72) !important;
+  border-color: color-mix(in oklch, var(--jewel-sapphire, #4b7bd6) 42%, var(--color-border)) !important;
+}
+.proof-card:nth-of-type(3) {
+  background:
+    linear-gradient(160deg,
+      color-mix(in oklch, var(--jewel-amethyst, #9b6bd6) 20%, transparent) 0%,
+      color-mix(in oklch, var(--jewel-amethyst, #9b6bd6) 5%, transparent) 55%,
+      transparent 100%),
+    oklch(from var(--color-surface) l c h / 0.72) !important;
+  border-color: color-mix(in oklch, var(--jewel-amethyst, #9b6bd6) 42%, var(--color-border)) !important;
+}
+.proof-card:nth-of-type(4) {
+  background:
+    linear-gradient(160deg,
+      color-mix(in oklch, var(--jewel-gold, #d9b062) 22%, transparent) 0%,
+      color-mix(in oklch, var(--jewel-gold, #d9b062) 6%, transparent) 55%,
+      transparent 100%),
+    oklch(from var(--color-surface) l c h / 0.72) !important;
+  border-color: color-mix(in oklch, var(--jewel-gold, #d9b062) 45%, var(--color-border)) !important;
+}
+
+/* === 6면 Team === */
+.team-card:nth-of-type(5n+1) {
+  background:
+    linear-gradient(160deg,
+      color-mix(in oklch, var(--jewel-rose, #d97a96) 20%, transparent) 0%,
+      color-mix(in oklch, var(--jewel-rose, #d97a96) 5%, transparent) 55%,
+      transparent 100%),
+    oklch(from var(--color-surface) l c h / 0.72) !important;
+  border-color: color-mix(in oklch, var(--jewel-rose, #d97a96) 42%, var(--color-border)) !important;
+}
+.team-card:nth-of-type(5n+2) {
+  background:
+    linear-gradient(160deg,
+      color-mix(in oklch, var(--jewel-fuchsia, #c85db0) 20%, transparent) 0%,
+      color-mix(in oklch, var(--jewel-fuchsia, #c85db0) 5%, transparent) 55%,
+      transparent 100%),
+    oklch(from var(--color-surface) l c h / 0.72) !important;
+  border-color: color-mix(in oklch, var(--jewel-fuchsia, #c85db0) 42%, var(--color-border)) !important;
+}
+.team-card:nth-of-type(5n+3) {
+  background:
+    linear-gradient(160deg,
+      color-mix(in oklch, var(--jewel-sapphire, #4b7bd6) 20%, transparent) 0%,
+      color-mix(in oklch, var(--jewel-sapphire, #4b7bd6) 5%, transparent) 55%,
+      transparent 100%),
+    oklch(from var(--color-surface) l c h / 0.72) !important;
+  border-color: color-mix(in oklch, var(--jewel-sapphire, #4b7bd6) 42%, var(--color-border)) !important;
+}
+.team-card:nth-of-type(5n+4) {
+  background:
+    linear-gradient(160deg,
+      color-mix(in oklch, var(--jewel-emerald, #3fb28a) 20%, transparent) 0%,
+      color-mix(in oklch, var(--jewel-emerald, #3fb28a) 5%, transparent) 55%,
+      transparent 100%),
+    oklch(from var(--color-surface) l c h / 0.72) !important;
+  border-color: color-mix(in oklch, var(--jewel-emerald, #3fb28a) 42%, var(--color-border)) !important;
+}
+.team-card:nth-of-type(5n+5) {
+  background:
+    linear-gradient(160deg,
+      color-mix(in oklch, var(--jewel-gold, #d9b062) 22%, transparent) 0%,
+      color-mix(in oklch, var(--jewel-gold, #d9b062) 6%, transparent) 55%,
+      transparent 100%),
+    oklch(from var(--color-surface) l c h / 0.72) !important;
+  border-color: color-mix(in oklch, var(--jewel-gold, #d9b062) 45%, var(--color-border)) !important;
+}
+
+/* 다크모드 — 어두운 배경에서도 명확히 구분 */
+[data-theme="dark"] .trinity-card:nth-of-type(1) {
+  background:
+    linear-gradient(160deg,
+      color-mix(in oklch, var(--jewel-sapphire, #4b7bd6) 32%, transparent) 0%,
+      color-mix(in oklch, var(--jewel-sapphire, #4b7bd6) 10%, transparent) 55%,
+      transparent 100%),
+    oklch(from var(--color-surface) l c h / 0.6) !important;
+}
+[data-theme="dark"] .trinity-card:nth-of-type(2) {
+  background:
+    linear-gradient(160deg,
+      color-mix(in oklch, var(--jewel-amethyst, #9b6bd6) 34%, transparent) 0%,
+      color-mix(in oklch, var(--jewel-amethyst, #9b6bd6) 10%, transparent) 55%,
+      transparent 100%),
+    oklch(from var(--color-surface) l c h / 0.6) !important;
+}
+[data-theme="dark"] .trinity-card:nth-of-type(3) {
+  background:
+    linear-gradient(160deg,
+      color-mix(in oklch, var(--jewel-emerald, #3fb28a) 30%, transparent) 0%,
+      color-mix(in oklch, var(--jewel-emerald, #3fb28a) 10%, transparent) 55%,
+      transparent 100%),
+    oklch(from var(--color-surface) l c h / 0.6) !important;
+}
+[data-theme="dark"] .proof-card:nth-of-type(1) {
+  background:
+    linear-gradient(160deg,
+      color-mix(in oklch, var(--jewel-aqua, #4fc5c0) 30%, transparent) 0%,
+      color-mix(in oklch, var(--jewel-aqua, #4fc5c0) 9%, transparent) 55%,
+      transparent 100%),
+    oklch(from var(--color-surface) l c h / 0.6) !important;
+}
+[data-theme="dark"] .proof-card:nth-of-type(2) {
+  background:
+    linear-gradient(160deg,
+      color-mix(in oklch, var(--jewel-sapphire, #4b7bd6) 32%, transparent) 0%,
+      color-mix(in oklch, var(--jewel-sapphire, #4b7bd6) 10%, transparent) 55%,
+      transparent 100%),
+    oklch(from var(--color-surface) l c h / 0.6) !important;
+}
+[data-theme="dark"] .proof-card:nth-of-type(3) {
+  background:
+    linear-gradient(160deg,
+      color-mix(in oklch, var(--jewel-amethyst, #9b6bd6) 32%, transparent) 0%,
+      color-mix(in oklch, var(--jewel-amethyst, #9b6bd6) 10%, transparent) 55%,
+      transparent 100%),
+    oklch(from var(--color-surface) l c h / 0.6) !important;
+}
+[data-theme="dark"] .proof-card:nth-of-type(4) {
+  background:
+    linear-gradient(160deg,
+      color-mix(in oklch, var(--jewel-gold, #d9b062) 34%, transparent) 0%,
+      color-mix(in oklch, var(--jewel-gold, #d9b062) 10%, transparent) 55%,
+      transparent 100%),
+    oklch(from var(--color-surface) l c h / 0.6) !important;
+}
+[data-theme="dark"] .team-card:nth-of-type(5n+1) {
+  background:
+    linear-gradient(160deg,
+      color-mix(in oklch, var(--jewel-rose, #d97a96) 30%, transparent) 0%,
+      color-mix(in oklch, var(--jewel-rose, #d97a96) 9%, transparent) 55%,
+      transparent 100%),
+    oklch(from var(--color-surface) l c h / 0.6) !important;
+}
+[data-theme="dark"] .team-card:nth-of-type(5n+2) {
+  background:
+    linear-gradient(160deg,
+      color-mix(in oklch, var(--jewel-fuchsia, #c85db0) 30%, transparent) 0%,
+      color-mix(in oklch, var(--jewel-fuchsia, #c85db0) 9%, transparent) 55%,
+      transparent 100%),
+    oklch(from var(--color-surface) l c h / 0.6) !important;
+}
+[data-theme="dark"] .team-card:nth-of-type(5n+3) {
+  background:
+    linear-gradient(160deg,
+      color-mix(in oklch, var(--jewel-sapphire, #4b7bd6) 32%, transparent) 0%,
+      color-mix(in oklch, var(--jewel-sapphire, #4b7bd6) 10%, transparent) 55%,
+      transparent 100%),
+    oklch(from var(--color-surface) l c h / 0.6) !important;
+}
+[data-theme="dark"] .team-card:nth-of-type(5n+4) {
+  background:
+    linear-gradient(160deg,
+      color-mix(in oklch, var(--jewel-emerald, #3fb28a) 30%, transparent) 0%,
+      color-mix(in oklch, var(--jewel-emerald, #3fb28a) 9%, transparent) 55%,
+      transparent 100%),
+    oklch(from var(--color-surface) l c h / 0.6) !important;
+}
+[data-theme="dark"] .team-card:nth-of-type(5n+5) {
+  background:
+    linear-gradient(160deg,
+      color-mix(in oklch, var(--jewel-gold, #d9b062) 34%, transparent) 0%,
+      color-mix(in oklch, var(--jewel-gold, #d9b062) 10%, transparent) 55%,
+      transparent 100%),
+    oklch(from var(--color-surface) l c h / 0.6) !important;
+}
+
+
+/* ── FIX v22: 3면 타임라인 카드 색감 + 각 섹션 배경 농도 구분 ── */
+
+/* === 3면 Timeline — Step1: 사파이어, Step2(DAY22~35): 골드 === */
+.timeline-step:nth-of-type(1) .timeline-card {
+  background:
+    linear-gradient(160deg,
+      color-mix(in oklch, var(--jewel-sapphire, #4b7bd6) 20%, transparent) 0%,
+      color-mix(in oklch, var(--jewel-sapphire, #4b7bd6) 5%, transparent) 55%,
+      transparent 100%),
+    oklch(from var(--color-surface) l c h / 0.72) !important;
+  border-color: color-mix(in oklch, var(--jewel-sapphire, #4b7bd6) 42%, var(--color-border)) !important;
+}
+.timeline-step:nth-of-type(2) .timeline-card {
+  background:
+    linear-gradient(160deg,
+      color-mix(in oklch, var(--jewel-gold, #d9b062) 22%, transparent) 0%,
+      color-mix(in oklch, var(--jewel-gold, #d9b062) 6%, transparent) 55%,
+      transparent 100%),
+    oklch(from var(--color-surface) l c h / 0.72) !important;
+  border-color: color-mix(in oklch, var(--jewel-gold, #d9b062) 45%, var(--color-border)) !important;
+}
+[data-theme="dark"] .timeline-step:nth-of-type(1) .timeline-card {
+  background:
+    linear-gradient(160deg,
+      color-mix(in oklch, var(--jewel-sapphire, #4b7bd6) 32%, transparent) 0%,
+      color-mix(in oklch, var(--jewel-sapphire, #4b7bd6) 10%, transparent) 55%,
+      transparent 100%),
+    oklch(from var(--color-surface) l c h / 0.6) !important;
+}
+[data-theme="dark"] .timeline-step:nth-of-type(2) .timeline-card {
+  background:
+    linear-gradient(160deg,
+      color-mix(in oklch, var(--jewel-gold, #d9b062) 34%, transparent) 0%,
+      color-mix(in oklch, var(--jewel-gold, #d9b062) 10%, transparent) 55%,
+      transparent 100%),
+    oklch(from var(--color-surface) l c h / 0.6) !important;
+}
+
+/* === 페이지별 배경 농도 차등 — 라이트모드 === */
+/* 1면 Hero: 기본 배경 (가장 옅음) */
+#hero {
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 20%,
+      color-mix(in oklch, var(--jewel-amethyst, #9b6bd6) 6%, transparent) 0%,
+      transparent 70%),
+    var(--color-bg);
+}
+/* 2면 Trinity: 자수정 기조 */
+#trinity {
+  background:
+    radial-gradient(ellipse 90% 70% at 30% 30%,
+      color-mix(in oklch, var(--jewel-amethyst, #9b6bd6) 10%, transparent) 0%,
+      transparent 65%),
+    radial-gradient(ellipse 70% 60% at 80% 80%,
+      color-mix(in oklch, var(--jewel-sapphire, #4b7bd6) 8%, transparent) 0%,
+      transparent 65%),
+    var(--color-bg) !important;
+}
+/* 3면 How: 사파이어 기조 */
+#how {
+  background:
+    radial-gradient(ellipse 90% 70% at 70% 20%,
+      color-mix(in oklch, var(--jewel-sapphire, #4b7bd6) 11%, transparent) 0%,
+      transparent 65%),
+    radial-gradient(ellipse 70% 60% at 20% 80%,
+      color-mix(in oklch, var(--jewel-aqua, #4fc5c0) 8%, transparent) 0%,
+      transparent 65%),
+    var(--color-bg) !important;
+}
+/* 4면 XRPL: 에메랄드 기조 */
+#xrpl {
+  background:
+    radial-gradient(ellipse 90% 70% at 25% 25%,
+      color-mix(in oklch, var(--jewel-emerald, #3fb28a) 10%, transparent) 0%,
+      transparent 65%),
+    radial-gradient(ellipse 70% 60% at 80% 75%,
+      color-mix(in oklch, var(--jewel-aqua, #4fc5c0) 8%, transparent) 0%,
+      transparent 65%),
+    var(--color-bg) !important;
+}
+/* 5면 Proof: 골드 기조 */
+#proof {
+  background:
+    radial-gradient(ellipse 90% 70% at 75% 25%,
+      color-mix(in oklch, var(--jewel-gold, #d9b062) 11%, transparent) 0%,
+      transparent 65%),
+    radial-gradient(ellipse 70% 60% at 20% 80%,
+      color-mix(in oklch, var(--jewel-amethyst, #9b6bd6) 8%, transparent) 0%,
+      transparent 65%),
+    var(--color-bg) !important;
+}
+/* 6면 Team: 로즈+푸시아 기조 */
+#team {
+  background:
+    radial-gradient(ellipse 90% 70% at 30% 30%,
+      color-mix(in oklch, var(--jewel-rose, #d97a96) 10%, transparent) 0%,
+      transparent 65%),
+    radial-gradient(ellipse 70% 60% at 80% 75%,
+      color-mix(in oklch, var(--jewel-fuchsia, #c85db0) 9%, transparent) 0%,
+      transparent 65%),
+    var(--color-bg) !important;
+}
+
+/* === 페이지별 배경 농도 — 다크모드 === */
+[data-theme="dark"] #hero {
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 20%,
+      color-mix(in oklch, var(--jewel-amethyst, #9b6bd6) 14%, transparent) 0%,
+      transparent 70%),
+    var(--color-bg);
+}
+[data-theme="dark"] #trinity {
+  background:
+    radial-gradient(ellipse 90% 70% at 30% 30%,
+      color-mix(in oklch, var(--jewel-amethyst, #9b6bd6) 22%, transparent) 0%,
+      transparent 65%),
+    radial-gradient(ellipse 70% 60% at 80% 80%,
+      color-mix(in oklch, var(--jewel-sapphire, #4b7bd6) 16%, transparent) 0%,
+      transparent 65%),
+    var(--color-bg) !important;
+}
+[data-theme="dark"] #how {
+  background:
+    radial-gradient(ellipse 90% 70% at 70% 20%,
+      color-mix(in oklch, var(--jewel-sapphire, #4b7bd6) 22%, transparent) 0%,
+      transparent 65%),
+    radial-gradient(ellipse 70% 60% at 20% 80%,
+      color-mix(in oklch, var(--jewel-aqua, #4fc5c0) 16%, transparent) 0%,
+      transparent 65%),
+    var(--color-bg) !important;
+}
+[data-theme="dark"] #xrpl {
+  background:
+    radial-gradient(ellipse 90% 70% at 25% 25%,
+      color-mix(in oklch, var(--jewel-emerald, #3fb28a) 20%, transparent) 0%,
+      transparent 65%),
+    radial-gradient(ellipse 70% 60% at 80% 75%,
+      color-mix(in oklch, var(--jewel-aqua, #4fc5c0) 16%, transparent) 0%,
+      transparent 65%),
+    var(--color-bg) !important;
+}
+[data-theme="dark"] #proof {
+  background:
+    radial-gradient(ellipse 90% 70% at 75% 25%,
+      color-mix(in oklch, var(--jewel-gold, #d9b062) 22%, transparent) 0%,
+      transparent 65%),
+    radial-gradient(ellipse 70% 60% at 20% 80%,
+      color-mix(in oklch, var(--jewel-amethyst, #9b6bd6) 16%, transparent) 0%,
+      transparent 65%),
+    var(--color-bg) !important;
+}
+[data-theme="dark"] #team {
+  background:
+    radial-gradient(ellipse 90% 70% at 30% 30%,
+      color-mix(in oklch, var(--jewel-rose, #d97a96) 20%, transparent) 0%,
+      transparent 65%),
+    radial-gradient(ellipse 70% 60% at 80% 75%,
+      color-mix(in oklch, var(--jewel-fuchsia, #c85db0) 18%, transparent) 0%,
+      transparent 65%),
+    var(--color-bg) !important;
+}
+
+
+/* ── FIX v23: 페이지별 전체 배경 색감 대폭 강화 (특히 라이트모드) ── */
+
+/* 라이트모드 — solid base color tint per section, 강도 극대화 */
+:root, [data-theme="light"] {
+  --bg-hero:    #F4EFFB;  /* 옅은 라벤더 */
+  --bg-trinity: #ECE3F7;  /* 자수정 톤 */
+  --bg-how:     #E1ECF8;  /* 사파이어 톤 */
+  --bg-xrpl:    #E1F3EC;  /* 에메랄드 톤 */
+  --bg-proof:   #F7EFDF;  /* 골드 톤 */
+  --bg-team:    #F8E6EE;  /* 로즈 톤 */
+}
+
+#hero    { background: var(--bg-hero) !important; }
+#trinity { background: var(--bg-trinity) !important; }
+#how     { background: var(--bg-how) !important; }
+#xrpl    { background: var(--bg-xrpl) !important; }
+#proof   { background: var(--bg-proof) !important; }
+#team    { background: var(--bg-team) !important; }
+
+/* 라이트모드 — radial 강조 오버레이 */
+#trinity {
+  background:
+    radial-gradient(ellipse 90% 70% at 25% 25%,
+      color-mix(in oklch, var(--jewel-amethyst, #9b6bd6) 22%, transparent) 0%,
+      transparent 60%),
+    radial-gradient(ellipse 70% 60% at 85% 85%,
+      color-mix(in oklch, var(--jewel-sapphire, #4b7bd6) 16%, transparent) 0%,
+      transparent 60%),
+    var(--bg-trinity) !important;
+}
+#how {
+  background:
+    radial-gradient(ellipse 90% 70% at 75% 20%,
+      color-mix(in oklch, var(--jewel-sapphire, #4b7bd6) 24%, transparent) 0%,
+      transparent 60%),
+    radial-gradient(ellipse 70% 60% at 15% 85%,
+      color-mix(in oklch, var(--jewel-aqua, #4fc5c0) 18%, transparent) 0%,
+      transparent 60%),
+    var(--bg-how) !important;
+}
+#xrpl {
+  background:
+    radial-gradient(ellipse 90% 70% at 20% 25%,
+      color-mix(in oklch, var(--jewel-emerald, #3fb28a) 22%, transparent) 0%,
+      transparent 60%),
+    radial-gradient(ellipse 70% 60% at 85% 75%,
+      color-mix(in oklch, var(--jewel-aqua, #4fc5c0) 18%, transparent) 0%,
+      transparent 60%),
+    var(--bg-xrpl) !important;
+}
+#proof {
+  background:
+    radial-gradient(ellipse 90% 70% at 80% 20%,
+      color-mix(in oklch, var(--jewel-gold, #d9b062) 26%, transparent) 0%,
+      transparent 60%),
+    radial-gradient(ellipse 70% 60% at 15% 85%,
+      color-mix(in oklch, var(--jewel-amethyst, #9b6bd6) 16%, transparent) 0%,
+      transparent 60%),
+    var(--bg-proof) !important;
+}
+#team {
+  background:
+    radial-gradient(ellipse 90% 70% at 25% 30%,
+      color-mix(in oklch, var(--jewel-rose, #d97a96) 24%, transparent) 0%,
+      transparent 60%),
+    radial-gradient(ellipse 70% 60% at 85% 80%,
+      color-mix(in oklch, var(--jewel-fuchsia, #c85db0) 20%, transparent) 0%,
+      transparent 60%),
+    var(--bg-team) !important;
+}
+
+/* 다크모드 — 섹션별 확연한 톤 차이 (라벤더 베이스 위에 짙은 jewel 오버레이) */
+[data-theme="dark"] {
+  --bg-hero-dk:    #1B1028;  /* 기본 보라 */
+  --bg-trinity-dk: #1F1130;  /* 자수정 deep */
+  --bg-how-dk:     #141a38;  /* 사파이어 deep */
+  --bg-xrpl-dk:    #0f2a26;  /* 에메랄드 deep */
+  --bg-proof-dk:   #2a1f10;  /* 골드 deep */
+  --bg-team-dk:    #2a1424;  /* 로즈 deep */
+}
+
+[data-theme="dark"] #hero    { background: var(--bg-hero-dk) !important; }
+[data-theme="dark"] #trinity {
+  background:
+    radial-gradient(ellipse 90% 70% at 25% 25%,
+      color-mix(in oklch, var(--jewel-amethyst, #9b6bd6) 32%, transparent) 0%,
+      transparent 60%),
+    radial-gradient(ellipse 70% 60% at 85% 85%,
+      color-mix(in oklch, var(--jewel-sapphire, #4b7bd6) 24%, transparent) 0%,
+      transparent 60%),
+    var(--bg-trinity-dk) !important;
+}
+[data-theme="dark"] #how {
+  background:
+    radial-gradient(ellipse 90% 70% at 75% 20%,
+      color-mix(in oklch, var(--jewel-sapphire, #4b7bd6) 34%, transparent) 0%,
+      transparent 60%),
+    radial-gradient(ellipse 70% 60% at 15% 85%,
+      color-mix(in oklch, var(--jewel-aqua, #4fc5c0) 24%, transparent) 0%,
+      transparent 60%),
+    var(--bg-how-dk) !important;
+}
+[data-theme="dark"] #xrpl {
+  background:
+    radial-gradient(ellipse 90% 70% at 20% 25%,
+      color-mix(in oklch, var(--jewel-emerald, #3fb28a) 32%, transparent) 0%,
+      transparent 60%),
+    radial-gradient(ellipse 70% 60% at 85% 75%,
+      color-mix(in oklch, var(--jewel-aqua, #4fc5c0) 24%, transparent) 0%,
+      transparent 60%),
+    var(--bg-xrpl-dk) !important;
+}
+[data-theme="dark"] #proof {
+  background:
+    radial-gradient(ellipse 90% 70% at 80% 20%,
+      color-mix(in oklch, var(--jewel-gold, #d9b062) 34%, transparent) 0%,
+      transparent 60%),
+    radial-gradient(ellipse 70% 60% at 15% 85%,
+      color-mix(in oklch, var(--jewel-amethyst, #9b6bd6) 22%, transparent) 0%,
+      transparent 60%),
+    var(--bg-proof-dk) !important;
+}
+[data-theme="dark"] #team {
+  background:
+    radial-gradient(ellipse 90% 70% at 25% 30%,
+      color-mix(in oklch, var(--jewel-rose, #d97a96) 32%, transparent) 0%,
+      transparent 60%),
+    radial-gradient(ellipse 70% 60% at 85% 80%,
+      color-mix(in oklch, var(--jewel-fuchsia, #c85db0) 28%, transparent) 0%,
+      transparent 60%),
+    var(--bg-team-dk) !important;
+}
+
+/* 섹션 경계에 얇은 색 그라디언트 divider — 전환감 강화 */
+#trinity::before,
+#how::before,
+#xrpl::before,
+#proof::before,
+#team::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    color-mix(in oklch, var(--jewel-amethyst) 60%, transparent) 50%,
+    transparent 100%);
+  pointer-events: none;
+  z-index: 1;
+}
+#how::before     { background: linear-gradient(90deg, transparent, color-mix(in oklch, var(--jewel-sapphire) 60%, transparent), transparent); }
+#xrpl::before    { background: linear-gradient(90deg, transparent, color-mix(in oklch, var(--jewel-emerald) 60%, transparent), transparent); }
+#proof::before   { background: linear-gradient(90deg, transparent, color-mix(in oklch, var(--jewel-gold) 70%, transparent), transparent); }
+#team::before    { background: linear-gradient(90deg, transparent, color-mix(in oklch, var(--jewel-rose) 60%, transparent), transparent); }
+
+#trinity, #how, #xrpl, #proof, #team { position: relative; }
+
+/* 기존 section-alt의 background override 방지 */
+.section.section-alt#trinity,
+.section.section-alt#how,
+.section.section-alt#xrpl,
+.section.section-alt#proof,
+.section.section-alt#team {
+  background-color: transparent !important;
+}
+
+
+/* ── Logo v24: 3중 삼각형 모티프 ── */
+.brand-logo {
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+  transition: transform 300ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+.brand:hover .brand-logo {
+  transform: rotate(-6deg) scale(1.05);
+}
+@media (max-width: 640px) {
+  .brand-logo { width: 28px; height: 28px; }
+}
+
+
+
+
+/* ── Hero Video Embed (v26 — lite-youtube) ── */
+.hero-visual-video {
+  padding: clamp(0.5rem, 1vw, 0.875rem);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.hero-visual-video .lite-yt {
+  position: relative;
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border: 0;
+  border-radius: calc(var(--radius-lg) - 2px);
+  overflow: hidden;
+  cursor: pointer;
+  padding: 0;
+  background-color: #000;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  box-shadow:
+    0 1px 2px oklch(0 0 0 / 0.2),
+    0 14px 40px oklch(0 0 0 / 0.28);
+  transition: transform 320ms cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 320ms cubic-bezier(0.16, 1, 0.3, 1);
+  isolation: isolate;
+}
+.hero-visual-video .lite-yt::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(to bottom,
+    rgba(0,0,0,0) 55%,
+    rgba(0,0,0,0.55) 100%);
+  pointer-events: none;
+  transition: opacity 220ms ease;
+}
+.hero-visual-video .lite-yt:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 2px 4px oklch(0 0 0 / 0.25),
+    0 22px 56px oklch(0 0 0 / 0.35);
+}
+.hero-visual-video .lite-yt:hover::before { opacity: 0.7; }
+.hero-visual-video .lite-yt:focus-visible {
+  outline: 3px solid var(--jewel-gold, #d9b062);
+  outline-offset: 3px;
+}
+.lite-yt-play {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: clamp(56px, 12%, 84px);
+  aspect-ratio: 68 / 48;
+  pointer-events: none;
+  transition: transform 320ms cubic-bezier(0.16, 1, 0.3, 1), filter 220ms ease;
+  filter: drop-shadow(0 4px 14px rgba(0,0,0,0.45));
+}
+.lite-yt-play svg { width: 100%; height: 100%; display: block; }
+.lite-yt-play .lite-yt-bg { transition: fill 220ms ease, fill-opacity 220ms ease; }
+.hero-visual-video .lite-yt:hover .lite-yt-play {
+  transform: translate(-50%, -50%) scale(1.08);
+}
+.hero-visual-video .lite-yt:hover .lite-yt-play .lite-yt-bg {
+  fill: #ff0000;
+  fill-opacity: 1;
+}
+.lite-yt-title {
+  position: absolute;
+  left: var(--space-4); bottom: var(--space-3);
+  right: var(--space-4);
+  color: #fff;
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  text-align: left;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.6);
+  pointer-events: none;
+}
+.hero-visual-video .lite-yt.lite-yt-activated {
+  background-image: none !important;
+  cursor: default;
+}
+.hero-visual-video .lite-yt.lite-yt-activated::before,
+.hero-visual-video .lite-yt.lite-yt-activated .lite-yt-play,
+.hero-visual-video .lite-yt.lite-yt-activated .lite-yt-title { display: none; }
+.hero-visual-video .lite-yt iframe {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  border: 0;
+}
+
+/* ── Hero layout balance (v26) ── */
+@media (min-width: 960px) {
+  .hero-inner,
+  .hero .grid,
+  .hero-grid {
+    align-items: center;
+  }
+  .hero-visual-video {
+    width: 100%;
+    max-width: none;
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- ─── SKIP LINK ─── -->
+<a href="#main-content" class="sr-only" data-i18n="a11y.skip">콘텐츠로 건너뛰기</a>
+
+<!-- ─── HEADER ─── -->
+<header class="site-header" role="banner" id="top">
+  <div class="header-inner">
+    <a href="#top" class="brand" aria-label="Trianum 홈">
+      <svg class="brand-logo" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <defs>
+          <linearGradient id="tri-outer" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="var(--jewel-amethyst, #9b6bd6)"/>
+            <stop offset="100%" stop-color="var(--jewel-sapphire, #4b7bd6)"/>
+          </linearGradient>
+          <linearGradient id="tri-mid" x1="0" y1="1" x2="1" y2="0">
+            <stop offset="0%" stop-color="var(--jewel-gold, #d9b062)"/>
+            <stop offset="100%" stop-color="var(--jewel-rose, #d97a96)"/>
+          </linearGradient>
+          <linearGradient id="tri-inner" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="var(--jewel-aqua, #4fc5c0)"/>
+            <stop offset="100%" stop-color="var(--jewel-emerald, #3fb28a)"/>
+          </linearGradient>
+        </defs>
+        <path d="M32 6 L58 54 L6 54 Z" stroke="url(#tri-outer)" stroke-width="2.6" stroke-linejoin="round"/>
+        <path d="M32 16 L51 50 L13 50 Z" stroke="url(#tri-mid)" stroke-width="2.2" stroke-linejoin="round"/>
+        <path d="M32 26 L44 46 L20 46 Z" stroke="url(#tri-inner)" stroke-width="1.8" stroke-linejoin="round"/>
+        <circle cx="32" cy="40" r="1.8" fill="var(--jewel-gold, #d9b062)"/>
+      </svg>
+      <span class="brand-name">Trianum</span>
+    </a>
+
+    <nav class="nav-desktop" aria-label="주 내비게이션">
+      <a class="nav-link" data-i18n="nav.structure" href="#trinity">Trinity</a>
+      <a class="nav-link" data-i18n="nav.how" href="#how">How it Works</a>
+      <a class="nav-link" data-i18n="nav.xrpl" href="#xrpl">Why XRPL</a>
+      <a class="nav-link" data-i18n="nav.proof" href="#proof">Proof</a>
+      <a class="nav-link" href="https://github.com/Trinos-Strategy/KKleros" target="_blank" rel="noopener">GitHub</a>
+          <button type="button" id="lang-toggle" class="nav-link" aria-label="Switch language" data-i18n="lang.toggle">EN</button>
+    </nav>
+
+    <div class="header-actions">
+      <button class="theme-toggle" type="button" data-theme-toggle aria-label="다크 모드 전환">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <circle cx="12" cy="12" r="5" stroke="currentColor" stroke-width="1.5"/>
+          <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+      </button>
+      <a class="header-cta" href="https://github.com/Trinos-Strategy/KKleros" target="_blank" rel="noopener">View on GitHub</a>
+      <button class="nav-toggle" type="button" data-nav-toggle aria-label="내비게이션 열기" aria-expanded="false" aria-controls="mobile-nav">
+        <span></span>
+      </button>
+    </div>
+  </div>
+
+  <div class="nav-drawer" id="mobile-nav" data-nav-menu>
+    <a href="#trinity">Trinity</a>
+    <a href="#how">How it Works</a>
+    <a href="#xrpl">Why XRPL</a>
+    <a href="#proof">Proof</a>
+    <a href="#team">Team</a>
+    <a href="https://github.com/Trinos-Strategy/KKleros" target="_blank" rel="noopener">GitHub ↗</a>
+  </div>
+</header>
+
+<!-- ─── MAIN ─── -->
+<main id="main-content">
+    <!-- Step 5-a: Chapter Rail (좌측 sticky 로마숫자 챕터) -->
+    <nav class="chapter-rail" aria-label="Section chapters">
+      <ol>
+        <li><a href="#hero"    data-chapter="I">I</a></li>
+        <li><a href="#trinity" data-chapter="II">II</a></li>
+        <li><a href="#how"     data-chapter="III">III</a></li>
+        <li><a href="#xrpl"    data-chapter="IV">IV</a></li>
+        <li><a href="#proof"   data-chapter="V">V</a></li>
+        <li><a href="#team"    data-chapter="VI">VI</a></li>
+      </ol>
+    </nav>
+
+
+  <!-- HERO -->
+  <section id="hero" class="hero">
+    <div class="hero-bg" aria-hidden="true"></div>
+    <div class="container hero-grid">
+      <div class="hero-copy">
+        
+        <h1 class="hero-title">
+          <span class="hero-word" style="--word-index:0">Where</span>
+          <span class="hero-word" style="--word-index:1">Three</span>
+          <span class="hero-word" style="--word-index:2">Justifications</span>
+          <span class="hero-word" style="--word-index:3">Render</span>
+          <span class="hero-word" style="--word-index:4">One</span>
+          <span class="hero-word" style="--word-index:5">Verdict.</span>
+        </h1>
+        <h2 class="hero-subtitle display-kr" data-i18n="hero.sub">세 정당성이 하나의 판결로.</h2>
+        <p class="hero-body" data-i18n-html="hero.body">
+          <strong>Trianum</strong>은 XRPL 위서 실행되는 탈중앙 분쟁해결 프로토콜입니다.
+          <strong>3 × 3 × 3</strong> 구조 — 조리·법리·자치 — 이 수렴할 때
+          스마트 에스크로가 자동 집행됩니다. <em>Dual Award</em> 지원.
+        </p>
+        <div class="hero-actions">
+          <a class="button-primary" href="https://github.com/Trinos-Strategy/KKleros" target="_blank" rel="noopener" data-i18n="hero.cta2">View on GitHub</a>
+          <a class="button-secondary" href="#proof" data-i18n-html="hero.cta1">Watch the Demo <span aria-hidden="true">▸ 2 min</span></a>
+        </div>
+        <p class="hero-meta" data-i18n-html="hero.meta">MIT License &nbsp;·&nbsp; NOTICE &nbsp;·&nbsp; 117 tests passing &nbsp;·&nbsp; 7 jurisdictions analyzed</p>
+      </div>
+
+      <div class="hero-visual hero-visual-video reveal-ready">
+        <div class="texture-overlay" aria-hidden="true"></div>
+        <button type="button" class="lite-yt" data-video-id="tFePfDK-uCY"
+                aria-label="Trianum 소개 영상 재생"
+                style="background-image:url('https://i.ytimg.com/vi/tFePfDK-uCY/maxresdefault.jpg')">
+          <span class="lite-yt-play" aria-hidden="true">
+            <svg viewBox="0 0 68 48" xmlns="http://www.w3.org/2000/svg">
+              <path class="lite-yt-bg" d="M66.52 7.74c-.78-2.93-2.49-5.41-5.42-6.19C55.79.13 34 0 34 0S12.21.13 6.9 1.55c-2.93.78-4.63 3.26-5.42 6.19C.06 13.05 0 24 0 24s.06 10.95 1.48 16.26c.78 2.93 2.49 5.41 5.42 6.19C12.21 47.87 34 48 34 48s21.79-.13 27.1-1.55c2.93-.78 4.64-3.26 5.42-6.19C67.94 34.95 68 24 68 24s-.06-10.95-1.48-16.26z" fill="#212121" fill-opacity=".85"/>
+              <path d="M 45,24 27,14 27,34" fill="#fff"/>
+            </svg>
+          </span>
+          <span class="lite-yt-title">Trianum 소개 영상 재생</span>
+        </button>
+      </div>
+    </div>
+    <span class="hairline" style="position:absolute;bottom:0;left:0;right:0;"></span>
+  </section>
+
+  <!-- TRINITY -->
+  <section id="trinity" class="section">
+    <div class="container">
+      <div class="section-head reveal-ready">
+        <p class="section-label display-en" data-i18n-html="sec02.label">02&nbsp;&nbsp;&nbsp;The Three-Fold Structure</p>
+        <h2 class="section-title" data-i18n="sec02.title">세 정당성으로 구성된 판정부.</h2>
+        <p class="section-body" data-i18n-html="sec02.body">Trianum은 <em>tria</em>·<em>-num</em> — 세 개의 수렴하는 판단 축 — 을 결합합니다. 어떤 단일 축도 단독으로는 집행 불가합니다.</p>
+      </div>
+
+      <div class="trinity-grid">
+        <!-- 법 -->
+        <article class="trinity-card reveal-ready">
+          <div class="trinity-card-top">
+            <span class="trinity-char display-kr" style="color:var(--color-primary); view-transition-name: venn-autonomy;" data-lobe="autonomy"><span class="lang-ko">법리</span><span class="lang-en">Beopri</span><small class="trinity-hanja" aria-hidden="true">(法理)</small></span>
+            <span class="trinity-roman display-en" style="color:var(--color-primary)">Beopri</span>
+          </div>
+          <h3 data-i18n="tri2.h3">Legal Doctrine</h3>
+          <span class="hairline"></span>
+          <p data-i18n="tri2.p" class="display-kr">쌍방의 주장·증거에 따른 법리적으로 완전한 판정문 초안 2개</p>
+          <p style="color:var(--color-primary);font-size:var(--text-sm);" data-i18n="tri2.link">↳ Dual Award A/B 중재인의 판정문 작성</p>
+        </article>
+
+        <!-- 리 -->
+        <article class="trinity-card reveal-ready">
+          <div class="trinity-card-top">
+            <span class="trinity-char display-kr" style="color:var(--color-secondary); view-transition-name: venn-legal;" data-lobe="legal"><span class="lang-ko">조리</span><span class="lang-en">Jori</span><small class="trinity-hanja" aria-hidden="true">(條理)</small></span>
+            <span class="trinity-roman display-en" style="color:var(--color-secondary)">Jori</span>
+          </div>
+          <h3 data-i18n="tri1.h3">Common Reason</h3>
+          <span class="hairline"></span>
+          <p class="display-kr" data-i18n="tri1.p">배심원 3인 이상이 공유하는 판단 기준. 투표 단계에서 Commit‑Reveal로 검증</p>
+          <p style="color:var(--color-secondary);font-size:var(--text-sm);" data-i18n="tri1.link">↳ Commit‑Reveal 투표</p>
+        </article>
+
+        <!-- 자치 -->
+        <article class="trinity-card reveal-ready">
+          <div class="trinity-card-top">
+            <span class="trinity-char display-kr" style="color:var(--color-accent); view-transition-name: venn-reason;" data-lobe="reason"><span class="lang-ko">자치</span><span class="lang-en">Jachi</span><small class="trinity-hanja" aria-hidden="true">(自治)</small></span>
+            <span class="trinity-roman display-en" style="color:var(--color-accent)">Jachi</span>
+          </div>
+          <h3 data-i18n="tri3.h3">Party Autonomy</h3>
+          <span class="hairline"></span>
+          <p data-i18n="tri3.p" class="display-kr">당사자들이 합의한 바에 따라 스마트 컨트랙트를 통한 중재 판정 즉시 집행</p>
+          <p style="color:var(--color-accent);font-size:var(--text-sm);" data-i18n="tri3.link">↳ XRP L2 에스크로 자동 집행</p>
+        </article>
+      </div>
+
+      <p class="section-quote display-en">
+        "When three independent legitimacies converge into one verdict, Trianum executes."
+      </p>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section id="how" class="section section-alt">
+    <div class="container">
+      <div class="section-head reveal-ready">
+        <p class="section-label display-en" data-i18n-html="sec03.label">03&nbsp;&nbsp;&nbsp;How It Works</p>
+        <h2 class="section-title" data-i18n="sec03.title">분쟁에서 집행까지, 3‑5주.</h2>
+      </div>
+
+      <div class="timeline">
+        <article class="timeline-step" style="--step-delay:0s">
+          <div class="timeline-node">1</div>
+          <div class="timeline-card">
+            <div class="timeline-meta">
+              <span class="timeline-step-label" data-counter="1"><span class="timeline-step-word">Step</span> <span class="timeline-step-num" data-target="1">01</span></span>
+              <span class="timeline-day">DAY 0</span>
+            </div>
+            <h3 data-i18n="tl1.h3">분쟁 등록</h3>
+            <p data-i18n-html="tl1.p">당사자가 XRPL Trianum 스마트 컨트랙트에 분쟁을 제출합니다. Trianum이 에스크로를 잠급니다.</p>
+          </div>
+        </article>
+
+        <article class="timeline-step" style="--step-delay:0.15s">
+          <div class="timeline-node">2</div>
+          <div class="timeline-card">
+            <div class="timeline-meta">
+              <span class="timeline-step-label" data-counter="2"><span class="timeline-step-word">Step</span> <span class="timeline-step-num" data-target="2">02</span></span>
+              <span class="timeline-day">DAY 22‑35</span>
+            </div>
+            <h3 data-i18n="tl4.h3">자동 집행</h3>
+            <pre class="step-code"><code>rule → EscrowFinish</code></pre>
+            <p data-i18n-html="tl4.p">다수 판정문이 XRPL 에스크로를 즉시 해제합니다.
+               트랜잭션 Memo에 판정 해시가 앵커링됩니다.</p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <div class="stats-band" role="region" aria-label="주요 지표">
+    <div class="texture-overlay" aria-hidden="true"></div>
+    <div class="container">
+      <div class="stats-grid">
+        <div class="stat">
+          <span class="stat-value display-en"><span data-i18n="stat.time">3주</span></span>
+          <span class="stat-label" data-i18n="stat.timeLabel">Time to Verdict</span>
+        </div>
+        <div class="stat">
+          <span class="stat-value display-en"><span data-i18n="stat.fee">0.00001 XRP</span></span>
+          <span class="stat-label" data-i18n="stat.feeLabel">Tx Fee</span>
+        </div>
+        <div class="stat">
+          <span class="stat-value display-en"><span data-i18n="stat.timeVs">10×</span></span>
+          <span class="stat-label" data-i18n="stat.timeVsLabel">Time vs. Courts</span>
+        </div>
+        <div class="stat">
+          <span class="stat-value display-en"><span data-i18n="stat.costVs">15×</span></span>
+          <span class="stat-label" data-i18n="stat.costVsLabel">Cost vs. Arbitration</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- WHY XRPL -->
+  <section id="xrpl" class="section">
+    <div class="container xrpl-grid">
+      <div class="reveal-ready">
+        <p class="section-label display-en" data-i18n-html="sec04.label">04&nbsp;&nbsp;&nbsp;Why XRPL</p>
+        <h2 class="section-title" data-i18n="sec04.title">XRPL 결제 레일 위 네이티브로 구축.</h2>
+
+        <div class="feature-list">
+          <article class="feature-item">
+            <h3 data-i18n="xrpl1.h3">결제와 분쟁의 통합</h3>
+            <p data-i18n="xrpl1.p">Layer 1 XRPL 에스크로가 분쟁을 트리거하고, Layer 2 EVM 사이드체인이 Trianum 컨트랙트를 실행합니다.</p>
+          </article>
+          <article class="feature-item">
+            <h3 data-i18n="xrpl2.h3">속도 &amp; 비용</h3>
+            <p data-i18n="xrpl2.p">3‑5초 결제 파이낼리티. XRP 트랜잭션 수수료 0.00001 XRP. RLUSD 스테이블코인 통합.</p>
+          </article>
+          <article class="feature-item">
+            <h3 data-i18n="xrpl3.h3">Smart Escrow 로드맵</h3>
+            <p data-i18n="xrpl3.p">2026년 XRPL EVM 사이드체인 메인넷 이후 완전 온체인 자동 집행이 예정되어 있습니다.</p>
+          </article>
+        </div>
+      </div>
+
+      <div class="xrpl-diagram reveal-ready">
+        <div class="texture-overlay" aria-hidden="true"></div>
+        <svg viewBox="0 0 420 340" role="img" aria-label="XRPL 아키텍처 다이어그램">
+          <defs>
+            <linearGradient id="goldLine" x1="0" y1="0" x2="100%" y2="0">
+              <stop offset="0%"   stop-color="#B49AF8" stop-opacity="0.25"/>
+              <stop offset="50%"  stop-color="#B49AF8"/>
+              <stop offset="100%" stop-color="#B49AF8" stop-opacity="0.25"/>
+            </linearGradient>
+          </defs>
+          <!-- L1 box -->
+          <rect x="28"  y="64" width="120" height="210" rx="20" fill="none" stroke="#8C74E8" stroke-width="2"/>
+          <!-- Bridge box -->
+          <rect x="150" y="124" width="120" height="90" rx="18" fill="none" stroke="#6F52D9" stroke-width="2"/>
+          <!-- L2 box -->
+          <rect x="272" y="64" width="120" height="210" rx="20" fill="none" stroke="#B49AF8" stroke-width="2"/>
+          <!-- Connectors -->
+          <line x1="148" y1="169" x2="150" y2="169" stroke="url(#goldLine)" stroke-width="3"/>
+          <line x1="270" y1="169" x2="272" y2="169" stroke="url(#goldLine)" stroke-width="3"/>
+          <!-- Labels -->
+          <text x="88"  y="102" text-anchor="middle" font-size="11" fill="#8C74E8" font-family="'Pretendard Variable'" letter-spacing="2">LAYER 1</text>
+          <text x="210" y="158" text-anchor="middle" font-size="11" fill="#6F52D9" font-family="'Pretendard Variable'" letter-spacing="2">BRIDGE</text>
+          <text x="332" y="102" text-anchor="middle" font-size="11" fill="#B49AF8" font-family="'Pretendard Variable'" letter-spacing="2">LAYER 2</text>
+          <text x="88"  y="138" text-anchor="middle" font-size="22" fill="#312642" font-family="'EB Garamond'">XRPL</text>
+          <text x="88"  y="158" text-anchor="middle" font-size="11" fill="#312642" font-family="'EB Garamond'" font-style="italic">Mainnet</text>
+          <text x="210" y="182" text-anchor="middle" font-size="18" fill="#312642" font-family="'EB Garamond'">Axelar GMP</text>
+          <text x="332" y="138" text-anchor="middle" font-size="22" fill="#312642" font-family="'EB Garamond'">XRPL EVM</text>
+          <text x="332" y="158" text-anchor="middle" font-size="11" fill="#312642" font-family="'EB Garamond'" font-style="italic">Sidechain</text>
+          <text x="88"  y="196" text-anchor="middle" font-size="11" fill="#251C31" font-family="'Pretendard Variable'">EscrowCreate/Finish</text>
+          <text x="88"  y="214" text-anchor="middle" font-size="11" fill="#251C31" font-family="'Pretendard Variable'">RLUSD / XRP</text>
+          <text x="88"  y="232" text-anchor="middle" font-size="11" fill="#251C31" font-family="'Pretendard Variable'">Memo anchor</text>
+          <text x="332" y="196" text-anchor="middle" font-size="11" fill="#251C31" font-family="'Pretendard Variable'">Solidity / Hardhat 2.28</text>
+          <text x="332" y="214" text-anchor="middle" font-size="11" fill="#251C31" font-family="'Pretendard Variable'">Commit-Reveal</text>
+          <text x="332" y="232" text-anchor="middle" font-size="11" fill="#251C31" font-family="'Pretendard Variable'">DAO Conviction Voting</text>
+        </svg>
+
+        <!-- XRPL Address -->
+        <code class="xrpl-address" data-address="rpmg6EKqb6PdVdaHjgBDhsz7A3vTYpEC1A" title="클릭하여 복사">rpmg6EKqb6PdVdaHjgBDhsz7A3vTYpEC1A</code>
+        <p style="font-size:var(--text-xs);color:var(--color-text-faint);margin-top:var(--space-2);">XRPL Classic Address &nbsp;·&nbsp; 2026-04-24</p>
+
+        <div style="display:flex;flex-wrap:wrap;gap:0.75rem;margin-top:var(--space-4);">
+          <a class="button-secondary" style="font-size:var(--text-sm);padding:0.5rem 1rem;" href="#proof">Demo <span aria-hidden="true">▸ 2 min</span></a>
+          <a class="button-secondary" style="font-size:var(--text-sm);padding:0.5rem 1rem;" href="https://github.com/Trinos-Strategy/KKleros" target="_blank" rel="noopener">Docs ↗</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROOF -->
+  <section id="proof" class="section section-alt">
+    <div class="container">
+      <div class="section-head reveal-ready">
+        <p class="section-label display-en" data-i18n-html="sec05.label">05&nbsp;&nbsp;&nbsp;Proof</p>
+        <h2 class="section-title" data-i18n="sec05.title">오픈소스. 동료 검토. 즉시 배포 가능.</h2>
+      </div>
+
+      <div class="proof-grid">
+        <!-- Smart Contract Suite -->
+        <article class="proof-card reveal-ready">
+          <div class="proof-top">
+            <h3 data-i18n="pf1.h3">Smart Contract Suite</h3>
+            <span class="badge badge-emerald">117 TESTS PASSING</span>
+          </div>
+          <div class="terminal">
+            <div class="terminal-bar">
+              <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+              <span class="terminal-title">KTrianum Contracts</span>
+            </div>
+            <pre class="terminal-body"><code>TrianumCore
+SortitionModule
+DisputeKit
+TRN Token
+EscrowBridge
+Governor
+Timelock</code></pre>
+          </div>
+          <div class="proof-copy">
+            <p>MIT License &nbsp;·&nbsp; NOTICE &nbsp;·&nbsp; Trianum CI ✅</p>
+            <a class="button-link" href="https://github.com/Trinos-Strategy/KKleros" target="_blank" rel="noopener">View on GitHub ↗</a>
+          </div>
+        </article>
+
+        <!-- Regulatory Analysis -->
+        <article class="proof-card reveal-ready">
+          <div class="proof-top">
+            <h3 data-i18n="pf2.h3">Regulatory Analysis</h3>
+            <span class="badge badge-burgundy">7 JURISDICTIONS</span>
+          </div>
+          <div class="proof-copy">
+            <p data-i18n-html="pf2.p1"><strong>TRN Work Token</strong> — 비보안 암호자산</p>
+            <p data-i18n-html="pf2.p2">EU MiCA: <strong>other crypto-asset</strong> (utility token) 분류,
+               금융증권 해당 없음.</p>
+            <p data-i18n-html="pf2.p3">한국·미국·영국·싱가포르·홍콩·일본·UAE 분석 완료.</p>
+          </div>
+        </article>
+
+        <!-- Design Documents -->
+        <article class="proof-card reveal-ready">
+          <div class="proof-top">
+            <h3 data-i18n="pf3.h3">Design Documents</h3>
+            <span class="badge badge-gold">7 SPECS</span>
+          </div>
+          <div class="proof-copy">
+            <p>Architecture v6</p>
+            <p>REGULATE-2026-04-18</p>
+            <p><strong>Trianum Rules 3.5</strong></p>
+            <p>Dual Award DAO 4-Phase</p>
+          </div>
+        </article>
+
+        <!-- Live Artifacts -->
+        <article class="proof-card reveal-ready">
+          <div class="proof-top">
+            <h3 data-i18n="pf4.h3">Live Artifacts</h3>
+            <span class="badge badge-navy">TESTNET</span>
+          </div>
+          <div class="proof-copy">
+            <p data-i18n-html="pf4.p1">XRPL Testnet 에스크로 배포 완료.</p>
+            <p data-i18n-html="pf4.p2">Hardhat 테스트넷: TrianumCore + Sortition.</p>
+            <p style="color:var(--color-accent);" data-i18n-html="pf4.p3">↳ EVM 메인넷 Q4 2026 예정.</p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- TEAM -->
+  <section id="team" class="section">
+    <div class="container">
+      <div class="section-head reveal-ready">
+        <p class="section-label display-en" data-i18n-html="sec06.label">06&nbsp;&nbsp;&nbsp;Team</p>
+        <h2 class="section-title" data-i18n="sec06.title">법적 전문성과 암호학적 엄밀성.</h2>
+      </div>
+
+      <div class="team-grid">
+        <article class="team-card reveal-ready">
+          <div class="team-meta" data-i18n="tm.role1">Team Lead</div>
+          <div class="team-avatar">DK</div>
+          <h3>Dokyung Kim</h3>
+          <span class="hairline"></span>
+          <p><strong>2026 Kleros Fellowship</strong></p>
+          <p style="margin-top:1rem;">
+            <a class="button-link" href="mailto:dk@trinos.group">dk@trinos.group</a>
+          </p>
+        </article>
+
+        <article class="team-card reveal-ready">
+          <div class="team-meta" data-i18n="tm.role2">Corporate Structure</div>
+          <h3>Trinos</h3>
+          <p class="display-kr" style="margin-top:0.25rem;color:var(--color-text-muted);">
+<span data-i18n="tm.corp">한국 법인. Trianum Protocol 및 TRN 토큰 발행사.</span></p>
+          <span class="hairline"></span>
+          <p>KFIP 2026 &nbsp;·&nbsp; Seoul Fintech Lab &nbsp;·&nbsp; XRPL Korea</p>
+        </article>
+
+        <article class="team-card reveal-ready">
+          <div class="team-meta" data-i18n="tm.role3">Brand Architecture</div>
+          <div class="brand-architecture">Trianum Protocol
+Trianum Core
+Trianum Sortition
+Trianum Court
+TRN Token</div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ─── FOOTER ─── -->
+<footer class="site-footer">
+  <div class="container">
+    <div class="motto-sep">
+      <span class="hairline"></span>
+      <em class="display-en" style="font-style:italic;white-space:nowrap;">Ad Decisionem Per Tria</em>
+      <span class="hairline"></span>
+    </div>
+
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand">
+          <svg width="26" height="26" viewBox="0 0 100 100" aria-hidden="true" fill="none">
+            <circle cx="37" cy="44" r="24" stroke="#8C74E8" stroke-width="4"/>
+            <circle cx="63" cy="44" r="24" stroke="#6F52D9" stroke-width="4"/>
+            <circle cx="50" cy="66" r="24" stroke="#B49AF8" stroke-width="4"/>
+          </svg>
+          <span>Trianum</span>
+        </div>
+        <p>XRPL-native dispute resolution protocol.<br>Built by Trinos</p>
+      </div>
+
+      <div>
+        <p class="footer-title display-en">Resources</p>
+        <div class="footer-links">
+          <a href="https://github.com/Trinos-Strategy/KKleros" target="_blank" rel="noopener">GitHub</a>
+          <a href="https://github.com/Trinos-Strategy/KKleros/blob/main/NOTICE" target="_blank" rel="noopener">NOTICE</a>
+          <a href="https://github.com/Trinos-Strategy/KKleros/blob/main/LICENSE" target="_blank" rel="noopener">License (MIT)</a>
+        </div>
+      </div>
+
+      <div>
+        <p class="footer-title display-en">Contact</p>
+        <div class="footer-links">
+          <a href="mailto:dk@trinos.group">dk@trinos.group</a>
+          <span style="color:var(--color-text-faint);">KFIP 2026</span>
+          <span style="color:var(--color-text-faint);">Seoul Fintech Lab</span>
+          <span style="color:var(--color-text-faint);">XRPL Korea</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-meta">
+    <div class="footer-meta-inner">
+      <p>© 2026 Trinos — Derivative of Trianum (MIT). See NOTICE.</p>
+      <p class="display-en" style="font-style:italic;">Ad Decisionem Per Tria</p>
+    </div>
+  </div>
+</footer>
+
+<!-- ─── SCRIPTS ─── -->
+<script>
+(function () {
+  'use strict';
+
+  /* 1. Dark mode toggle */
+  const btn = document.querySelector('[data-theme-toggle]');
+  const root = document.documentElement;
+  let theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+  root.setAttribute('data-theme', theme);
+  updateIcon();
+
+  btn && btn.addEventListener('click', function () {
+    theme = theme === 'dark' ? 'light' : 'dark';
+    root.setAttribute('data-theme', theme);
+    updateIcon();
+  });
+
+  function updateIcon() {
+    if (!btn) return;
+    btn.setAttribute('aria-label', 'Switch to ' + (theme === 'dark' ? 'light' : 'dark') + ' mode');
+    btn.innerHTML = theme === 'dark'
+      ? '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>'
+      : '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>';
+  }
+
+  /* 2. Nav scroll frosted glass */
+  var header = document.querySelector('.site-header');
+  var heroEl = document.getElementById('hero');
+  if (header && heroEl) {
+    new IntersectionObserver(function (entries) {
+      header.classList.toggle('scrolled', !entries[0].isIntersecting);
+    }, { threshold: 0 }).observe(heroEl);
+  }
+
+  /* 3. Mobile nav toggle */
+  var navToggle = document.querySelector('[data-nav-toggle]');
+  var navMenu   = document.querySelector('[data-nav-menu]');
+  navToggle && navToggle.addEventListener('click', function () {
+    var isOpen = navMenu && navMenu.classList.toggle('open');
+    navToggle.setAttribute('aria-expanded', String(!!isOpen));
+  });
+  document.querySelectorAll('[data-nav-menu] a').forEach(function (link) {
+    link.addEventListener('click', function () {
+      navMenu && navMenu.classList.remove('open');
+      navToggle && navToggle.setAttribute('aria-expanded', 'false');
+    });
+  });
+
+  /* 4. Venn circle draw on scroll */
+  var trinity = document.getElementById('trinity');
+  var heroVisual = document.querySelector('.hero-visual');
+  var circles = document.querySelectorAll('.venn-circle');
+  if (heroVisual) {
+    new IntersectionObserver(function (entries) {
+      if (entries[0].isIntersecting) {
+        heroVisual.classList.add('in-view');
+        circles.forEach(function (c) { c.classList.add('drawing'); });
+      }
+    }, { threshold: 0.25 }).observe(heroVisual);
+  }
+
+  /* 5. Stat counter */
+  var stats = document.querySelectorAll('.stat-value[data-target]');
+  if (stats.length) {
+    var statSection = stats[0].closest('section, .stats-band');
+    if (statSection) {
+      new IntersectionObserver(function (entries) {
+        if (entries[0].isIntersecting) {
+          stats.forEach(function (el) {
+            var target = parseInt(el.dataset.target, 10) || 0;
+            el.style.setProperty('--stat-target', target);
+            el.classList.add('counting');
+          });
+        }
+      }, { threshold: 0.5 }).observe(statSection);
+    }
+  }
+
+  /* 6. XRPL address copy */
+  var addr = document.querySelector('.xrpl-address');
+  addr && addr.addEventListener('click', function () {
+    var original = addr.textContent;
+    var addrVal  = addr.dataset.address || original.trim();
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(addrVal).then(function () {
+        addr.textContent = 'Copied!';
+        addr.style.color = 'var(--color-secondary)';
+        setTimeout(function () {
+          addr.textContent = original;
+          addr.style.color = '';
+        }, 1800);
+      });
+    }
+  });
+
+  /* 7. Scroll reveal (IntersectionObserver fallback) */
+  var revealObserver = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('in-view');
+        revealObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12 });
+
+  document.querySelectorAll('.reveal-ready').forEach(function (el) {
+    revealObserver.observe(el);
+  });
+
+})();
+</script>
+
+<script type="module">
+  /* Step 10 — i18n Switcher v2 (data-i18n + data-i18n-html 지원) */
+  (function() {
+    var dict;
+    try { dict = JSON.parse(document.getElementById('i18n-dict').textContent); }
+    catch (e) { return; }
+
+    function detectLang() {
+      return /^#\/en\b/.test(location.hash || '') ? 'en' : 'ko';
+    }
+
+    function apply(lang) {
+      var d = dict[lang] || dict.ko;
+      document.documentElement.lang = (lang === 'en') ? 'en' : 'ko';
+      document.documentElement.setAttribute('data-lang', (lang === 'en') ? 'en' : 'ko');
+
+      document.querySelectorAll('[data-i18n]:not(script):not(style)').forEach(function(el) {
+        var k = el.getAttribute('data-i18n');
+        if (d[k] != null) el.textContent = d[k];
+      });
+      document.querySelectorAll('[data-i18n-html]:not(script):not(style)').forEach(function(el) {
+        var k = el.getAttribute('data-i18n-html');
+        if (d[k] != null) el.innerHTML = d[k];
+      });
+
+      if (d['meta.title']) document.title = d['meta.title'];
+      var md = document.querySelector('meta[name="description"]');
+      if (md && d['meta.description']) md.setAttribute('content', d['meta.description']);
+      [
+        ['meta[property="og:title"]', 'og.title'],
+        ['meta[property="og:description"]', 'og.description'],
+        ['meta[property="og:image:alt"]', 'og.alt'],
+        ['meta[name="twitter:title"]', 'og.title'],
+        ['meta[name="twitter:description"]', 'og.description'],
+        ['meta[name="twitter:image:alt"]', 'og.alt']
+      ].forEach(function(p) {
+        var el = document.querySelector(p[0]);
+        if (el && d[p[1]]) el.setAttribute('content', d[p[1]]);
+      });
+      var ogl = document.querySelector('meta[property="og:locale"]');
+      if (ogl) ogl.setAttribute('content', lang === 'en' ? 'en_US' : 'ko_KR');
+    }
+
+    function init() {
+      apply(detectLang());
+      var btn = document.getElementById('lang-toggle');
+      if (btn) {
+        btn.addEventListener('click', function(e) {
+          e.preventDefault();
+          var next = (detectLang() === 'en') ? 'ko' : 'en';
+          if (next === 'en') location.hash = '#/en';
+          else { if (location.hash) history.replaceState(null, '', location.pathname + location.search); apply('ko'); }
+        });
+      }
+      window.addEventListener('hashchange', function() { apply(detectLang()); });
+    }
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', init);
+    } else {
+      init();
+    }
+  })();
+</script>
+
+<script type="module">
+  /* Step 6-b — View Transition 트리거 */
+  (function() {
+    var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var trinity = document.getElementById('trinity');
+    var hero    = document.getElementById('hero');
+    if (!trinity || !hero) return;
+
+    function setState(v) {
+      document.documentElement.dataset.vennState = v;
+    }
+    setState('converged');
+
+    function morph(to) {
+      if (reduce || !document.startViewTransition) { setState(to); return; }
+      try { document.startViewTransition(function(){ setState(to); }); }
+      catch (e) { setState(to); }
+    }
+
+    var ioFwd = new IntersectionObserver(function(entries) {
+      entries.forEach(function(e) {
+        if (e.isIntersecting && !e.target.dataset.morphed) {
+          e.target.dataset.morphed = '1';
+          morph('distributed');
+        }
+      });
+    }, { threshold: 0.35 });
+    ioFwd.observe(trinity);
+
+    var ioBack = new IntersectionObserver(function(entries) {
+      entries.forEach(function(e) {
+        if (e.isIntersecting) {
+          trinity.dataset.morphed = '';
+          morph('converged');
+        }
+      });
+    }, { threshold: 0.6 });
+    ioBack.observe(hero);
+  })();
+</script>
+
+<script type="module">
+  /* Step 6-d — Elastic counter-up for .timeline-step-num */
+  (function() {
+    var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var nodes = document.querySelectorAll('.timeline-step-num[data-target]');
+    if (!nodes.length) return;
+
+    function countUp(el, target) {
+      if (reduce) {
+        el.textContent = String(target).padStart(2, '0');
+        el.classList.add('is-settling');
+        return;
+      }
+      var DUR = 360;
+      var start = performance.now();
+      function tick(now) {
+        var t = Math.min(1, (now - start) / DUR);
+        var eased = 1 - Math.pow(1 - t, 3);
+        var v = Math.round(eased * target);
+        el.textContent = String(v).padStart(2, '0');
+        if (t < 1) requestAnimationFrame(tick);
+      }
+      requestAnimationFrame(tick);
+      el.classList.add('is-settling');
+    }
+
+    var io = new IntersectionObserver(function(entries) {
+      entries.forEach(function(e) {
+        if (e.isIntersecting && !e.target.dataset.counted) {
+          e.target.dataset.counted = '1';
+          var t = parseInt(e.target.dataset.target, 10);
+          if (!isNaN(t)) countUp(e.target, t);
+        }
+      });
+    }, { threshold: 0.5 });
+
+    nodes.forEach(function(n) {
+      n.textContent = '00';
+      io.observe(n);
+    });
+  })();
+
+  /* Lite YouTube — click to load iframe */
+  document.querySelectorAll('.lite-yt').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      if (btn.classList.contains('lite-yt-activated')) return;
+      var id = btn.getAttribute('data-video-id');
+      var iframe = document.createElement('iframe');
+      iframe.setAttribute('src', 'https://www.youtube-nocookie.com/embed/' + id + '?autoplay=1&rel=0&modestbranding=1&playsinline=1');
+      iframe.setAttribute('title', 'Trianum 소개 영상');
+      iframe.setAttribute('frameborder', '0');
+      iframe.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share');
+      iframe.setAttribute('referrerpolicy', 'strict-origin-when-cross-origin');
+      iframe.setAttribute('allowfullscreen', '');
+      btn.appendChild(iframe);
+      btn.classList.add('lite-yt-activated');
+    });
+  });
+</script>
+</body>
+</html>
