@@ -1050,12 +1050,12 @@ a, button, [role="button"] {
   color: color-mix(in oklch, var(--color-text) 92%, var(--color-navy) 8%);
       #videos .proof-grid,
     #trn-meaning .proof-grid {
-      grid-template-columns: repeat(3, minmax(0, 1fr));
+            grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
       gap: var(--space-4);
     }
     #videos .proof-card,
     #trn-meaning .proof-card {
-      aspect-ratio: 1 / 1;
+                  aspect-ratio: 1 / 1 !important;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
@@ -3826,7 +3826,7 @@ Timelock</code></pre>
       <h2 class="section-title" data-i18n="sec07.title">Watch Trianum in action.</h2>
       <p class="section-body" data-i18n="sec07.lede">Trianum 프로토콜의 상세 구조와 코드 데모를 영상으로 확인하세요.</p>
     </div>
-    <div class="proof-grid">
+            <div class="proof-grid" style="display:grid !important;grid-template-columns:repeat(3,minmax(0,1fr)) !important;gap:var(--space-4);">
       <a class="proof-card reveal-ready" href="https://youtu.be/tFePfDK-uCY" target="_blank" rel="noopener" style="text-decoration:none;color:inherit">
         <div class="proof-top"><h3 data-i18n="vid1.title">대표 간단 소개</h3><span class="badge badge-burgundy">1:58 &middot; EN</span></div>
         <div class="proof-copy"><p data-i18n="vid1.desc">Trianum이 무엇인지 2분 안에 &mdash; TL;DR, first-touch viewer용.</p>
@@ -3860,7 +3860,7 @@ Timelock</code></pre>
       <p class="section-body" data-i18n="sec08.sub">Trianum의 어근 Tri(셋)의 첫 세 글자가 곳 프로토콜의 DNA입니다.</p>
       <p class="section-body display-en"><em>Three jurors &middot; three chain layers &middot; three pillars of trust &mdash; converging into one verdict.</em></p>
     </div>
-    <div class="proof-grid">
+            <div class="proof-grid" style="display:grid !important;grid-template-columns:repeat(3,minmax(0,1fr)) !important;gap:var(--space-4);">
       <article class="proof-card reveal-ready trn-card trn-card--t">
         <div class="proof-top"><div class="trn-letter">T</div><h3>Trust</h3></div>
         <div class="proof-copy"><p data-i18n="trn.t.desc">신뢰 담보 &mdash; 배심원이 스테이킹으로 분쟁 판정의 무결성을 예치합니다. 잘못된 판단에는 <strong>10% 슬래싱</strong>.</p>
