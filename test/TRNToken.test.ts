@@ -1,13 +1,13 @@
 import { expect } from "chai";
 import { ethers, upgrades, network } from "hardhat";
 import { SignerWithAddress } from "@nomicfoundation/hardhat-ethers/signers";
-import { KPNKToken } from "../typechain-types";
+import { TRNToken } from "../typechain-types";
 
 const ONE = 10n ** 18n;
 const ONE_BILLION = 1_000_000_000n * ONE;
 
-describe("KPNKToken", function () {
-  let token: KPNKToken;
+describe("TRNToken", function () {
+  let token: TRNToken;
   let admin: SignerWithAddress;
   let sortition: SignerWithAddress; // stand-in address that plays the SortitionModule role
   let alice: SignerWithAddress;
@@ -18,10 +18,10 @@ describe("KPNKToken", function () {
   beforeEach(async function () {
     [admin, sortition, alice, bob, carol, other] = await ethers.getSigners();
 
-    const Token = await ethers.getContractFactory("KPNKToken");
+    const Token = await ethers.getContractFactory("TRNToken");
     token = (await upgrades.deployProxy(Token, [admin.address], {
       kind: "uups",
-    })) as unknown as KPNKToken;
+    })) as unknown as TRNToken;
     await token.waitForDeployment();
 
     // Wire SortitionModule role to a known signer so we can exercise the restriction whitelist
@@ -32,7 +32,7 @@ describe("KPNKToken", function () {
   describe("Initialization", function () {
     it("has correct metadata and no supply minted", async function () {
       expect(await token.name()).to.equal("Korean Pinakion");
-      expect(await token.symbol()).to.equal("K-PNK");
+      expect(await token.symbol()).to.equal("TRN");
       expect(await token.decimals()).to.equal(18);
       expect(await token.totalSupply()).to.equal(0);
       expect(await token.totalDistributed()).to.equal(0);
@@ -40,7 +40,7 @@ describe("KPNKToken", function () {
     });
 
     it("rejects zero-address admin", async function () {
-      const Token = await ethers.getContractFactory("KPNKToken");
+      const Token = await ethers.getContractFactory("TRNToken");
       await expect(
         upgrades.deployProxy(Token, [ethers.ZeroAddress], { kind: "uups" })
       ).to.be.revertedWithCustomError(token, "ZeroAddress");

@@ -2,13 +2,13 @@
 pragma solidity ^0.8.20;
 
 /**
- * @title IKPNKToken
- * @notice K-PNK Work Token — ERC-20 + ERC20Votes + ERC20Permit
+ * @title ITRNToken
+ * @notice TRN Work Token — ERC-20 + ERC20Votes + ERC20Permit
  * @dev Total supply: 1,000,000,000 (1B). No revenue distribution.
  *      3 uses only: staking (SortitionModule), governance (Governor), court creation bond.
  *      This is a Work Token, NOT a security.
  */
-interface IKPNKToken {
+interface ITRNToken {
 
     // ──────────── Events ────────────
 

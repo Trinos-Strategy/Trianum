@@ -14,7 +14,7 @@ import "../interfaces/ISortitionModule.sol";
  * @dev UUPS proxy. Called by KlerosCore for draw / penalize / reward.
  *
  * Staking:
- *   - Jurors stake K-PNK per court (0..N).
+ *   - Jurors stake TRN per court (0..N).
  *   - Unstake is two-phase with a 7d cooldown; requires no active disputes.
  *
  * Drawing (blockhash-based randomness for MVP):
@@ -25,7 +25,7 @@ import "../interfaces/ISortitionModule.sol";
  *
  * Slashing:
  *   penalize() applies a flat 10% cut to the juror's stake in the court the
- *   dispute was drawn from. Slashed K-PNK remains in this contract and funds
+ *   dispute was drawn from. Slashed TRN remains in this contract and funds
  *   future reward() payouts.
  *
  * Rewards:

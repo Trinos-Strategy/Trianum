@@ -27,7 +27,7 @@ interface IEscrowBridgeLink {
 
 /**
  * @title KlerosCore
- * @notice K-Kleros 메인 중재 허브 — 분쟁 생성부터 판정 자동 집행까지
+ * @notice Trianum 메인 중재 허브 — 분쟁 생성부터 판정 자동 집행까지
  * @dev UUPS proxy. Coordinates DisputeKit, SortitionModule, EscrowBridge.
  *
  * State Machine:
@@ -81,7 +81,7 @@ contract KlerosCore is
     /// @dev Appeal limits
     uint256 public constant MAX_APPEAL_ROUNDS = 3;
 
-    /// @dev Number of choices in K-Kleros (AwardA=1, AwardB=2; 0=Refused)
+    /// @dev Number of choices in Trianum (AwardA=1, AwardB=2; 0=Refused)
     uint256 public constant NUM_CHOICES = 2;
 
     // ══════════════════════════════════════════════
@@ -216,7 +216,7 @@ contract KlerosCore is
 
     /**
      * @notice 분쟁 생성 (IArbitrator)
-     * @param _choices 선택지 수 (K-Kleros에서는 항상 2)
+     * @param _choices 선택지 수 (Trianum에서는 항상 2)
      * @param _extraData ABI(CourtType courtType, bytes32 escrowID, address claimant, address respondent, uint256 disputeAmount)
      * @return disputeID 생성된 분쟁 ID
      */

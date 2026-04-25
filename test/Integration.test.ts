@@ -63,7 +63,7 @@ async function setDualAwardArbitrator(p: FullProtocol, disputeID: number) {
         .setDisputeArbitrator(disputeID, p.arbitrator.address);
 }
 
-describe("Integration — K-Kleros full protocol", function () {
+describe("Integration — Trianum full protocol", function () {
     // Local alias: loadFixture caches the fresh deployment between cases for speed.
     async function fixture() {
         return deployFullProtocol();
@@ -173,9 +173,9 @@ describe("Integration — K-Kleros full protocol", function () {
             const stakeAfter = await (p.sortition as any).getStake(minority.address, COURT_GENERAL);
             expect(stakeBefore - stakeAfter).to.equal(stakeBefore / 10n); // 10% slash
 
-            // Fund the sortition with enough K-PNK for rewards (admin transfers some)
+            // Fund the sortition with enough TRN for rewards (admin transfers some)
             const rewardAmount = 100n * ONE_ETHER;
-            await (p.kpnk as any)
+            await (p.trn as any)
                 .connect(p.admin)
                 .transfer(await p.sortition.getAddress(), rewardAmount * 2n);
             for (const m of majority) {
@@ -369,9 +369,9 @@ describe("Integration — K-Kleros full protocol", function () {
 
             // After cooldown
             await time.increase(UNSTAKING_COOLDOWN_SEC + 1);
-            const balBefore = await (p.kpnk as any).balanceOf(freeJuror.address);
+            const balBefore = await (p.trn as any).balanceOf(freeJuror.address);
             await (p.sortition as any).connect(freeJuror).executeUnstake(COURT_GENERAL);
-            const balAfter = await (p.kpnk as any).balanceOf(freeJuror.address);
+            const balAfter = await (p.trn as any).balanceOf(freeJuror.address);
             expect(balAfter - balBefore).to.equal(JUROR_STAKE / 2n);
         });
     });
@@ -449,7 +449,7 @@ describe("Integration — K-Kleros full protocol", function () {
             ).to.be.reverted;
 
             await expect(
-                (p.kpnk as any)
+                (p.trn as any)
                     .connect(p.outsider)
                     .setTransferRestriction(p.claimant.address, true)
             ).to.be.reverted;

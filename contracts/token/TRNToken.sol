@@ -7,26 +7,26 @@ import "@openzeppelin/contracts-upgradeable/token/ERC20/extensions/ERC20PermitUp
 import "@openzeppelin/contracts-upgradeable/utils/NoncesUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/access/AccessControlUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/proxy/utils/UUPSUpgradeable.sol";
-import "../interfaces/IKPNKToken.sol";
+import "../interfaces/ITRNToken.sol";
 
 /**
- * @title KPNKToken (Korean Pinakion)
- * @notice K-PNK Work Token for the K-Kleros dispute resolution protocol.
+ * @title TRNToken (Korean Pinakion)
+ * @notice TRN Work Token for the Trianum dispute resolution protocol.
  * @dev This is a Work Token, NOT a security.
  *
  * Three uses only:
  *   1. Staking — jurors deposit into SortitionModule for case eligibility
  *   2. Governance — voting power via ERC20Votes delegation (capped at 5%)
- *   3. Court creation bond — 100,000 K-PNK collateral to propose new court (future)
+ *   3. Court creation bond — 100,000 TRN collateral to propose new court (future)
  *
  * Explicit non-functions:
- *   - No protocol revenue distribution in K-PNK
+ *   - No protocol revenue distribution in TRN
  *   - No burn or buyback
  *   - No fee payments (all fees settle in RLUSD / XRP)
  *   - No native yield on staking (juror rewards are paid in RLUSD)
  *
  * Supply:
- *   - Fixed cap: 1,000,000,000 K-PNK (18 decimals)
+ *   - Fixed cap: 1,000,000,000 TRN (18 decimals)
  *   - Minted via batched `initialDistribution` — can be called multiple times
  *     by the DISTRIBUTOR_ROLE as long as the cumulative total stays ≤ cap.
  *
@@ -39,20 +39,20 @@ import "../interfaces/IKPNKToken.sol";
  *   - `getVotesWithCap(account)` caps voting power at `TOTAL_SUPPLY * 5%`.
  *   - Uncapped `getVotes()` / `getPastVotes()` remain available per ERC20Votes.
  */
-contract KPNKToken is
+contract TRNToken is
     ERC20Upgradeable,
     ERC20PermitUpgradeable,
     ERC20VotesUpgradeable,
     AccessControlUpgradeable,
     UUPSUpgradeable,
-    IKPNKToken
+    ITRNToken
 {
     // ══════════════════════════════════════════════
     //                  CONSTANTS
     // ══════════════════════════════════════════════
 
     string private constant _NAME = "Korean Pinakion";
-    string private constant _SYMBOL = "K-PNK";
+    string private constant _SYMBOL = "TRN";
 
     uint256 public constant TOTAL_SUPPLY = 1_000_000_000 * 10**18;
     uint256 public constant VOTE_CAP_BPS = 500; // 5%
@@ -139,7 +139,7 @@ contract KPNKToken is
     //              INITIAL DISTRIBUTION
     // ══════════════════════════════════════════════
 
-    /// @inheritdoc IKPNKToken
+    /// @inheritdoc ITRNToken
     function initialDistribution(
         address[] calldata _recipients,
         uint256[] calldata _amounts
@@ -170,7 +170,7 @@ contract KPNKToken is
     //              TRANSFER CONTROL
     // ══════════════════════════════════════════════
 
-    /// @inheritdoc IKPNKToken
+    /// @inheritdoc ITRNToken
     function setTransferRestriction(address _account, bool _restricted)
         external
         override
@@ -180,7 +180,7 @@ contract KPNKToken is
         emit TransferRestrictionChanged(_account, _restricted);
     }
 
-    /// @inheritdoc IKPNKToken
+    /// @inheritdoc ITRNToken
     function isTransferRestricted(address _account) external view override returns (bool) {
         return _transferRestricted[_account];
     }
@@ -189,7 +189,7 @@ contract KPNKToken is
     //              GOVERNANCE VIEW
     // ══════════════════════════════════════════════
 
-    /// @inheritdoc IKPNKToken
+    /// @inheritdoc ITRNToken
     /// @dev Caps voting power at TOTAL_SUPPLY * VOTE_CAP_BPS / BPS_DENOMINATOR (5%).
     ///      Uncapped `getVotes` / `getPastVotes` remain available for accounting.
     function getVotesWithCap(address _account) external view override returns (uint256) {

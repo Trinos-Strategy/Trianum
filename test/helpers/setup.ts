@@ -3,16 +3,16 @@ import { ethers, upgrades } from "hardhat";
 export async function deployFullSuite() {
   const [admin, arbitrator, juror1, juror2, juror3, claimant, respondent, daoTreasury, operationsWallet] = await ethers.getSigners();
 
-  // 1. Deploy KPNKToken
-  const KPNKToken = await ethers.getContractFactory("KPNKToken");
-  const kpnk = await upgrades.deployProxy(KPNKToken, [admin.address], { kind: "uups" });
-  await kpnk.waitForDeployment();
+  // 1. Deploy TRNToken
+  const TRNToken = await ethers.getContractFactory("TRNToken");
+  const trn = await upgrades.deployProxy(TRNToken, [admin.address], { kind: "uups" });
+  await trn.waitForDeployment();
 
-  // 2. Deploy SortitionModule (admin, kpnk, klerosCore placeholder=admin — wired after KlerosCore deploys)
+  // 2. Deploy SortitionModule (admin, trn, klerosCore placeholder=admin — wired after KlerosCore deploys)
   const SortitionModule = await ethers.getContractFactory("SortitionModule");
   const sortition = await upgrades.deployProxy(SortitionModule, [
     admin.address,
-    await kpnk.getAddress(),
+    await trn.getAddress(),
     admin.address
   ], { kind: "uups" });
   await sortition.waitForDeployment();
@@ -51,20 +51,7 @@ export async function deployFullSuite() {
   ], { kind: "uups" });
   await core.waitForDeployment();
 
-  // 7. Deploy legacy Phase-3 stubs (KKlerosGovernor/KKlerosTimelock)
-  const Timelock = await ethers.getContractFactory("KKlerosTimelock");
-  const timelock = await upgrades.deployProxy(Timelock, [admin.address], { kind: "uups" });
-  await timelock.waitForDeployment();
-
-  const Governor = await ethers.getContractFactory("KKlerosGovernor");
-  const governor = await upgrades.deployProxy(Governor, [
-    await kpnk.getAddress(),
-    await timelock.getAddress(),
-    admin.address
-  ], { kind: "uups" });
-  await governor.waitForDeployment();
-
-  // 7b. Deploy Phase-1 DAO governance (OZ TimelockController + KlerosGovernor)
+  // 7. Deploy Phase-1 DAO governance (OZ TimelockController + TrianumGovernor)
   const TimelockController = await ethers.getContractFactory("TimelockController");
   const timelockController = await TimelockController.deploy(
     2, // minDelay (seconds) — tiny for test speed
@@ -74,11 +61,11 @@ export async function deployFullSuite() {
   );
   await timelockController.waitForDeployment();
 
-  const KlerosGovernor = await ethers.getContractFactory("KlerosGovernor");
+  const TrianumGovernor = await ethers.getContractFactory("TrianumGovernor");
   const klerosGovernor = await upgrades.deployProxy(
-    KlerosGovernor,
+    TrianumGovernor,
     [
-      await kpnk.getAddress(),
+      await trn.getAddress(),
       await timelockController.getAddress(),
       admin.address,
       1,                                      // votingDelay (blocks)
@@ -100,16 +87,15 @@ export async function deployFullSuite() {
   await (disputeKit as any).connect(admin).setKlerosCore(await core.getAddress());
   await (sortition as any).connect(admin).setKlerosCore(await core.getAddress());
   await (escrow as any).connect(admin).setKlerosCore(await core.getAddress());
-  await (kpnk as any).connect(admin).setSortitionModule(await sortition.getAddress());
-  // Seed admin with the full K-PNK supply so downstream tests that assume funded admin still work
-  await (kpnk as any)
+  await (trn as any).connect(admin).setSortitionModule(await sortition.getAddress());
+  // Seed admin with the full TRN supply so downstream tests that assume funded admin still work
+  await (trn as any)
     .connect(admin)
     .initialDistribution([admin.address], [ethers.parseUnits("1000000000", 18)]);
 
   return {
     admin, arbitrator, juror1, juror2, juror3, claimant, respondent, daoTreasury, operationsWallet,
-    kpnk, sortition, disputeKit, core, escrow, gateway,
-    governor, timelock,                   // legacy Phase-3 stubs
+    trn, sortition, disputeKit, core, escrow, gateway,
     klerosGovernor, timelockController,   // Phase-1 DAO governance
   };
 }

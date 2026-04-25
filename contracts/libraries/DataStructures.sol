@@ -101,7 +101,7 @@ library DataStructures {
     /// @dev 법원 설정
     struct CourtConfig {
         uint256 minJurors;          // 최소 배심원 수
-        uint256 minStake;           // 최소 스테이킹 (K-PNK)
+        uint256 minStake;           // 최소 스테이킹 (TRN)
         uint256 feePerJuror;        // 배심원 1인당 보상
         bool active;                // 활성 여부
     }
