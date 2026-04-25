@@ -9,7 +9,7 @@ import "../libraries/DataStructures.sol";
 
 /**
  * @title DisputeKit
- * @notice K-Kleros 듀얼 어워드 + Commit-Reveal 투표 엔진
+ * @notice Trianum 듀얼 어워드 + Commit-Reveal 투표 엔진
  * @dev UUPS proxy. Called by KlerosCore for voting lifecycle.
  *
  * Voting Flow:

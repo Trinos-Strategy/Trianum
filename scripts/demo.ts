@@ -146,11 +146,11 @@ async function main() {
         jurors.map((j) => [j.address.toLowerCase(), j])
     );
 
-    // 1. KPNKToken (brand: TRN)
-    const KPNK = await ethers.getContractFactory("KPNKToken");
-    const trnToken = await upgrades.deployProxy(KPNK, [admin.address], { kind: "uups" });
+    // 1. TRNToken (brand: TRN)
+    const TRN = await ethers.getContractFactory("TRNToken");
+    const trnToken = await upgrades.deployProxy(TRN, [admin.address], { kind: "uups" });
     await trnToken.waitForDeployment();
-    ok(`TRN Token         ${shortAddr(await trnToken.getAddress())}  ${dim("(contract: KPNKToken.sol)")}`);
+    ok(`TRN Token         ${shortAddr(await trnToken.getAddress())}  ${dim("(contract: TRNToken.sol)")}`);
 
     // 2. SortitionModule
     const Sort = await ethers.getContractFactory("SortitionModule");
@@ -209,11 +209,11 @@ async function main() {
     await mockArbitrable.waitForDeployment();
     ok(`MockArbitrable    ${shortAddr(await mockArbitrable.getAddress())}  ${dim("(simulates a third-party escrow)")}`);
 
-    // 8. Governance (TimelockController + KlerosGovernor)
+    // 8. Governance (TimelockController + TrianumGovernor)
     const Timelock = await ethers.getContractFactory("TimelockController");
     const timelock = await Timelock.deploy(2, [], [ethers.ZeroAddress], admin.address);
     await timelock.waitForDeployment();
-    const Governor = await ethers.getContractFactory("KlerosGovernor");
+    const Governor = await ethers.getContractFactory("TrianumGovernor");
     const governor = await upgrades.deployProxy(
         Governor,
         [
@@ -226,7 +226,7 @@ async function main() {
     );
     await governor.waitForDeployment();
     ok(`TimelockCtrl      ${shortAddr(await timelock.getAddress())}`);
-    ok(`KlerosGovernor    ${shortAddr(await governor.getAddress())}  ${dim("(DAO voting on TRN)")}`);
+    ok(`TrianumGovernor    ${shortAddr(await governor.getAddress())}  ${dim("(DAO voting on TRN)")}`);
 
     // Cross-wiring
     await (disputeKit as any).connect(admin).setKlerosCore(await core.getAddress());
@@ -476,7 +476,7 @@ async function main() {
     console.log(`  Local execution time:             ${bold(elapsed + "s")}`);
     console.log();
     console.log(`  Next steps:`);
-    console.log(`    ${dim("• ")}${cyan("npx hardhat test")}          ${dim("run 117 tests covering every scenario")}`);
+    console.log(`    ${dim("• ")}${cyan("npx hardhat test")}          ${dim("run 114 tests covering every scenario")}`);
     console.log(`    ${dim("• ")}${cyan("npx hardhat coverage")}      ${dim("generate coverage report")}`);
     console.log(`    ${dim("• ")}Read ${cyan("contracts/core/KlerosCore.sol")}`);
     console.log(`    ${dim("• ")}Visit ${cyan("https://trianum.trinos.group")}`);

@@ -13,9 +13,9 @@ import "@openzeppelin/contracts-upgradeable/proxy/utils/UUPSUpgradeable.sol";
 import "@openzeppelin/contracts/governance/utils/IVotes.sol";
 
 /**
- * @title KlerosGovernor
- * @notice Phase-1 DAO governance for K-Kleros — OpenZeppelin Governor stack on UUPS.
- * @dev Voting is backed by K-PNK (ERC20Votes). Proposals are queued through an OZ
+ * @title TrianumGovernor
+ * @notice Phase-1 DAO governance for Trianum — OpenZeppelin Governor stack on UUPS.
+ * @dev Voting is backed by TRN (ERC20Votes). Proposals are queued through an OZ
  *      `TimelockController` before execution. Protocol contracts should grant their
  *      ADMIN_ROLE to the timelock so all parameter changes flow through governance.
  *
@@ -27,11 +27,11 @@ import "@openzeppelin/contracts/governance/utils/IVotes.sol";
  * Parameters (from DESIGN-GOV-001 §5, MVP simplification):
  *   - votingDelay      = 1 day  (~7200 blocks @ 12s)
  *   - votingPeriod     = 7 days (~50400 blocks @ 12s)
- *   - proposalThreshold = 10,000 K-PNK (18 dec)
+ *   - proposalThreshold = 10,000 TRN (18 dec)
  *   - quorumNumerator  = 4 (→ 4%)
  *   - timelock minDelay = 24 hours (set on the TimelockController itself)
  */
-contract KlerosGovernor is
+contract TrianumGovernor is
     GovernorUpgradeable,
     GovernorSettingsUpgradeable,
     GovernorCountingSimpleUpgradeable,
@@ -51,12 +51,12 @@ contract KlerosGovernor is
     }
 
     /**
-     * @param _token         K-PNK token (must implement IVotes).
+     * @param _token         TRN token (must implement IVotes).
      * @param _timelock      OZ TimelockController-compatible address.
      * @param _admin         Initial admin (can later be rotated to the timelock itself).
      * @param _votingDelay   Blocks between proposal creation and vote start.
      * @param _votingPeriod  Blocks the vote stays open.
-     * @param _proposalThreshold Minimum voting power (K-PNK) to submit a proposal.
+     * @param _proposalThreshold Minimum voting power (TRN) to submit a proposal.
      * @param _quorumPercent Quorum as a percentage of past total supply (e.g. 4 = 4%).
      */
     function initialize(
@@ -71,7 +71,7 @@ contract KlerosGovernor is
         if (address(_token) == address(0) || address(_timelock) == address(0) || _admin == address(0))
             revert ZeroAddress();
 
-        __Governor_init("KlerosGovernor");
+        __Governor_init("TrianumGovernor");
         __GovernorSettings_init(_votingDelay, _votingPeriod, _proposalThreshold);
         __GovernorCountingSimple_init();
         __GovernorVotes_init(_token);

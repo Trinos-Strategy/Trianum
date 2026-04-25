@@ -2,13 +2,13 @@ import { expect } from "chai";
 import { ethers, upgrades } from "hardhat";
 import { SignerWithAddress } from "@nomicfoundation/hardhat-ethers/signers";
 import { mine, time } from "@nomicfoundation/hardhat-network-helpers";
-import { KPNKToken, KlerosGovernor, TimelockController } from "../typechain-types";
+import { TRNToken, TrianumGovernor, TimelockController } from "../typechain-types";
 
 // Governor parameter set for tests (kept small so the vote window can be walked
 // forward with a handful of mined blocks rather than 50k).
 const VOTING_DELAY = 1;          // blocks
 const VOTING_PERIOD = 10;        // blocks
-const PROPOSAL_THRESHOLD = ethers.parseEther("10000"); // 10,000 K-PNK
+const PROPOSAL_THRESHOLD = ethers.parseEther("10000"); // 10,000 TRN
 const QUORUM_PERCENT = 4;        // 4%
 const TIMELOCK_MIN_DELAY = 2;    // seconds (must be > 0)
 
@@ -27,10 +27,10 @@ const State = {
 // GovernorCountingSimple vote kinds
 const Vote = { Against: 0, For: 1, Abstain: 2 };
 
-describe("KlerosGovernor", function () {
-    let token: KPNKToken;
+describe("TrianumGovernor", function () {
+    let token: TRNToken;
     let timelock: TimelockController;
-    let governor: KlerosGovernor;
+    let governor: TrianumGovernor;
 
     let admin: SignerWithAddress;
     let proposer: SignerWithAddress; // big bag holder who can submit proposals
@@ -42,11 +42,11 @@ describe("KlerosGovernor", function () {
     async function setup() {
         [admin, proposer, voterA, voterB, voterC, outsider] = await ethers.getSigners();
 
-        // 1. K-PNK token with voting
-        const Token = await ethers.getContractFactory("KPNKToken");
+        // 1. TRN token with voting
+        const Token = await ethers.getContractFactory("TRNToken");
         token = (await upgrades.deployProxy(Token, [admin.address], {
             kind: "uups",
-        })) as unknown as KPNKToken;
+        })) as unknown as TRNToken;
         await token.waitForDeployment();
 
         // 2. Seed voting power. Distribution crafted so:
@@ -79,8 +79,8 @@ describe("KlerosGovernor", function () {
         )) as unknown as TimelockController;
         await timelock.waitForDeployment();
 
-        // 4. KlerosGovernor (UUPS proxy)
-        const Governor = await ethers.getContractFactory("KlerosGovernor");
+        // 4. TrianumGovernor (UUPS proxy)
+        const Governor = await ethers.getContractFactory("TrianumGovernor");
         governor = (await upgrades.deployProxy(
             Governor,
             [
@@ -93,7 +93,7 @@ describe("KlerosGovernor", function () {
                 QUORUM_PERCENT,
             ],
             { kind: "uups" }
-        )) as unknown as KlerosGovernor;
+        )) as unknown as TrianumGovernor;
         await governor.waitForDeployment();
 
         // 5. Wire governor into the timelock as the only proposer
@@ -110,7 +110,7 @@ describe("KlerosGovernor", function () {
     // ─────────────────────────────────────────────
     describe("Initialization", function () {
         it("exposes the configured parameters", async function () {
-            expect(await governor.name()).to.equal("KlerosGovernor");
+            expect(await governor.name()).to.equal("TrianumGovernor");
             expect(await governor.votingDelay()).to.equal(VOTING_DELAY);
             expect(await governor.votingPeriod()).to.equal(VOTING_PERIOD);
             expect(await governor.proposalThreshold()).to.equal(PROPOSAL_THRESHOLD);
@@ -127,7 +127,7 @@ describe("KlerosGovernor", function () {
         });
 
         it("rejects zero-address inputs at init", async function () {
-            const Governor = await ethers.getContractFactory("KlerosGovernor");
+            const Governor = await ethers.getContractFactory("TrianumGovernor");
             await expect(
                 upgrades.deployProxy(
                     Governor,

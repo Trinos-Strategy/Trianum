@@ -23,7 +23,7 @@ describe("SortitionModule", function () {
 
     async function deploy() {
         const Mock = await ethers.getContractFactory("MockERC20");
-        token = (await Mock.deploy("Mock K-PNK", "mKPNK")) as unknown as MockERC20;
+        token = (await Mock.deploy("Mock TRN", "mTRN")) as unknown as MockERC20;
         await token.waitForDeployment();
 
         const Sortition = await ethers.getContractFactory("SortitionModule");

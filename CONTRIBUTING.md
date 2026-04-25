@@ -1,6 +1,6 @@
-# Contributing to KKleros
+# Contributing to Trianum
 
-감사합니다! KKleros는 한국형 탈중앙화 분쟁해결 플랫폼을 함께 만들어갈 기여자를 환영합니다.
+감사합니다! Trianum는 한국형 탈중앙화 분쟁해결 플랫폼을 함께 만들어갈 기여자를 환영합니다.
 
 ## 기여 절차
 
@@ -10,8 +10,8 @@
 
 ### 2. Fork & Branch
 ```bash
-git clone https://github.com/<your-fork>/KKleros.git
-cd KKleros
+git clone https://github.com/<your-fork>/Trianum.git
+cd Trianum
 npm ci
 git checkout -b feat/my-feature   # or fix/ docs/ test/ chore/
 ```

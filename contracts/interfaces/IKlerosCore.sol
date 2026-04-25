@@ -5,7 +5,7 @@ import "../libraries/DataStructures.sol";
 
 /**
  * @title IArbitrator
- * @notice ERC-792 Arbitrator standard (simplified for K-Kleros)
+ * @notice ERC-792 Arbitrator standard (simplified for Trianum)
  */
 interface IArbitrator {
     event DisputeCreation(uint256 indexed _disputeID, address indexed _arbitrable);
@@ -31,7 +31,7 @@ interface IArbitrable {
 
 /**
  * @title IKlerosCore
- * @notice K-Kleros 메인 중재 허브 인터페이스
+ * @notice Trianum 메인 중재 허브 인터페이스
  */
 interface IKlerosCore is IArbitrator {
 
@@ -79,7 +79,7 @@ interface IKlerosCore is IArbitrator {
         address indexed arbitrator
     );
 
-    // ──────────── K-Kleros Extension Functions ────────────
+    // ──────────── Trianum Extension Functions ────────────
 
     function assignArbitrator(uint256 _disputeID, address _arbitrator) external;
     function closeEvidencePeriod(uint256 _disputeID) external;

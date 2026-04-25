@@ -8,13 +8,13 @@ import { run } from "hardhat";
  */
 async function main() {
   const deployments: Record<string, { address: string; args: unknown[] }> = {
-    // KPNKToken: { address: "0x...", args: [] },
+    // TRNToken: { address: "0x...", args: [] },
     // SortitionModule: { address: "0x...", args: [] },
     // DisputeKit: { address: "0x...", args: [] },
     // KlerosCore: { address: "0x...", args: [] },
     // EscrowBridge: { address: "0x...", args: [] },
-    // KKlerosTimelock: { address: "0x...", args: [] },
-    // KKlerosGovernor: { address: "0x...", args: [] },
+    // TimelockController: { address: "0x...", args: [] },
+    // TrianumGovernor: { address: "0x...", args: [] },
   };
 
   for (const [name, { address, args }] of Object.entries(deployments)) {

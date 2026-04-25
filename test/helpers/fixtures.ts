@@ -48,16 +48,16 @@ export async function deployFullProtocol() {
         jurors.map((j) => [j.address.toLowerCase(), j])
     );
 
-    // 1. KPNKToken
-    const KPNK = await ethers.getContractFactory("KPNKToken");
-    const kpnk = await upgrades.deployProxy(KPNK, [admin.address], { kind: "uups" });
-    await kpnk.waitForDeployment();
+    // 1. TRNToken
+    const TRN = await ethers.getContractFactory("TRNToken");
+    const trn = await upgrades.deployProxy(TRN, [admin.address], { kind: "uups" });
+    await trn.waitForDeployment();
 
-    // 2. SortitionModule (admin, kpnk, klerosCore=admin placeholder)
+    // 2. SortitionModule (admin, trn, klerosCore=admin placeholder)
     const Sort = await ethers.getContractFactory("SortitionModule");
     const sortition = await upgrades.deployProxy(
         Sort,
-        [admin.address, await kpnk.getAddress(), admin.address],
+        [admin.address, await trn.getAddress(), admin.address],
         { kind: "uups" }
     );
     await sortition.waitForDeployment();
@@ -113,7 +113,7 @@ export async function deployFullProtocol() {
     const mockArbitrable = await Arb.deploy(await core.getAddress());
     await mockArbitrable.waitForDeployment();
 
-    // 8. Governance (OZ TimelockController + KlerosGovernor)
+    // 8. Governance (OZ TimelockController + TrianumGovernor)
     const Timelock = await ethers.getContractFactory("TimelockController");
     const timelock = await Timelock.deploy(
         2, // minDelay (seconds) — small for test speed
@@ -123,11 +123,11 @@ export async function deployFullProtocol() {
     );
     await timelock.waitForDeployment();
 
-    const Governor = await ethers.getContractFactory("KlerosGovernor");
+    const Governor = await ethers.getContractFactory("TrianumGovernor");
     const governor = await upgrades.deployProxy(
         Governor,
         [
-            await kpnk.getAddress(),
+            await trn.getAddress(),
             await timelock.getAddress(),
             admin.address,
             1,
@@ -152,7 +152,7 @@ export async function deployFullProtocol() {
     await (disputeKit as any).connect(admin).setKlerosCore(await core.getAddress());
     await (sortition as any).connect(admin).setKlerosCore(await core.getAddress());
     await (escrow as any).connect(admin).setKlerosCore(await core.getAddress());
-    await (kpnk as any).connect(admin).setSortitionModule(await sortition.getAddress());
+    await (trn as any).connect(admin).setSortitionModule(await sortition.getAddress());
 
     // Re-grant admin KLEROS_CORE_ROLE on SortitionModule so integration tests
     // can exercise penalize/reward directly (KlerosCore currently does not
@@ -160,7 +160,7 @@ export async function deployFullProtocol() {
     const KC_ROLE = await (sortition as any).KLEROS_CORE_ROLE();
     await (sortition as any).connect(admin).grantRole(KC_ROLE, admin.address);
 
-    // Mint K-PNK — jurors, parties, voters, admin
+    // Mint TRN — jurors, parties, voters, admin
     const recipients = [
         ...jurors.map((j) => j.address),
         claimant.address,
@@ -177,17 +177,17 @@ export async function deployFullProtocol() {
         VOTER_MINT,
         ADMIN_MINT,
     ];
-    await (kpnk as any).connect(admin).initialDistribution(recipients, amounts);
+    await (trn as any).connect(admin).initialDistribution(recipients, amounts);
 
     // Stake each juror in the General court (enough headroom for a 3-juror draw)
     for (const j of jurors) {
-        await (kpnk as any).connect(j).approve(await sortition.getAddress(), ethers.MaxUint256);
+        await (trn as any).connect(j).approve(await sortition.getAddress(), ethers.MaxUint256);
         await (sortition as any).connect(j).stake(COURT_GENERAL, JUROR_STAKE);
     }
 
     // Self-delegation activates ERC20Votes voting weight
     for (const v of [voterA, voterB]) {
-        await (kpnk as any).connect(v).delegate(v.address);
+        await (trn as any).connect(v).delegate(v.address);
     }
 
     return {
@@ -196,7 +196,7 @@ export async function deployFullProtocol() {
         juror1, juror2, juror3, juror4, juror5, jurors, jurorByAddress,
         guardian, outsider, daoTreasury, operationsWallet, voterA, voterB,
         // contracts
-        kpnk, sortition, disputeKit, escrow, core, gateway,
+        trn, sortition, disputeKit, escrow, core, gateway,
         mockArbitrable, timelock, governor,
     };
 }

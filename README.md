@@ -5,9 +5,9 @@
 
 XRPL-native decentralized dispute resolution protocol. Three independent sources of legitimacy — common reason (*조리*), legal doctrine (*법리*), and party autonomy (*자치*) — converge through a **Dual Award** procedure and a stake-weighted juror panel into a single enforceable on-chain verdict in 3–5 weeks.
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](./LICENSE) ![Tests](https://img.shields.io/badge/tests-117%20passing-brightgreen) ![Stage](https://img.shields.io/badge/stage-MVP%20development-yellow) ![XRPL](https://img.shields.io/badge/chain-XRPL%20EVM%20Sidechain-0ea5e9) ![Solidity](https://img.shields.io/badge/Solidity-0.8.20-363636)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](./LICENSE) ![Tests](https://img.shields.io/badge/tests-114%20passing-brightgreen) ![Stage](https://img.shields.io/badge/stage-MVP%20development-yellow) ![XRPL](https://img.shields.io/badge/chain-XRPL%20EVM%20Sidechain-0ea5e9) ![Solidity](https://img.shields.io/badge/Solidity-0.8.20-363636)
 
-> **Brand note.** This repository is the canonical source for the **Trianum Protocol** (formerly *K-Kleros*). The GitHub repo name `KKleros` is retained as a legacy code identifier; all product-level branding, token (TRN), and documentation now use "Trianum". See [NOTICE](./NOTICE) for Kleros-derivative attribution.
+> **Heritage note.** Trianum is a derivative work of the [Kleros protocol](https://github.com/kleros/kleros) (MIT-licensed). Three core files (`KlerosCore.sol`, `DisputeKit.sol`, `SortitionModule.sol`) retain the Kleros prefix to acknowledge upstream origin; all other contracts, governance, and the TRN token are Trianum-original. See [NOTICE](./NOTICE).
 
 ---
 
@@ -77,8 +77,8 @@ Trianum is deployed across **three layers**:
 **Requirements**: Node.js ≥20, npm.
 
 ```bash
-git clone https://github.com/Trinos-Strategy/KKleros.git trianum
-cd trianum
+git clone https://github.com/Trinos-Strategy/Trianum.git
+cd Trianum
 npm ci
 ```
 
@@ -94,7 +94,7 @@ Run the full test suite:
 npx hardhat test
 ```
 
-Expected output: **117 passing** (3 pending — documented TODOs: appeal flow expansion, ERC20Permit signature, quorum-shortfall queue rejection).
+Expected output: **114 passing** (3 pending — documented TODOs: appeal flow expansion, ERC20Permit signature, quorum-shortfall queue rejection).
 
 ---
 
@@ -143,8 +143,8 @@ Token holders perform work (adjudication) in exchange for stablecoin fees. Holdi
 contracts/
 ├─ core/            KlerosCore — central dispute state machine
 ├─ modules/         SortitionModule (sortition tree), DisputeKit (Dual Award + voting), EscrowBridge (Axelar GMP)
-├─ governance/      KlerosGovernor, KKlerosGovernor (legacy stub), KKlerosTimelock
-├─ token/           KPNKToken — the Solidity implementation of TRN (class name retained for code stability; product brand is TRN)
+├─ governance/      TrianumGovernor — OZ Governor + ERC20Votes (uses TimelockController from OpenZeppelin)
+├─ token/           TRNToken — Trianum work token (ERC-20 + ERC20Votes, UUPS-upgradeable)
 ├─ interfaces/      IArbitrator, IArbitrable, IKlerosCore, etc.
 ├─ libraries/       Shared data structures and utilities
 └─ mocks/           MockAxelarGateway, MockArbitrable, MockERC20, TimelockImport
@@ -164,7 +164,7 @@ hardhat.config.ts
 ## Testing
 
 ```bash
-npx hardhat test                 # 117 passing
+npx hardhat test                 # 114 passing
 npx hardhat coverage             # optional — coverage report
 REPORT_GAS=true npx hardhat test # include gas report
 ```
@@ -198,7 +198,7 @@ export AXELAR_GATEWAY=$AXELAR_GATEWAY_TESTNET
 npx hardhat run scripts/deploy-testnet.ts --network xrplEvmTestnet
 ```
 
-Deployment order (handled by `deploy.ts`): KPNKToken → SortitionModule → DisputeKit → EscrowBridge → KlerosCore → KKlerosTimelock → KKlerosGovernor → TimelockController → KlerosGovernor. All proxies are UUPS-upgradeable.
+Deployment order (handled by `deploy.ts`): TRNToken → SortitionModule → DisputeKit → EscrowBridge → KlerosCore → TimelockController → TrianumGovernor. All proxies are UUPS-upgradeable.
 
 ---
 
@@ -210,7 +210,7 @@ Deployment order (handled by `deploy.ts`): KPNKToken → SortitionModule → Dis
 |---|---|
 | Design documents (6) | ✅ Complete |
 | Trianum Rules (Art. 1–35) | ✅ Complete |
-| Smart contract suite | ✅ Compiles · 117 tests pass |
+| Smart contract suite | ✅ Compiles · 114 tests pass |
 | Regulatory analysis (7-jurisdiction non-security) | ✅ Complete |
 | Security audit (external) | ⬜ Planned for Phase 2 |
 | XRPL EVM Sidechain testnet deployment | 🟡 Deployment scripts ready; live addresses TBD |
