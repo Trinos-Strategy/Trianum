@@ -1,0 +1,51 @@
+name: Apply Patch from URL
+
+on:
+  workflow_dispatch:
+    inputs:
+      patch_url:
+        description: 'Direct URL to the replacement file (raw content)'
+        required: true
+        type: string
+      target_path:
+        description: 'Path in repo to overwrite (e.g. index.html)'
+        required: true
+        default: 'index.html'
+        type: string
+      commit_message:
+        description: 'Commit message'
+        required: true
+        default: 'chore: apply patch via workflow_dispatch'
+        type: string
+
+permissions:
+  contents: write
+
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Download patch file
+        run: |
+          set -euo pipefail
+          mkdir -p "$(dirname "${{ inputs.target_path }}")" || true
+          curl -fsSL "${{ inputs.patch_url }}" -o "${{ inputs.target_path }}"
+          echo "Downloaded $(wc -c < "${{ inputs.target_path }}") bytes"
+
+      - name: Commit and push
+        run: |
+          set -euo pipefail
+          git config user.name  "trianum-bot"
+          git config user.email "bot@trinos.group"
+          git add "${{ inputs.target_path }}"
+          if git diff --cached --quiet; then
+            echo "No changes to commit."
+            exit 0
+          fi
+          git commit -m "${{ inputs.commit_message }}"
+          git push origin main
