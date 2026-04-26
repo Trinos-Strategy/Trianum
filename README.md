@@ -273,3 +273,15 @@ See [CONTRIBUTING.md](./CONTRIBUTING.md) for details and [CODE_OF_CONDUCT.md](./
 ---
 
 *Trianum — Where Three Justifications Render One Verdict.*
+
+
+## 📹 Videos
+
+| Video | Length | Audience |
+|---|---|---|
+| 🎬 [**Quick Intro**](https://youtu.be/tFePfDK-uCY) | 1:58 (EN) | TL;DR — what Trianum is |
+| ⚡ [**Live Demo**](https://youtu.be/a0DT_gRv4v8) | 0:51 | Working code: full dispute lifecycle on local Hardhat |
+| 🇰🇷 [**Full Walkthrough — Korean**](https://youtu.be/cjRywj8qdWY) | 5:38 | Deep dive in 한국어 (단심제·삼중성·법적 정합) |
+| 🇬🇧 [**Full Walkthrough — English**](https://youtu.be/D7FGOLxhfB0) | 5:51 | Deep dive in English (single-instance, three-fold) |
+
+> The Live Demo is a screen recording of `VIDEO_MODE=1 npm run demo` on this repository — proof that the protocol runs end-to-end (deploy → stake → dispute → Dual Award → Commit-Reveal → tally → appeal window → final signing → execution) in under a minute on any developer machine.

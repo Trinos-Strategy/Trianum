@@ -1,0 +1,43 @@
+name: Run sec07/08 patch
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Run patch script
+        run: node scripts/apply-sec07-08-fix.mjs
+
+      - name: Commit and push
+        run: |
+          set -euo pipefail
+          git config user.name  "trianum-bot"
+          git config user.email "bot@trinos.group"
+          git add index.html
+          if git diff --cached --quiet; then
+            echo "No changes to commit."
+            exit 0
+          fi
+          git commit -m "fix: 114 tests, sec07/08 into main, brand-arch to sec08, lang-filter videos, i18n EN"
+          git push origin main
+
+
+  deploy:
+    needs: patch
+    uses: ./.github/workflows/deploy-pages.yml
+    secrets: inherit
