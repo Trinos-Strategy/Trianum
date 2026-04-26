@@ -3730,6 +3730,3091 @@ TRN Token</div>
     </div>
   </section>
 
+
+  <!-- ─── §07 · User Interface (storyboard) ──────────────── -->
+  <!-- Generated 2026-04-26 · v2.1 hardened · 12/12 verified.   -->
+  <!-- Bilingual KO/EN · Dark default · IRAC Award Modal.        -->
+<!--
+  Trianum · Interface Storyboard Section · v2 (bilingual + dark + IRAC modal)
+  ───────────────────────────────────────────────────────────────────────────
+  v2 changes layered on top of v1:
+    1. Bilingual KO (default) / EN via [data-lang] sibling spans toggled by
+       <html data-lang="…"> attribute set by header toggle (persisted in
+       localStorage as "tri-lang").
+    2. Default = dark theme (#0B0F14 ivory). Light variant gated by
+       <html data-theme="light">. Persisted as "tri-theme".
+    3. <dialog id="tri-award-142"> modal triggered from Screen 7 by the
+       "📜 중재판정문 보기 / 📜 View Arbitral Award" button. Native focus
+       trap + ESC close, backdrop-click close added in JS.
+    4. Modal carries the full 2-page IRAC sample award (KO+EN, 8 evidence
+       items E1–E8) verbatim from _ui_fix_v2.md.
+
+  Preserved unchanged from v1:
+    • horizontal scroll-snap carousel (380px cards, gap 32px)
+    • mouse-wheel deltaY → scrollLeft, keyboard ←/→/Home/End
+    • 7-card scenario consistency (Dispute #142, 1,000 RLUSD, 14-day SLA, 7/10)
+    • single-instance 7-day appeal window emphasis (Screen 6)
+    • Phase rail 01–07
+
+  KNOWN INTENTIONAL DRIFT:
+    Modal IRAC "award date" is 2026-04-25 (verbatim from spec). Screen 7's
+    on-chain settlement timestamp remains 2026-04-29 (after 7-day appeal
+    window elapses). These are conceptually distinct events — award rendition
+    vs. on-chain enforcement — and the IRAC body must not be modified.
+-->
+
+<section id="interface" class="tri-section" lang="ko" aria-labelledby="tri-heading">
+  <style>
+    /* ═══════════════════════════════════════════════════════════════
+       LANG VISIBILITY — toggled via <html data-lang="…">
+       Default (no attribute) = KO visible.
+       ═══════════════════════════════════════════════════════════════ */
+    :root[data-lang="ko"] #interface [data-lang="en"],
+    :root:not([data-lang])  #interface [data-lang="en"] { display: none; }
+    :root[data-lang="en"]  #interface [data-lang="ko"] { display: none; }
+
+    /* ═══════════════════════════════════════════════════════════════
+       THEME — Default = DARK. Light variant overrides via [data-theme].
+       ═══════════════════════════════════════════════════════════════ */
+    #interface {
+      /* Dark (default) */
+      --tri-ivory:    #0B0F14;
+      --tri-vellum:   #1A2230;
+      --tri-paper:    #141A22;
+      --tri-navy:     #E8E4D8;
+      --tri-ink:      #E8E4D8;
+      --tri-muted:    #A8AEB8;
+      --tri-faint:    #6F7682;
+      --tri-line:     rgba(232, 228, 216, 0.12);
+      --tri-line-2:   rgba(232, 228, 216, 0.22);
+      --tri-emerald:  #5FBA8A;
+      --tri-burgundy: #E07A8E;
+      --tri-gold:     #D9A85A;
+      --tri-emerald-soft:  rgba(95, 186, 138, 0.14);
+      --tri-burgundy-soft: rgba(224, 122, 142, 0.14);
+      --tri-gold-soft:     rgba(217, 168, 90, 0.14);
+      --tri-success: #5FBA8A;
+      --tri-warn:    #E5B660;
+      --tri-danger:  #FF8B7B;
+      --tri-shadow-sm: 0 1px 2px rgba(0,0,0,0.40), 0 1px 1px rgba(0,0,0,0.20);
+      --tri-shadow-md: 0 8px 24px rgba(0,0,0,0.50), 0 2px 6px rgba(0,0,0,0.30);
+      --tri-shadow-lg: 0 24px 64px rgba(0,0,0,0.60), 0 8px 20px rgba(0,0,0,0.40);
+      --tri-card-inner: inset 0 0 0 1px rgba(255,255,255,0.05);
+
+      --tri-serif-en: 'EB Garamond', Georgia, 'Times New Roman', serif;
+      --tri-serif-kr: 'Noto Serif KR', 'Nanum Myeongjo', serif;
+      --tri-sans-kr:  'Pretendard Variable', Pretendard, Inter, system-ui, sans-serif;
+      --tri-sans-en:  Inter, 'Pretendard Variable', system-ui, sans-serif;
+      --tri-mono:     'JetBrains Mono', 'SF Mono', ui-monospace, Menlo, monospace;
+
+      --tri-radius-sm: 6px;
+      --tri-radius:    12px;
+      --tri-radius-lg: 18px;
+
+      background: var(--tri-ivory);
+      color: var(--tri-navy);
+      font-family: var(--tri-sans-kr);
+      padding: clamp(3.5rem, 4vw + 2rem, 6rem) 0;
+      position: relative;
+      isolation: isolate;
+    }
+
+    /* Light theme override */
+    :root[data-theme="light"] #interface {
+      --tri-ivory:    #FAF7F0;
+      --tri-vellum:   #F4EFE4;
+      --tri-paper:    #FBFAF4;
+      --tri-navy:     #0F172A;
+      --tri-ink:      #1E293B;
+      --tri-muted:    #475569;
+      --tri-faint:    #64748B;
+      --tri-line:     rgba(15, 23, 42, 0.10);
+      --tri-line-2:   rgba(15, 23, 42, 0.18);
+      --tri-emerald:  #14532D;
+      --tri-burgundy: #8B1538;
+      --tri-gold:     #78350F;
+      --tri-emerald-soft:  rgba(20, 83, 45, 0.10);
+      --tri-burgundy-soft: rgba(139, 21, 56, 0.10);
+      --tri-gold-soft:     rgba(120, 53, 15, 0.12);
+      --tri-success: #047857;
+      --tri-warn:    #A16207;
+      --tri-danger:  #B91C1C;
+      --tri-shadow-sm: 0 1px 2px rgba(15,23,42,0.06), 0 1px 1px rgba(15,23,42,0.03);
+      --tri-shadow-md: 0 8px 24px rgba(15,23,42,0.08), 0 2px 6px rgba(15,23,42,0.04);
+      --tri-shadow-lg: 0 20px 48px rgba(15,23,42,0.12), 0 6px 16px rgba(15,23,42,0.06);
+      --tri-card-inner: inset 0 0 0 1px rgba(255,255,255,0.50);
+    }
+
+    #interface *, #interface *::before, #interface *::after { box-sizing: border-box; }
+
+    /* ═══ Container ═══ */
+    #interface .tri-container {
+      width: min(100% - 2rem, 1200px);
+      margin-inline: auto;
+    }
+
+    /* ═══ Section header ═══ */
+    #interface .tri-head {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 1.5rem;
+      align-items: start;
+    }
+    #interface .tri-eyebrow {
+      font-family: var(--tri-serif-en);
+      font-size: 0.75rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--tri-gold);
+      margin: 0 0 1.25rem;
+      font-style: italic;
+    }
+    #interface .tri-h2 {
+      font-family: var(--tri-serif-en);
+      font-weight: 500;
+      font-size: clamp(1.875rem, 1.2rem + 2.4vw, 3rem);
+      line-height: 1.12;
+      letter-spacing: -0.01em;
+      color: var(--tri-navy);
+      margin: 0 0 0.6rem;
+      max-width: 22ch;
+    }
+    #interface .tri-h2-kr {
+      font-family: var(--tri-serif-kr);
+      font-weight: 500;
+      font-size: clamp(1.875rem, 1.2rem + 2.4vw, 3rem);
+      line-height: 1.18;
+      letter-spacing: -0.01em;
+      color: var(--tri-navy);
+      margin: 0 0 0.6rem;
+      max-width: 22ch;
+    }
+    #interface .tri-h3 {
+      font-family: var(--tri-serif-kr);
+      font-weight: 500;
+      font-size: clamp(1.25rem, 0.9rem + 1vw, 1.625rem);
+      color: var(--tri-burgundy);
+      letter-spacing: -0.01em;
+      margin: 0 0 1.5rem;
+    }
+    #interface .tri-h3-en {
+      font-family: var(--tri-serif-en);
+      font-style: italic;
+      font-weight: 500;
+      font-size: clamp(1.15rem, 0.9rem + 0.8vw, 1.5rem);
+      color: var(--tri-burgundy);
+      letter-spacing: -0.01em;
+      margin: 0 0 1.5rem;
+    }
+    #interface .tri-lede {
+      font-size: 1rem;
+      line-height: 1.65;
+      color: var(--tri-muted);
+      max-width: 60ch;
+      margin: 0;
+    }
+    #interface .tri-hairline {
+      height: 1px;
+      width: 100%;
+      background: linear-gradient(90deg, transparent, var(--tri-gold), transparent);
+      opacity: 0.45;
+      margin: 2.5rem 0;
+    }
+
+    /* ═══ Header toggles (lang + theme) ═══ */
+    #interface .tri-toggles {
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+      flex-wrap: wrap;
+      justify-self: end;
+    }
+    #interface .tri-lang-toggle {
+      display: inline-flex;
+      padding: 0.2rem;
+      border: 1px solid var(--tri-line-2);
+      border-radius: 999px;
+      background: var(--tri-vellum);
+    }
+    #interface .tri-lang-toggle button {
+      border: 0;
+      background: transparent;
+      color: var(--tri-muted);
+      font-family: var(--tri-sans-kr);
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.01em;
+      padding: 0.4rem 0.95rem;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: background 180ms ease, color 180ms ease;
+    }
+    #interface .tri-lang-toggle button[aria-selected="true"] {
+      background: var(--tri-emerald);
+      color: var(--tri-ivory);
+    }
+    #interface .tri-theme-toggle {
+      width: 2.4rem;
+      height: 2.4rem;
+      border: 1px solid var(--tri-line-2);
+      background: var(--tri-vellum);
+      color: var(--tri-navy);
+      border-radius: 50%;
+      cursor: pointer;
+      display: inline-grid;
+      place-items: center;
+      font-size: 1rem;
+      transition: background 180ms ease, transform 180ms ease;
+    }
+    #interface .tri-theme-toggle:hover { transform: translateY(-1px); }
+    /* Show only one icon at a time */
+    :root:not([data-theme="light"]) #interface .tri-theme-toggle [data-theme-icon="dark"] { display: none; }
+    :root[data-theme="light"]       #interface .tri-theme-toggle [data-theme-icon="light"] { display: none; }
+
+    /* ═══ Phase rail ═══ */
+    #interface .tri-rail {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 0;
+      position: relative;
+      margin-bottom: 1.75rem;
+      padding: 1rem 0.25rem;
+      background: linear-gradient(180deg, transparent, var(--tri-vellum) 50%, transparent);
+      border-radius: var(--tri-radius);
+    }
+    #interface .tri-rail::before {
+      content: '';
+      position: absolute;
+      left: 5%;
+      right: 5%;
+      top: calc(50% - 1px);
+      height: 1px;
+      background: var(--tri-line-2);
+      z-index: 0;
+    }
+    #interface .tri-rail-step {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.45rem;
+      z-index: 1;
+      padding: 0 0.25rem;
+    }
+    #interface .tri-rail-node {
+      width: 1.85rem;
+      height: 1.85rem;
+      border-radius: 50%;
+      background: var(--tri-paper);
+      border: 1px solid var(--tri-line-2);
+      display: grid;
+      place-items: center;
+      font-family: var(--tri-mono);
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--tri-navy);
+      box-shadow: var(--tri-shadow-sm);
+    }
+    #interface .tri-rail-step[data-tone="emerald"]  .tri-rail-node { border-color: var(--tri-emerald);  color: var(--tri-emerald);  background: var(--tri-emerald-soft); }
+    #interface .tri-rail-step[data-tone="burgundy"] .tri-rail-node { border-color: var(--tri-burgundy); color: var(--tri-burgundy); background: var(--tri-burgundy-soft); }
+    #interface .tri-rail-step[data-tone="gold"]     .tri-rail-node { border-color: var(--tri-gold);     color: var(--tri-gold);     background: var(--tri-gold-soft); }
+    #interface .tri-rail-label {
+      font-size: 0.7rem;
+      font-weight: 500;
+      color: var(--tri-muted);
+      text-align: center;
+      line-height: 1.25;
+      letter-spacing: 0.01em;
+    }
+    #interface .tri-rail-label small {
+      display: block;
+      font-family: var(--tri-serif-kr);
+      font-size: 0.65rem;
+      color: var(--tri-faint);
+      margin-top: 1px;
+    }
+
+    /* ═══ Carousel wrapper (full-bleed + edge fades) ═══ */
+    #interface .tri-storyboard-wrap {
+      position: relative;
+      width: 100vw;
+      margin-left: calc(50% - 50vw);
+      margin-right: calc(50% - 50vw);
+    }
+    #interface .tri-storyboard-wrap::before,
+    #interface .tri-storyboard-wrap::after {
+      content: '';
+      position: absolute;
+      top: 0; bottom: 0;
+      width: 72px;
+      pointer-events: none;
+      z-index: 2;
+    }
+    #interface .tri-storyboard-wrap::before {
+      left: 0;
+      background: linear-gradient(to right, var(--tri-ivory), transparent);
+    }
+    #interface .tri-storyboard-wrap::after {
+      right: 0;
+      background: linear-gradient(to left, var(--tri-ivory), transparent);
+    }
+
+    /* ═══ Carousel track ═══ */
+    #interface .tri-storyboard {
+      display: flex;
+      flex-wrap: nowrap;
+      gap: 32px;
+      padding: 0.5rem calc(50vw - 190px) 1.5rem;
+      overflow-x: auto;
+      overscroll-behavior-x: contain;
+      scroll-snap-type: x mandatory;
+      scroll-padding-inline: calc(50vw - 190px); /* v2.1c: match visual padding so Home-key snaps to centered first card */
+      -webkit-overflow-scrolling: touch;
+      scrollbar-color: rgba(217, 168, 90, 0.3) transparent;
+      scrollbar-width: thin;
+      outline: none;
+    }
+    :root[data-theme="light"] #interface .tri-storyboard {
+      scrollbar-color: rgba(120, 53, 15, 0.3) transparent;
+    }
+    #interface .tri-storyboard:focus-visible {
+      box-shadow: inset 0 0 0 2px var(--tri-emerald);
+      border-radius: var(--tri-radius);
+    }
+    #interface .tri-storyboard::-webkit-scrollbar { height: 6px; }
+    #interface .tri-storyboard::-webkit-scrollbar-track { background: transparent; }
+    #interface .tri-storyboard::-webkit-scrollbar-thumb {
+      background: rgba(217, 168, 90, 0.35);
+      border-radius: 3px;
+    }
+    :root[data-theme="light"] #interface .tri-storyboard::-webkit-scrollbar-thumb {
+      background: rgba(120, 53, 15, 0.30);
+    }
+
+    /* ═══ Screen card ═══ */
+    #interface .tri-screen {
+      flex: 0 0 380px;
+      scroll-snap-align: center;
+      background: var(--tri-paper);
+      border: 1px solid var(--tri-line);
+      border-radius: 28px;
+      box-shadow: var(--tri-shadow-md), var(--tri-card-inner);
+      display: flex;
+      flex-direction: column;
+      min-height: 720px;
+      overflow: hidden;
+      position: relative;
+    }
+    #interface .tri-screen *,
+    #interface .tri-screen *::before,
+    #interface .tri-screen *::after {
+      word-break: keep-all;
+      overflow-wrap: break-word;
+    }
+    #interface .tri-screen .tri-mono,
+    #interface .tri-screen pre,
+    #interface .tri-screen code,
+    #interface .tri-screen .tri-evi-cid,
+    #interface .tri-screen .tri-chrome-url {
+      word-break: break-all;
+      white-space: normal;
+    }
+    #interface .tri-screen[data-tone="emerald"]  { border-top: 3px solid var(--tri-emerald); }
+    #interface .tri-screen[data-tone="burgundy"] { border-top: 3px solid var(--tri-burgundy); }
+    #interface .tri-screen[data-tone="gold"]     { border-top: 3px solid var(--tri-gold); }
+
+    /* ═══ Window chrome ═══ */
+    #interface .tri-chrome {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.7rem 1rem;
+      background: var(--tri-vellum);
+      border-bottom: 1px solid var(--tri-line);
+      font-family: var(--tri-mono);
+      font-size: 0.72rem;
+      color: var(--tri-faint);
+    }
+    #interface .tri-chrome-dots { display: flex; gap: 0.3rem; margin-right: 0.4rem; }
+    #interface .tri-chrome-dots span {
+      width: 0.55rem; height: 0.55rem; border-radius: 50%;
+      background: var(--tri-line-2);
+    }
+    #interface .tri-chrome-url {
+      flex: 1;
+      padding: 0.25rem 0.6rem;
+      background: var(--tri-paper);
+      border: 1px solid var(--tri-line);
+      border-radius: 999px;
+      color: var(--tri-muted);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    #interface .tri-chrome-net {
+      display: inline-flex; align-items: center; gap: 0.3rem;
+      padding: 0.2rem 0.55rem;
+      background: var(--tri-emerald-soft);
+      border: 1px solid var(--tri-emerald);
+      border-radius: 999px;
+      color: var(--tri-emerald);
+      font-size: 0.66rem;
+      font-weight: 600;
+    }
+    #interface .tri-chrome-net::before {
+      content: ''; width: 6px; height: 6px; border-radius: 50%;
+      background: var(--tri-emerald);
+      box-shadow: 0 0 0 2px rgba(95,186,138,0.20);
+      animation: tri-pulse 2.4s ease-in-out infinite;
+    }
+    @keyframes tri-pulse {
+      0%, 100% { box-shadow: 0 0 0 2px rgba(95,186,138,0.20); }
+      50%      { box-shadow: 0 0 0 5px rgba(95,186,138,0.04); }
+    }
+
+    /* ═══ Screen header band ═══ */
+    #interface .tri-screen-head {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.8rem;
+      padding: 1rem 1.25rem 0.85rem;
+      border-bottom: 1px solid var(--tri-line);
+    }
+    #interface .tri-case { display: flex; flex-direction: column; gap: 0.15rem; }
+    #interface .tri-case-id {
+      font-family: var(--tri-mono);
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--tri-navy);
+      letter-spacing: 0.01em;
+    }
+    #interface .tri-case-id em { font-style: normal; color: var(--tri-burgundy); }
+    #interface .tri-case-sub {
+      font-family: var(--tri-serif-kr);
+      font-size: 0.78rem;
+      color: var(--tri-muted);
+      letter-spacing: 0.01em;
+    }
+    #interface [data-lang="en"] .tri-case-sub,
+    :root[data-lang="en"] #interface .tri-case-sub {
+      font-family: var(--tri-serif-en);
+      font-style: italic;
+    }
+    #interface .tri-case-sub small {
+      font-family: var(--tri-serif-kr);
+      color: var(--tri-faint);
+      margin-left: 0.25rem;
+      font-size: 0.7rem;
+    }
+
+    /* ═══ Status pill ═══ */
+    #interface .tri-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      padding: 0.25rem 0.65rem;
+      border-radius: 999px;
+      font-family: var(--tri-sans-en);
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      border: 1px solid currentColor;
+      background: rgba(255,255,255,0.04);
+    }
+    :root[data-theme="light"] #interface .tri-pill { background: rgba(255,255,255,0.6); }
+    #interface .tri-pill svg { width: 11px; height: 11px; }
+    #interface .tri-pill[data-tone="emerald"]  { color: var(--tri-emerald);  background: var(--tri-emerald-soft); }
+    #interface .tri-pill[data-tone="burgundy"] { color: var(--tri-burgundy); background: var(--tri-burgundy-soft); }
+    #interface .tri-pill[data-tone="gold"]     { color: var(--tri-gold);     background: var(--tri-gold-soft); }
+    #interface .tri-pill[data-tone="warn"]     { color: var(--tri-warn);     background: rgba(229,182,96,0.12); }
+    #interface .tri-pill[data-tone="success"]  { color: var(--tri-success);  background: var(--tri-emerald-soft); }
+    #interface .tri-pill[data-tone="info"]     { color: var(--tri-muted);    background: var(--tri-vellum); }
+
+    /* ═══ Countdown ═══ */
+    #interface .tri-countdown {
+      font-family: var(--tri-mono);
+      font-variant-numeric: tabular-nums;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      color: var(--tri-navy);
+      display: inline-flex;
+      align-items: baseline;
+      gap: 0.2rem;
+    }
+    #interface .tri-countdown[data-size="lg"] { font-size: 2.25rem; line-height: 1; }
+    #interface .tri-countdown[data-size="md"] { font-size: 1.15rem; line-height: 1; }
+    #interface .tri-countdown small {
+      font-family: var(--tri-sans-en);
+      font-size: 0.62rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      color: var(--tri-faint);
+      text-transform: uppercase;
+      margin-left: 0.15rem;
+    }
+
+    /* ═══ Screen body ═══ */
+    #interface .tri-body {
+      padding: 1rem 1.25rem 1.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+      flex: 1;
+    }
+    #interface .tri-row {
+      display: flex; flex-wrap: wrap; gap: 0.65rem;
+      align-items: center; justify-content: space-between;
+    }
+    #interface .tri-label {
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--tri-faint);
+    }
+    #interface .tri-label .tri-kr {
+      font-family: var(--tri-serif-kr);
+      letter-spacing: 0;
+      text-transform: none;
+      font-weight: 500;
+      color: var(--tri-muted);
+      margin-left: 0.4rem;
+    }
+    #interface .tri-h4 {
+      font-family: var(--tri-serif-en);
+      font-weight: 500;
+      font-size: 1.15rem;
+      color: var(--tri-navy);
+      margin: 0;
+      line-height: 1.3;
+    }
+    #interface .tri-h4-kr {
+      font-family: var(--tri-serif-kr);
+      font-weight: 500;
+      font-size: 1rem;
+      color: var(--tri-burgundy);
+      margin: 0;
+    }
+    #interface .tri-p {
+      font-size: 0.85rem;
+      line-height: 1.6;
+      color: var(--tri-muted);
+      margin: 0;
+    }
+    #interface .tri-p strong { color: var(--tri-navy); font-weight: 600; }
+    #interface .tri-p em.tri-hanja {
+      font-style: italic;
+      font-size: 0.82em;
+      color: var(--tri-faint);
+      font-family: var(--tri-serif-kr);
+    }
+
+    /* ═══ Mono strings ═══ */
+    #interface .tri-mono {
+      font-family: var(--tri-mono);
+      font-size: 0.78rem;
+      color: var(--tri-ink);
+      background: var(--tri-vellum);
+      padding: 0.15rem 0.45rem;
+      border-radius: var(--tri-radius-sm);
+      border: 1px solid var(--tri-line);
+      letter-spacing: 0;
+    }
+    #interface .tri-mono--plain {
+      background: transparent; border: 0; padding: 0;
+    }
+
+    /* ═══ Court selection (Screen 1) ═══ */
+    #interface .tri-courts {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.65rem;
+    }
+    #interface .tri-court {
+      padding: 0.85rem 0.9rem;
+      border: 1px solid var(--tri-line);
+      border-radius: var(--tri-radius);
+      background: var(--tri-paper);
+      display: flex;
+      flex-direction: column;
+      gap: 0.45rem;
+      position: relative;
+      cursor: pointer;
+      transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease;
+    }
+    #interface .tri-court:hover {
+      transform: translateY(-1px);
+      box-shadow: var(--tri-shadow-sm);
+      border-color: var(--tri-line-2);
+    }
+    #interface .tri-court[aria-checked="true"] {
+      border-color: var(--tri-emerald);
+      background: linear-gradient(180deg, var(--tri-emerald-soft), var(--tri-paper) 60%);
+      box-shadow: 0 0 0 2px rgba(95,186,138,0.18);
+    }
+    #interface .tri-court[aria-checked="true"]::before {
+      content: '✓';
+      position: absolute;
+      top: 0.55rem; right: 0.65rem;
+      width: 1.05rem; height: 1.05rem;
+      border-radius: 50%;
+      background: var(--tri-emerald);
+      color: var(--tri-ivory);
+      font-size: 0.7rem;
+      font-weight: 700;
+      display: grid; place-items: center;
+    }
+    #interface .tri-court-name {
+      font-family: var(--tri-serif-en);
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--tri-navy);
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 0.3rem;
+    }
+    #interface .tri-court-name span {
+      font-family: var(--tri-serif-kr);
+      font-size: 0.82rem;
+      font-weight: 500;
+      color: var(--tri-muted);
+    }
+    #interface .tri-court-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 0.35rem;
+      font-family: var(--tri-mono);
+      font-size: 0.7rem;
+      color: var(--tri-muted);
+    }
+    #interface .tri-court-stats div { display: flex; flex-direction: column; gap: 0.05rem; }
+    #interface .tri-court-stats strong { color: var(--tri-navy); font-weight: 600; font-size: 0.85rem; }
+    #interface .tri-court-stats em {
+      font-style: normal;
+      font-family: var(--tri-sans-en);
+      font-size: 0.6rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--tri-faint);
+    }
+
+    /* ═══ Definition rows ═══ */
+    #interface .tri-defs {
+      display: grid;
+      grid-template-columns: max-content 1fr;
+      gap: 0.4rem 0.8rem;
+      font-size: 0.82rem;
+      align-items: baseline;
+    }
+    #interface .tri-defs dt {
+      color: var(--tri-faint);
+      font-size: 0.72rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      font-weight: 500;
+    }
+    #interface .tri-defs dt small {
+      display: block;
+      font-family: var(--tri-serif-kr);
+      letter-spacing: 0;
+      text-transform: none;
+      font-size: 0.7rem;
+      color: var(--tri-faint);
+      margin-top: 1px;
+    }
+    #interface .tri-defs dd {
+      margin: 0;
+      color: var(--tri-navy);
+      font-weight: 500;
+    }
+
+    /* ═══ Drop zone / Fee ═══ */
+    #interface .tri-drop {
+      border: 1.5px dashed var(--tri-line-2);
+      border-radius: var(--tri-radius);
+      padding: 0.9rem 1rem;
+      background: var(--tri-vellum);
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    #interface .tri-drop svg { width: 1.5rem; height: 1.5rem; color: var(--tri-burgundy); flex: none; }
+    #interface .tri-drop-text { flex: 1; font-size: 0.78rem; color: var(--tri-muted); line-height: 1.45; }
+    #interface .tri-drop-text strong { color: var(--tri-navy); font-weight: 600; display: block; }
+    #interface .tri-drop-text code { font-family: var(--tri-mono); font-size: 0.7rem; color: var(--tri-emerald); }
+
+    #interface .tri-fee {
+      background: var(--tri-vellum);
+      border: 1px solid var(--tri-line);
+      border-radius: var(--tri-radius);
+      padding: 0.75rem 0.9rem;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 0.35rem 0.8rem;
+      font-size: 0.78rem;
+      color: var(--tri-muted);
+    }
+    #interface .tri-fee dt { color: var(--tri-muted); }
+    #interface .tri-fee dd { margin: 0; font-family: var(--tri-mono); color: var(--tri-navy); text-align: right; }
+    #interface .tri-fee dt.tri-fee-total,
+    #interface .tri-fee dd.tri-fee-total {
+      font-weight: 700;
+      color: var(--tri-navy);
+      padding-top: 0.4rem;
+      border-top: 1px solid var(--tri-line);
+      font-size: 0.85rem;
+    }
+
+    /* ═══ Evidence list (Screen 3) ═══ */
+    #interface .tri-evidence {
+      display: flex;
+      flex-direction: column;
+      gap: 0.55rem;
+      max-height: 290px;
+      overflow-y: auto;
+      padding-right: 0.25rem;
+    }
+    #interface .tri-evidence::-webkit-scrollbar { width: 5px; }
+    #interface .tri-evidence::-webkit-scrollbar-thumb { background: var(--tri-line-2); border-radius: 99px; }
+    #interface .tri-evi {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 0.65rem;
+      align-items: flex-start;
+      padding: 0.6rem 0.7rem;
+      background: var(--tri-paper);
+      border: 1px solid var(--tri-line);
+      border-radius: var(--tri-radius);
+    }
+    #interface .tri-evi-dot {
+      width: 0.75rem; height: 0.75rem;
+      border-radius: 50%;
+      background: var(--tri-paper);
+      border: 2px solid var(--tri-burgundy);
+      margin-top: 0.25rem;
+      flex: none;
+    }
+    #interface .tri-evi[data-side="claimant"]   .tri-evi-dot { border-color: var(--tri-emerald); }
+    #interface .tri-evi[data-side="respondent"] .tri-evi-dot { border-color: var(--tri-burgundy); }
+    #interface .tri-evi[data-side="arbitrator"] .tri-evi-dot { background: var(--tri-gold); border-color: var(--tri-gold); }
+    #interface .tri-evi-body { display: flex; flex-direction: column; gap: 0.2rem; min-width: 0; }
+    #interface .tri-evi-meta { font-family: var(--tri-mono); font-size: 0.65rem; color: var(--tri-faint); letter-spacing: 0.05em; }
+    #interface .tri-evi-title { font-size: 0.85rem; font-weight: 600; color: var(--tri-navy); line-height: 1.3; }
+    #interface .tri-evi-cid {
+      font-family: var(--tri-mono); font-size: 0.66rem; color: var(--tri-emerald);
+      overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+    }
+    #interface .tri-evi-side {
+      font-family: var(--tri-sans-en);
+      font-size: 0.6rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      font-weight: 600;
+      padding: 0.18rem 0.45rem;
+      border-radius: 999px;
+      flex: none;
+      align-self: flex-start;
+    }
+    #interface .tri-evi[data-side="claimant"]   .tri-evi-side { color: var(--tri-emerald);  background: var(--tri-emerald-soft); }
+    #interface .tri-evi[data-side="respondent"] .tri-evi-side { color: var(--tri-burgundy); background: var(--tri-burgundy-soft); }
+    #interface .tri-evi[data-side="arbitrator"] .tri-evi-side { color: var(--tri-gold);     background: var(--tri-gold-soft); }
+
+    /* ═══ Dual award split ═══ */
+    #interface .tri-split {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 0.55rem;
+    }
+    #interface .tri-award {
+      border: 1px solid var(--tri-line);
+      border-radius: var(--tri-radius);
+      padding: 0.7rem 0.75rem;
+      background: var(--tri-paper);
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+      min-width: 0;
+      position: relative;
+    }
+    #interface .tri-award[data-award="A"] { border-top: 2px solid var(--tri-emerald); }
+    #interface .tri-award[data-award="B"] { border-top: 2px solid var(--tri-burgundy); }
+    #interface .tri-award-tag {
+      font-family: var(--tri-serif-en);
+      font-style: italic;
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--tri-faint);
+    }
+    #interface .tri-award[data-award="A"] .tri-award-tag { color: var(--tri-emerald); }
+    #interface .tri-award[data-award="B"] .tri-award-tag { color: var(--tri-burgundy); }
+    #interface .tri-award-h {
+      font-family: var(--tri-serif-en);
+      font-weight: 600;
+      font-size: 1rem;
+      color: var(--tri-navy);
+      margin: 0;
+      letter-spacing: -0.01em;
+    }
+    #interface .tri-award-amt {
+      font-family: var(--tri-mono);
+      font-weight: 700;
+      font-size: 1.05rem;
+      color: var(--tri-navy);
+    }
+    #interface .tri-award-clause {
+      font-size: 0.72rem;
+      line-height: 1.5;
+      color: var(--tri-muted);
+    }
+    #interface .tri-award-clause::before {
+      content: '"';
+      font-family: var(--tri-serif-en);
+      font-size: 1.4em;
+      color: var(--tri-line-2);
+      margin-right: 0.15rem;
+      line-height: 0;
+      vertical-align: -0.3em;
+    }
+    #interface .tri-award-cite {
+      font-family: var(--tri-mono);
+      font-size: 0.62rem;
+      color: var(--tri-faint);
+      letter-spacing: 0.04em;
+    }
+
+    /* ═══ Vote / Stake / Callouts ═══ */
+    #interface .tri-votes { display: grid; grid-template-columns: 1fr 1fr; gap: 0.55rem; }
+    #interface .tri-vote {
+      border: 1.5px solid var(--tri-line);
+      border-radius: var(--tri-radius);
+      padding: 0.85rem 0.85rem 0.95rem;
+      background: var(--tri-paper);
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+      cursor: pointer;
+      transition: transform 180ms ease, border-color 180ms ease;
+    }
+    #interface .tri-vote[data-award="A"]:hover { border-color: var(--tri-emerald); transform: translateY(-1px); }
+    #interface .tri-vote[data-award="B"]:hover { border-color: var(--tri-burgundy); transform: translateY(-1px); }
+    #interface .tri-vote[aria-pressed="true"][data-award="B"] {
+      border-color: var(--tri-burgundy);
+      background: linear-gradient(180deg, var(--tri-burgundy-soft), var(--tri-paper) 70%);
+      box-shadow: 0 0 0 2px rgba(224,122,142,0.20);
+    }
+    #interface .tri-vote-tag {
+      font-family: var(--tri-serif-en);
+      font-style: italic;
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+    #interface .tri-vote[data-award="A"] .tri-vote-tag { color: var(--tri-emerald); }
+    #interface .tri-vote[data-award="B"] .tri-vote-tag { color: var(--tri-burgundy); }
+    #interface .tri-vote-h {
+      font-family: var(--tri-serif-en);
+      font-weight: 600;
+      font-size: 0.95rem;
+      color: var(--tri-navy);
+      margin: 0;
+    }
+    #interface .tri-vote-sum {
+      font-family: var(--tri-mono);
+      font-weight: 600;
+      font-size: 1.1rem;
+      color: var(--tri-navy);
+    }
+    #interface .tri-vote-foot {
+      font-size: 0.7rem;
+      color: var(--tri-muted);
+      line-height: 1.4;
+    }
+
+    #interface .tri-stake { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; }
+    #interface .tri-stake-cell {
+      padding: 0.7rem 0.85rem;
+      border-radius: var(--tri-radius);
+      background: var(--tri-vellum);
+      border: 1px solid var(--tri-line);
+      display: flex;
+      flex-direction: column;
+      gap: 0.15rem;
+    }
+    #interface .tri-stake-cell strong {
+      font-family: var(--tri-mono);
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--tri-navy);
+    }
+    #interface .tri-stake-cell[data-tone="risk"]   strong { color: var(--tri-danger); }
+    #interface .tri-stake-cell[data-tone="reward"] strong { color: var(--tri-success); }
+    #interface .tri-stake-cell span {
+      font-size: 0.68rem;
+      color: var(--tri-faint);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      font-weight: 600;
+    }
+    #interface .tri-stake-cell em {
+      font-style: normal;
+      font-size: 0.7rem;
+      color: var(--tri-muted);
+      line-height: 1.4;
+    }
+
+    #interface .tri-callout {
+      background: var(--tri-emerald-soft);
+      border: 1px solid var(--tri-emerald);
+      border-radius: var(--tri-radius);
+      padding: 0.7rem 0.85rem;
+      display: flex;
+      gap: 0.55rem;
+      align-items: flex-start;
+    }
+    #interface .tri-callout svg { width: 1.05rem; height: 1.05rem; color: var(--tri-emerald); flex: none; margin-top: 0.1rem; }
+    #interface .tri-callout-body { font-size: 0.76rem; color: var(--tri-emerald); line-height: 1.5; }
+    #interface .tri-callout-body strong { color: var(--tri-emerald); font-weight: 700; display: block; margin-bottom: 0.15rem; }
+    :root[data-theme="light"] #interface .tri-callout-body strong { color: #052e16; }
+    #interface .tri-callout[data-tone="warn"] {
+      background: rgba(229,182,96,0.12);
+      border-color: var(--tri-warn);
+    }
+    #interface .tri-callout[data-tone="warn"] svg,
+    #interface .tri-callout[data-tone="warn"] .tri-callout-body { color: var(--tri-warn); }
+    #interface .tri-callout[data-tone="warn"] .tri-callout-body strong { color: var(--tri-warn); }
+    #interface .tri-callout[data-tone="burgundy"] {
+      background: var(--tri-burgundy-soft);
+      border-color: var(--tri-burgundy);
+    }
+    #interface .tri-callout[data-tone="burgundy"] svg,
+    #interface .tri-callout[data-tone="burgundy"] .tri-callout-body { color: var(--tri-burgundy); }
+    #interface .tri-callout[data-tone="burgundy"] .tri-callout-body strong { color: var(--tri-burgundy); }
+
+    /* ═══ Tally / Single-instance (Screen 6) ═══ */
+    #interface .tri-tally { display: flex; flex-direction: column; gap: 0.5rem; }
+    #interface .tri-tally-row {
+      display: grid;
+      grid-template-columns: max-content 1fr max-content;
+      align-items: center;
+      gap: 0.65rem;
+      font-size: 0.78rem;
+    }
+    #interface .tri-tally-row > span:first-child {
+      font-weight: 600;
+      color: var(--tri-navy);
+      font-family: var(--tri-serif-en);
+      font-size: 0.85rem;
+    }
+    #interface .tri-tally-bar {
+      position: relative;
+      height: 0.65rem;
+      border-radius: 999px;
+      background: var(--tri-vellum);
+      overflow: hidden;
+      border: 1px solid var(--tri-line);
+    }
+    #interface .tri-tally-bar::before {
+      content: '';
+      position: absolute; inset: 0;
+      width: var(--w);
+      background: linear-gradient(90deg, var(--c), color-mix(in oklab, var(--c) 65%, white));
+      animation: tri-fill 1.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+      transform-origin: left center;
+    }
+    @keyframes tri-fill {
+      from { transform: scaleX(0); }
+      to   { transform: scaleX(1); }
+    }
+    #interface .tri-tally-row > span:last-child {
+      font-family: var(--tri-mono);
+      font-weight: 600;
+      color: var(--tri-navy);
+      font-size: 0.78rem;
+      min-width: 4ch;
+      text-align: right;
+    }
+
+    #interface .tri-singleinstance {
+      background: linear-gradient(180deg, var(--tri-burgundy-soft), var(--tri-paper));
+      border: 1px solid var(--tri-burgundy);
+      border-radius: var(--tri-radius);
+      padding: 1rem 1.1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+      position: relative;
+      overflow: hidden;
+    }
+    #interface .tri-singleinstance::before {
+      content: '單';
+      position: absolute;
+      right: -0.6rem; bottom: -2.2rem;
+      font-family: var(--tri-serif-kr);
+      font-weight: 700;
+      font-size: 8rem;
+      color: var(--tri-burgundy);
+      opacity: 0.10;
+      pointer-events: none;
+      line-height: 1;
+    }
+    #interface .tri-singleinstance-h {
+      font-family: var(--tri-serif-kr);
+      font-weight: 600;
+      color: var(--tri-burgundy);
+      font-size: 0.95rem;
+      letter-spacing: 0.01em;
+    }
+    #interface .tri-singleinstance-h em {
+      font-style: italic;
+      font-size: 0.85em;
+      color: var(--tri-burgundy);
+      opacity: 0.7;
+      margin-left: 0.3rem;
+    }
+    #interface .tri-singleinstance .tri-countdown { color: var(--tri-burgundy); }
+    #interface .tri-singleinstance p {
+      font-size: 0.78rem;
+      line-height: 1.55;
+      color: var(--tri-burgundy);
+      opacity: 0.95;
+      margin: 0;
+    }
+
+    /* ═══ Sig (Screen 7) + tx ═══ */
+    #interface .tri-sig {
+      border: 1px solid var(--tri-emerald);
+      background: linear-gradient(180deg, var(--tri-emerald-soft), var(--tri-paper));
+      border-radius: var(--tri-radius);
+      padding: 0.95rem 1rem;
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 0.85rem;
+      align-items: center;
+    }
+    #interface .tri-sig-icon {
+      width: 2.5rem; height: 2.5rem;
+      border-radius: 50%;
+      background: var(--tri-emerald);
+      color: var(--tri-ivory);
+      display: grid; place-items: center;
+      flex: none;
+    }
+    #interface .tri-sig-icon svg { width: 1.25rem; height: 1.25rem; }
+    #interface .tri-sig-h {
+      font-family: var(--tri-serif-kr);
+      font-weight: 600;
+      color: var(--tri-emerald);
+      font-size: 0.95rem;
+    }
+    #interface .tri-sig-meta {
+      font-family: var(--tri-mono);
+      font-size: 0.7rem;
+      color: var(--tri-muted);
+      margin-top: 0.2rem;
+    }
+
+    #interface .tri-tx {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      border: 1px solid var(--tri-line);
+      border-radius: var(--tri-radius);
+      overflow: hidden;
+      background: var(--tri-paper);
+    }
+    #interface .tri-tx-row {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 0.65rem;
+      align-items: center;
+      padding: 0.65rem 0.85rem;
+      border-bottom: 1px solid var(--tri-line);
+      font-size: 0.78rem;
+    }
+    #interface .tri-tx-row:last-child { border-bottom: 0; }
+    #interface .tri-tx-check {
+      width: 1.1rem; height: 1.1rem;
+      border-radius: 50%;
+      background: var(--tri-emerald);
+      color: var(--tri-ivory);
+      display: grid; place-items: center;
+      font-size: 0.7rem; font-weight: 700;
+    }
+    #interface .tri-tx-label { color: var(--tri-navy); font-weight: 500; }
+    #interface .tri-tx-label small {
+      display: block;
+      font-family: var(--tri-mono);
+      color: var(--tri-faint);
+      font-size: 0.66rem;
+      margin-top: 0.1rem;
+    }
+    #interface .tri-tx-amt {
+      font-family: var(--tri-mono);
+      font-weight: 600;
+      color: var(--tri-emerald);
+      font-size: 0.78rem;
+    }
+
+    /* ═══ Award trigger button (Screen 7 → modal) ═══ */
+    #interface .tri-award-link {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.6rem;
+      padding: 0.95rem 1.05rem;
+      background: var(--tri-vellum);
+      border: 1.5px solid var(--tri-burgundy);
+      border-radius: var(--tri-radius);
+      color: var(--tri-burgundy);
+      font-family: var(--tri-serif-en);
+      font-size: 0.95rem;
+      font-weight: 600;
+      letter-spacing: 0.01em;
+      cursor: pointer;
+      text-align: left;
+      transition: transform 180ms ease, box-shadow 180ms ease, background 180ms ease;
+      position: relative;
+      z-index: 2;            /* v2.1 Patch #4: lift above any sibling overlays */
+      pointer-events: auto;  /* v2.1 Patch #4: ensure clicks reach the button */
+    }
+    #interface .tri-award-link:hover {
+      transform: translateY(-1px);
+      box-shadow: var(--tri-shadow-md);
+      background: var(--tri-burgundy-soft);
+    }
+    #interface .tri-award-link::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      pointer-events: none;
+      box-shadow: var(--tri-card-inner);
+      z-index: -1;  /* v2.1 Patch #4: keep highlight pseudo behind button content */
+    }
+    #interface .tri-award-link small {
+      display: block;
+      font-family: var(--tri-sans-kr);
+      font-weight: 500;
+      font-size: 0.7rem;
+      color: var(--tri-muted);
+      letter-spacing: 0;
+      margin-top: 0.15rem;
+    }
+    #interface .tri-award-link svg { width: 1rem; height: 1rem; flex: none; }
+
+    /* ═══ Comparison (Screen 7 + below) ═══ */
+    #interface .tri-vs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+      border: 1px solid var(--tri-line);
+      border-radius: var(--tri-radius);
+      overflow: hidden;
+    }
+    #interface .tri-vs > div { padding: 0.85rem 0.95rem; background: var(--tri-paper); }
+    #interface .tri-vs > div + div {
+      border-left: 1px solid var(--tri-line);
+      background: var(--tri-emerald-soft);
+    }
+    #interface .tri-vs-label {
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--tri-faint);
+    }
+    #interface .tri-vs-num {
+      font-family: var(--tri-serif-en);
+      font-weight: 500;
+      font-size: 1.85rem;
+      color: var(--tri-navy);
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+    }
+    #interface .tri-vs > div + div .tri-vs-num { color: var(--tri-emerald); }
+    #interface .tri-vs-sub {
+      font-size: 0.7rem;
+      color: var(--tri-muted);
+      margin-top: 0.15rem;
+      font-family: var(--tri-serif-kr);
+    }
+    :root[data-lang="en"] #interface .tri-vs-sub { font-family: var(--tri-serif-en); font-style: italic; }
+
+    /* ═══ Footer button row ═══ */
+    #interface .tri-actions {
+      margin-top: auto;
+      padding: 0.85rem 1.25rem 1rem;
+      border-top: 1px solid var(--tri-line);
+      background: var(--tri-vellum);
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+      justify-content: space-between;
+    }
+    #interface .tri-btn {
+      padding: 0.55rem 1.05rem;
+      border-radius: 999px;
+      font-family: var(--tri-sans-en);
+      font-weight: 600;
+      font-size: 0.78rem;
+      letter-spacing: 0.01em;
+      cursor: pointer;
+      border: 1px solid currentColor;
+      background: transparent;
+      color: var(--tri-muted);
+      transition: transform 180ms ease, box-shadow 180ms ease, background 180ms ease;
+      display: inline-flex; align-items: center; gap: 0.4rem;
+    }
+    #interface .tri-btn:hover { transform: translateY(-1px); box-shadow: var(--tri-shadow-sm); }
+    #interface .tri-btn[data-variant="primary"] {
+      background: var(--tri-navy);
+      color: var(--tri-ivory);
+      border-color: var(--tri-navy);
+    }
+    #interface .tri-btn[data-variant="primary-emerald"] {
+      background: var(--tri-emerald);
+      color: var(--tri-ivory);
+      border-color: var(--tri-emerald);
+    }
+    #interface .tri-btn[data-variant="primary-burgundy"] {
+      background: var(--tri-burgundy);
+      color: var(--tri-ivory);
+      border-color: var(--tri-burgundy);
+    }
+    #interface .tri-actions-meta {
+      font-family: var(--tri-mono);
+      font-size: 0.68rem;
+      color: var(--tri-faint);
+    }
+
+    /* ═══ Below-carousel comparison ═══ */
+    #interface .tri-comparison {
+      margin-top: 2.25rem;
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 1rem;
+      padding: 1.5rem 1.25rem;
+      background: var(--tri-vellum);
+      border: 1px solid var(--tri-line);
+      border-radius: var(--tri-radius-lg);
+    }
+    #interface .tri-comparison .tri-vs-stat { display: flex; flex-direction: column; gap: 0.2rem; }
+    #interface .tri-comparison .tri-vs-stat-label {
+      font-size: 0.65rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--tri-faint);
+      font-weight: 600;
+    }
+    #interface .tri-comparison .tri-vs-stat-num {
+      font-family: var(--tri-serif-en);
+      font-size: clamp(1.6rem, 1.2rem + 0.7vw, 2.1rem);
+      font-weight: 500;
+      letter-spacing: -0.02em;
+      color: var(--tri-burgundy);
+      line-height: 1;
+    }
+    #interface .tri-comparison .tri-vs-stat[data-trianum] .tri-vs-stat-num { color: var(--tri-emerald); }
+    #interface .tri-comparison .tri-vs-stat-sub {
+      font-family: var(--tri-serif-kr);
+      font-size: 0.78rem;
+      color: var(--tri-muted);
+      line-height: 1.4;
+      margin-top: 0.15rem;
+    }
+    :root[data-lang="en"] #interface .tri-comparison .tri-vs-stat-sub {
+      font-family: var(--tri-serif-en); font-style: italic;
+    }
+    #interface .tri-comparison .tri-vs-stat-sub small {
+      display: block;
+      font-family: var(--tri-mono);
+      font-size: 0.62rem;
+      color: var(--tri-faint);
+      margin-top: 0.15rem;
+      font-style: normal;
+    }
+
+    /* ═══ Scroll cue ═══ */
+    #interface .tri-cue {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 0.4rem;
+      font-family: var(--tri-serif-en);
+      font-style: italic;
+      font-size: 0.78rem;
+      color: var(--tri-faint);
+      margin-top: -0.5rem;
+      margin-bottom: 0.5rem;
+    }
+    #interface .tri-cue svg { width: 0.95rem; height: 0.95rem; animation: tri-nudge 2.6s ease-in-out infinite; }
+    @keyframes tri-nudge {
+      0%, 100% { transform: translateX(0); }
+      50%      { transform: translateX(0.35rem); }
+    }
+
+    /* ═══ Focus + reduced motion ═══ */
+    #interface :focus-visible {
+      outline: 2px solid var(--tri-emerald);
+      outline-offset: 3px;
+      border-radius: var(--tri-radius-sm);
+    }
+    @media (prefers-reduced-motion: reduce) {
+      #interface *, #interface *::before, #interface *::after {
+        animation-duration: 1ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 1ms !important;
+      }
+      #interface .tri-storyboard { scroll-behavior: auto; }
+    }
+
+    /* ═══ Mobile fallback ═══ */
+    @media (max-width: 768px) {
+      #interface .tri-head { grid-template-columns: 1fr; }
+      #interface .tri-toggles { justify-self: start; }
+      #interface .tri-rail { padding: 0.6rem 0.15rem; }
+      #interface .tri-rail-label { font-size: 0.6rem; }
+      #interface .tri-rail-label small { display: none; }
+      #interface .tri-rail-node { width: 1.5rem; height: 1.5rem; font-size: 0.65rem; }
+      #interface .tri-storyboard {
+        gap: 20px;
+        padding: 0.5rem calc(50vw - 160px) 1.25rem;
+      }
+      #interface .tri-screen { flex: 0 0 320px; min-height: 680px; }
+      #interface .tri-storyboard-wrap::before,
+      #interface .tri-storyboard-wrap::after { width: 36px; }
+      #interface .tri-comparison { grid-template-columns: 1fr 1fr; }
+      #interface .tri-courts,
+      #interface .tri-stake,
+      #interface .tri-votes { grid-template-columns: 1fr; }
+    }
+
+    /* ═══════════════════════════════════════════════════════════════
+       AWARD MODAL — IRAC-format arbitral award
+       ═══════════════════════════════════════════════════════════════ */
+    #interface .tri-award-modal {
+      width: min(900px, 92vw);
+      max-height: 90vh;
+      border: none;
+      border-radius: 20px;
+      background: var(--tri-paper);
+      color: var(--tri-ink);
+      padding: 0;
+      box-shadow: 0 24px 80px rgba(0,0,0,0.5);
+      overflow: hidden;
+    }
+    #interface .tri-award-modal::backdrop {
+      background: rgba(0,0,0,0.65);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+    }
+    /* ─── v2.1 Patch #2: <dialog> fallback for browsers without top layer
+       (e.g. iOS Safari < 15.4). Forces fixed-center positioning whenever the
+       dialog is open, regardless of whether the browser supports showModal(). */
+    #interface .tri-award-modal:not([open]):not(.tri-modal-fallback-open) {
+      display: none !important;
+    }
+    #interface .tri-award-modal[open],
+    #interface .tri-award-modal.tri-modal-fallback-open {
+      display: block;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 9999;
+      margin: 0;
+      inset: auto;
+    }
+    /* Manual backdrop for engines without ::backdrop support */
+    #interface .tri-award-modal.tri-modal-fallback-open::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.65);
+      z-index: -1;
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+    }
+    #interface .tri-award-doc {
+      display: flex;
+      flex-direction: column;
+      max-height: 90vh;
+      background: var(--tri-paper);
+      color: var(--tri-ink);
+    }
+    #interface .tri-award-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: 1rem 1.5rem;
+      border-bottom: 1px solid var(--tri-line);
+      background: var(--tri-vellum);
+    }
+    #interface .tri-award-header h1 {
+      margin: 0;
+      font-family: var(--tri-serif-en);
+      font-size: clamp(1.05rem, 0.9rem + 0.6vw, 1.3rem);
+      font-weight: 600;
+      color: var(--tri-emerald);
+      letter-spacing: 0.01em;
+    }
+    :root[data-lang="ko"] #interface .tri-award-header h1,
+    :root:not([data-lang]) #interface .tri-award-header h1 {
+      font-family: var(--tri-serif-kr);
+    }
+    #interface .tri-award-close {
+      width: 2.25rem;
+      height: 2.25rem;
+      border-radius: 50%;
+      border: 1px solid var(--tri-line-2);
+      background: var(--tri-paper);
+      color: var(--tri-navy);
+      font-size: 1.5rem;
+      font-weight: 400;
+      line-height: 1;
+      display: grid;
+      place-items: center;
+      cursor: pointer;
+      transition: background 180ms ease, transform 180ms ease;
+    }
+    #interface .tri-award-close:hover { background: var(--tri-vellum); transform: scale(1.06); }
+    #interface .tri-award-body {
+      overflow-y: auto;
+      padding: clamp(1.5rem, 2vw + 1rem, 3rem) clamp(1.5rem, 2.5vw + 1rem, 4rem);
+      font-family: var(--tri-serif-en);
+      font-size: 0.95rem;
+      line-height: 1.75;
+      color: var(--tri-ink);
+    }
+    :root[data-lang="ko"] #interface .tri-award-body,
+    :root:not([data-lang]) #interface .tri-award-body {
+      font-family: var(--tri-serif-kr);
+    }
+    #interface .tri-award-body h2 {
+      font-family: var(--tri-serif-en);
+      font-weight: 600;
+      font-size: 1.4rem;
+      color: var(--tri-navy);
+      margin: 0 0 1rem;
+      letter-spacing: -0.01em;
+    }
+    :root[data-lang="ko"] #interface .tri-award-body h2,
+    :root:not([data-lang]) #interface .tri-award-body h2 {
+      font-family: var(--tri-serif-kr);
+    }
+    #interface .tri-award-page {
+      page-break-after: always;
+      border-bottom: 1px dashed var(--tri-line-2);
+      padding-bottom: 2rem;
+      margin-bottom: 2rem;
+    }
+    #interface .tri-award-page:last-of-type {
+      border-bottom: none;
+      margin-bottom: 0.5rem;
+    }
+    #interface .tri-award-meta-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 0.75rem 0 1.25rem;
+      font-size: 0.88rem;
+    }
+    #interface .tri-award-meta-table th,
+    #interface .tri-award-meta-table td {
+      padding: 0.55rem 0.75rem;
+      text-align: left;
+      border-bottom: 1px solid var(--tri-line);
+      vertical-align: top;
+    }
+    #interface .tri-award-meta-table th {
+      width: 32%;
+      font-family: var(--tri-sans-kr);
+      font-weight: 600;
+      font-size: 0.78rem;
+      color: var(--tri-faint);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      background: var(--tri-vellum);
+    }
+    :root[data-lang="en"] #interface .tri-award-meta-table th { font-family: var(--tri-sans-en); }
+    #interface .tri-award-meta-table td {
+      color: var(--tri-ink);
+      font-weight: 500;
+    }
+    #interface .tri-irac-heading {
+      font-family: var(--tri-serif-en);
+      font-size: 0.85rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--tri-emerald);
+      margin: 1.75rem 0 0.5rem;
+      font-weight: 600;
+    }
+    #interface .tri-award-body ol,
+    #interface .tri-award-body ul {
+      padding-left: 1.5rem;
+      margin: 0.5rem 0 1rem;
+    }
+    #interface .tri-award-body ol li,
+    #interface .tri-award-body ul:not(.tri-evidence-list) li {
+      margin-bottom: 0.55rem;
+      color: var(--tri-ink);
+    }
+    #interface .tri-award-body p {
+      margin: 0.65rem 0;
+      color: var(--tri-ink);
+    }
+    #interface .tri-evidence-list {
+      list-style: none;
+      padding: 0;
+      margin: 1rem 0 1.25rem;
+    }
+    #interface .tri-evidence-list li {
+      padding: 0.7rem 0.95rem;
+      background: var(--tri-vellum);
+      border-left: 3px solid var(--tri-burgundy);
+      border-radius: 0 var(--tri-radius-sm) var(--tri-radius-sm) 0;
+      margin-bottom: 0.55rem;
+      font-size: 0.9rem;
+      line-height: 1.6;
+      color: var(--tri-ink);
+    }
+    #interface .tri-evidence-list .tri-evi-id {
+      display: inline-block;
+      font-family: var(--tri-mono);
+      color: var(--tri-burgundy);
+      font-weight: 700;
+      margin-right: 0.5rem;
+      letter-spacing: 0.04em;
+    }
+    #interface .tri-evidence-list em {
+      font-style: italic;
+      color: var(--tri-emerald);
+    }
+    #interface .tri-award-body strong { color: var(--tri-navy); font-weight: 700; }
+    #interface .tri-award-body .tri-mono {
+      font-family: var(--tri-mono);
+      font-size: 0.82rem;
+      color: var(--tri-emerald);
+      background: transparent;
+      padding: 0;
+      border: 0;
+    }
+    #interface .tri-award-signature {
+      margin: 2.5rem 0 0;
+      padding: 1.5rem;
+      border-top: 2px solid var(--tri-emerald);
+      background: var(--tri-emerald-soft);
+      border-radius: 0 0 var(--tri-radius) var(--tri-radius);
+      font-family: var(--tri-serif-en);
+      line-height: 1.7;
+      color: var(--tri-ink);
+    }
+    :root[data-lang="ko"] #interface .tri-award-signature,
+    :root:not([data-lang]) #interface .tri-award-signature {
+      font-family: var(--tri-serif-kr);
+    }
+    #interface .tri-award-signature strong { color: var(--tri-emerald); font-size: 1.05rem; }
+    #interface .tri-award-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: 0.95rem 1.5rem;
+      border-top: 1px solid var(--tri-line);
+      background: var(--tri-vellum);
+    }
+    #interface .tri-award-footer button {
+      padding: 0.5rem 1.1rem;
+      border-radius: 999px;
+      font-family: var(--tri-sans-kr);
+      font-weight: 600;
+      font-size: 0.78rem;
+      cursor: pointer;
+      border: 1px solid var(--tri-line-2);
+      background: var(--tri-paper);
+      color: var(--tri-navy);
+      transition: background 180ms ease;
+    }
+    #interface .tri-award-footer button:hover { background: var(--tri-vellum); }
+    #interface .tri-award-meta {
+      font-family: var(--tri-mono);
+      font-size: 0.7rem;
+      color: var(--tri-faint);
+      letter-spacing: 0.04em;
+    }
+
+    @media (max-width: 640px) {
+      #interface .tri-award-body { padding: 1.25rem 1.1rem; font-size: 0.9rem; }
+      #interface .tri-award-meta-table { font-size: 0.82rem; }
+      #interface .tri-award-meta-table th { width: 38%; }
+    }
+  </style>
+
+  <div class="tri-container">
+
+    <!-- ── Section header with toggles ────────────────────── -->
+    <header class="tri-head">
+      <div>
+        <p class="tri-eyebrow">07 · User Interface</p>
+
+        <span data-lang="ko"><h2 id="tri-heading" class="tri-h2-kr">트리아눔, 한 화면씩 따라가 보십시오.</h2></span>
+        <span data-lang="en"><h2 class="tri-h2">Watch Trianum work — screen by screen.</h2></span>
+
+        <span data-lang="ko"><h3 class="tri-h3" lang="ko">사용자가 보는 7개 화면</h3></span>
+        <span data-lang="en"><h3 class="tri-h3-en" lang="en">Seven screens, one dispute, end-to-end.</h3></span>
+
+        <p class="tri-lede">
+          <span data-lang="ko">
+            가로로 스크롤하면 분쟁 접수부터 온체인 집행까지의 전체 절차를 따라갈 수 있습니다.
+            아래 모든 화면이 동일한 사건 — <strong>분쟁&nbsp;#142 · 사건번호&nbsp;2026가합0142</strong>,
+            인도되지 않은 3D 캐릭터팩에 대한 <strong>1,000 RLUSD</strong> 에스크로 분쟁 — 을 다룹니다.
+          </span>
+          <span data-lang="en">
+            Scroll horizontally to walk through a complete dispute lifecycle —
+            from court selection to on-chain enforcement. Every screen below
+            renders the <strong>same</strong> dispute:
+            <strong>Dispute #142 · Case No. 2026 GA-HAP 0142</strong>,
+            a 1,000 RLUSD escrow over an undelivered 3D character pack.
+          </span>
+        </p>
+      </div>
+
+      <div class="tri-toggles">
+        <div class="tri-lang-toggle" role="tablist" aria-label="Language">
+          <button type="button" role="tab" data-set-lang="ko" aria-selected="true">한국어</button>
+          <button type="button" role="tab" data-set-lang="en" aria-selected="false">English</button>
+        </div>
+        <button type="button" class="tri-theme-toggle" aria-label="Toggle theme" data-toggle-theme>
+          <span data-theme-icon="dark">🌙</span>
+          <span data-theme-icon="light">☀</span>
+        </button>
+      </div>
+    </header>
+
+    <div class="tri-hairline" role="separator" aria-hidden="true"></div>
+
+    <!-- ── Phase rail ─────────────────────────────────── -->
+    <nav class="tri-rail" aria-label="Dispute lifecycle progress">
+      <a class="tri-rail-step" data-tone="emerald" href="#tri-s1">
+        <span class="tri-rail-node">01</span>
+        <span class="tri-rail-label">
+          <span data-lang="ko">법원 선택<small lang="ko">Court</small></span>
+          <span data-lang="en">Court<small>Selection</small></span>
+        </span>
+      </a>
+      <a class="tri-rail-step" data-tone="emerald" href="#tri-s2">
+        <span class="tri-rail-node">02</span>
+        <span class="tri-rail-label">
+          <span data-lang="ko">분쟁 접수<small lang="ko">Filing</small></span>
+          <span data-lang="en">Filing<small>Escrow lock</small></span>
+        </span>
+      </a>
+      <a class="tri-rail-step" data-tone="burgundy" href="#tri-s3">
+        <span class="tri-rail-node">03</span>
+        <span class="tri-rail-label">
+          <span data-lang="ko">변론 기간<small lang="ko">Evidence</small></span>
+          <span data-lang="en">Evidence<small>Hearing</small></span>
+        </span>
+      </a>
+      <a class="tri-rail-step" data-tone="burgundy" href="#tri-s4">
+        <span class="tri-rail-node">04</span>
+        <span class="tri-rail-label">
+          <span data-lang="ko">판정문 작성<small lang="ko">Drafting</small></span>
+          <span data-lang="en">Drafting<small>Dual award</small></span>
+        </span>
+      </a>
+      <a class="tri-rail-step" data-tone="gold" href="#tri-s5">
+        <span class="tri-rail-node">05</span>
+        <span class="tri-rail-label">
+          <span data-lang="ko">비밀 투표<small lang="ko">Voting</small></span>
+          <span data-lang="en">Voting<small>Commit-reveal</small></span>
+        </span>
+      </a>
+      <a class="tri-rail-step" data-tone="burgundy" href="#tri-s6">
+        <span class="tri-rail-node">06</span>
+        <span class="tri-rail-label">
+          <span data-lang="ko">단심제 확정<small lang="ko">Tally</small></span>
+          <span data-lang="en">Tally<small>Final award</small></span>
+        </span>
+      </a>
+      <a class="tri-rail-step" data-tone="emerald" href="#tri-s7">
+        <span class="tri-rail-node">07</span>
+        <span class="tri-rail-label">
+          <span data-lang="ko">자동 집행<small lang="ko">Execution</small></span>
+          <span data-lang="en">Execution<small>Escrow release</small></span>
+        </span>
+      </a>
+    </nav>
+
+    <p class="tri-cue" aria-hidden="true">
+      <span data-lang="ko">옆으로 스크롤</span>
+      <span data-lang="en">Scroll</span>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+    </p>
+
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <!-- ════════════════ HORIZONTAL CAROUSEL ═════════════════ -->
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <div class="tri-storyboard-wrap">
+    <div class="tri-storyboard" role="list" tabindex="0" aria-label="Dispute lifecycle storyboard. Use arrow keys to navigate.">
+
+      <!-- ───────── SCREEN 1 · Court Selection ───────── -->
+      <article id="tri-s1" class="tri-screen" data-phase="01" data-tone="emerald" role="listitem" aria-labelledby="tri-s1-h">
+        <div class="tri-chrome">
+          <span class="tri-chrome-dots"><span></span><span></span><span></span></span>
+          <span class="tri-chrome-url">app.trianum.xyz/courts/new · #142</span>
+          <span class="tri-chrome-net">XRPL Mainnet</span>
+        </div>
+
+        <header class="tri-screen-head">
+          <div class="tri-case">
+            <span class="tri-case-id">
+              <span data-lang="ko">분쟁 <em>#142</em></span>
+              <span data-lang="en">Dispute <em>#142</em></span>
+            </span>
+            <span class="tri-case-sub">
+              <span data-lang="ko" lang="ko">법원 선택<small>(Court Selection)</small></span>
+              <span data-lang="en" lang="en">Court Selection</span>
+            </span>
+          </div>
+          <span class="tri-pill" data-tone="info">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+            <span data-lang="ko">1 / 7 단계</span>
+            <span data-lang="en">Step 1 of 7</span>
+          </span>
+        </header>
+
+        <div class="tri-body">
+          <div>
+            <p class="tri-label">
+              <span data-lang="ko">관할 법원 선택</span>
+              <span data-lang="en">Choose a Court</span>
+            </p>
+            <p class="tri-p">
+              <span data-lang="ko">
+                Trianum의 각 법원은 <em class="tri-hanja" lang="ko">조리(條理)</em>·<em class="tri-hanja" lang="ko">법리(法理)</em>·<em class="tri-hanja" lang="ko">자치(自治)</em>의 가중치를 다르게 적용합니다.
+                <strong>한국 중재법 제3조</strong>에 따른 당사자자치 원칙에 의해, 접수 시 양 당사자는 단일 법원에 구속됩니다.
+              </span>
+              <span data-lang="en">
+                Each Trianum court applies a different weighting between <em>common reason</em>, <em>legal doctrine</em>, and <em>party autonomy</em>.
+                Under <strong>Korean Arbitration Act Article 3</strong> (party autonomy), filing binds both sides to one court.
+              </span>
+            </p>
+          </div>
+
+          <div class="tri-courts" role="radiogroup" aria-label="Available courts">
+            <div class="tri-court" role="radio" aria-checked="true" tabindex="0">
+              <div class="tri-court-name">
+                <span data-lang="ko">일반 <span lang="ko">General</span></span>
+                <span data-lang="en">General</span>
+              </div>
+              <p class="tri-p" style="font-size:0.74rem;">
+                <span data-lang="ko">균형 가중 — 상사·민사 일반 분쟁</span>
+                <span data-lang="en">Balanced — commercial &amp; civil disputes</span>
+              </p>
+              <div class="tri-court-stats">
+                <div><strong>500 TRN</strong><em>Min Stake</em></div>
+                <div><strong>10</strong><em>Jurors</em></div>
+                <div><strong>28d</strong><em>Avg time</em></div>
+              </div>
+            </div>
+
+            <div class="tri-court" role="radio" aria-checked="false" tabindex="-1">
+              <div class="tri-court-name">
+                <span data-lang="ko">DeFi <span lang="ko">탈중앙금융</span></span>
+                <span data-lang="en">DeFi</span>
+              </div>
+              <p class="tri-p" style="font-size:0.74rem;">
+                <span data-lang="ko">법리 가중 — 프로토콜·온체인 계약</span>
+                <span data-lang="en">Doctrine-weighted — protocol &amp; on-chain contracts</span>
+              </p>
+              <div class="tri-court-stats">
+                <div><strong>1,500 TRN</strong><em>Min Stake</em></div>
+                <div><strong>15</strong><em>Jurors</em></div>
+                <div><strong>21d</strong><em>Avg time</em></div>
+              </div>
+            </div>
+
+            <div class="tri-court" role="radio" aria-checked="false" tabindex="-1">
+              <div class="tri-court-name">
+                <span data-lang="ko">NFT <span lang="ko">디지털자산</span></span>
+                <span data-lang="en">NFT</span>
+              </div>
+              <p class="tri-p" style="font-size:0.74rem;">
+                <span data-lang="ko">조리 가중 — 디지털 창작물·라이선스</span>
+                <span data-lang="en">Reason-weighted — digital works &amp; licenses</span>
+              </p>
+              <div class="tri-court-stats">
+                <div><strong>800 TRN</strong><em>Min Stake</em></div>
+                <div><strong>10</strong><em>Jurors</em></div>
+                <div><strong>24d</strong><em>Avg time</em></div>
+              </div>
+            </div>
+
+            <div class="tri-court" role="radio" aria-checked="false" tabindex="-1">
+              <div class="tri-court-name">
+                <span data-lang="ko">DAO <span lang="ko">자치조직</span></span>
+                <span data-lang="en">DAO</span>
+              </div>
+              <p class="tri-p" style="font-size:0.74rem;">
+                <span data-lang="ko">자치 가중 — 거버넌스·내부 분쟁</span>
+                <span data-lang="en">Autonomy-weighted — governance &amp; internal disputes</span>
+              </p>
+              <div class="tri-court-stats">
+                <div><strong>2,000 TRN</strong><em>Min Stake</em></div>
+                <div><strong>21</strong><em>Jurors</em></div>
+                <div><strong>32d</strong><em>Avg time</em></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="tri-callout">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v4M12 16h.01"/></svg>
+            <div class="tri-callout-body">
+              <strong>
+                <span data-lang="ko">관할 합의</span>
+                <span data-lang="en">Agreement on Forum</span>
+              </strong>
+              <span data-lang="ko">
+                <em>일반 법원</em>을 선택하면 양 당사자는 <span class="tri-mono">Trianum Rules v3.5 §2.1</span>에 구속되며, 뉴욕협약 제2조상 승인됩니다.
+              </span>
+              <span data-lang="en">
+                Selecting <em>General Court</em> binds both parties under <span class="tri-mono">Trianum Rules v3.5 §2.1</span>. Recognised under NY Convention Art.&nbsp;II.
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <footer class="tri-actions">
+          <span class="tri-actions-meta">Gas est. 0.00001 XRP</span>
+          <button class="tri-btn" data-variant="primary-emerald" type="button">
+            <span data-lang="ko">접수 화면으로 →</span>
+            <span data-lang="en">Proceed to Filing</span>
+          </button>
+        </footer>
+      </article>
+
+      <!-- ───────── SCREEN 2 · Dispute Filing ───────── -->
+      <article id="tri-s2" class="tri-screen" data-phase="02" data-tone="emerald" role="listitem" aria-labelledby="tri-s2-h">
+        <div class="tri-chrome">
+          <span class="tri-chrome-dots"><span></span><span></span><span></span></span>
+          <span class="tri-chrome-url">app.trianum.xyz/disputes/142/file</span>
+          <span class="tri-chrome-net">XRPL Mainnet</span>
+        </div>
+
+        <header class="tri-screen-head">
+          <div class="tri-case">
+            <span class="tri-case-id">
+              <span data-lang="ko">분쟁 <em>#142</em></span>
+              <span data-lang="en">Dispute <em>#142</em></span>
+            </span>
+            <span class="tri-case-sub">
+              <span data-lang="ko" lang="ko">분쟁 접수<small>(Filing)</small></span>
+              <span data-lang="en" lang="en">Dispute Filing</span>
+            </span>
+          </div>
+          <span class="tri-pill" data-tone="emerald">
+            <span data-lang="ko">에스크로 감지됨</span>
+            <span data-lang="en">Escrow Detected</span>
+          </span>
+        </header>
+
+        <div class="tri-body">
+          <h4 id="tri-s2-h" class="tri-h4">
+            <span data-lang="ko">XRPL 에스크로 자동 감지</span>
+            <span data-lang="en">Auto-detected XRPL escrow</span>
+          </h4>
+
+          <dl class="tri-defs">
+            <dt>
+              <span data-lang="ko">신청인<small lang="ko">Claimant</small></span>
+              <span data-lang="en">Claimant</span>
+            </dt>
+            <dd>
+              <span data-lang="ko">김영수 · <span class="tri-mono">0x7a3f…4c9b</span></span>
+              <span data-lang="en">Kim Young-soo · <span class="tri-mono">0x7a3f…4c9b</span></span>
+            </dd>
+
+            <dt>
+              <span data-lang="ko">피신청인<small lang="ko">Respondent</small></span>
+              <span data-lang="en">Respondent</span>
+            </dt>
+            <dd>Acme Studio DAO · <span class="tri-mono">0x9f1e…8a2d</span></dd>
+
+            <dt>
+              <span data-lang="ko">에스크로<small lang="ko">Escrow</small></span>
+              <span data-lang="en">Escrow</span>
+            </dt>
+            <dd><span class="tri-mono">tx 0x4d2e…8f1c</span></dd>
+
+            <dt>
+              <span data-lang="ko">분쟁 금액<small lang="ko">Amount</small></span>
+              <span data-lang="en">Amount</span>
+            </dt>
+            <dd>
+              <span data-lang="ko"><strong>1,000 RLUSD</strong> + 5% 지연 위약벌</span>
+              <span data-lang="en"><strong>1,000 RLUSD</strong> + 5% delay penalty</span>
+            </dd>
+
+            <dt>
+              <span data-lang="ko">청구 취지<small lang="ko">Subject</small></span>
+              <span data-lang="en">Subject</span>
+            </dt>
+            <dd>
+              <span data-lang="ko">14일 SLA 미이행에 따른 3D 캐릭터팩 환불</span>
+              <span data-lang="en">Refund for undelivered 3D character pack (14-day SLA)</span>
+            </dd>
+          </dl>
+
+          <div>
+            <p class="tri-label">
+              <span data-lang="ko">증거 업로드 (IPFS)</span>
+              <span data-lang="en">Evidence Upload (IPFS)</span>
+            </p>
+            <div class="tri-drop" role="button" tabindex="0" aria-label="Drag files here to upload to IPFS">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0l-4-4m4 4l4-4"/><path d="M5 17v2a2 2 0 002 2h10a2 2 0 002-2v-2"/></svg>
+              <div class="tri-drop-text">
+                <strong>
+                  <span data-lang="ko">계약서·인보이스·채팅 로그를 끌어다 놓으세요</span>
+                  <span data-lang="en">Drop contract, invoice, &amp; chat logs</span>
+                </strong>
+                <span data-lang="ko">IPFS에 핀 · CID 시작자 <code>bafybeigd…</code> · v1 raw</span>
+                <span data-lang="en">Pinned to IPFS · CID prefix <code>bafybeigd…</code> · v1 raw</span>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <p class="tri-label">
+              <span data-lang="ko">수수료 미리보기</span>
+              <span data-lang="en">Fee Preview</span>
+            </p>
+            <dl class="tri-fee">
+              <dt>
+                <span data-lang="ko">Trianum 프로토콜 수수료 · 3%</span>
+                <span data-lang="en">Trianum protocol fee · 3%</span>
+              </dt>
+              <dd>30.00 RLUSD</dd>
+
+              <dt>
+                <span data-lang="ko">XRPL 트랜잭션 수수료</span>
+                <span data-lang="en">XRPL tx fee</span>
+              </dt>
+              <dd>0.00001 XRP</dd>
+
+              <dt>
+                <span data-lang="ko">배심원 보상풀 · 1.5%</span>
+                <span data-lang="en">Juror reward pool · 1.5%</span>
+              </dt>
+              <dd>15.00 RLUSD</dd>
+
+              <dt class="tri-fee-total">
+                <span data-lang="ko">에스크로에서 차감 합계</span>
+                <span data-lang="en">Total deducted from escrow</span>
+              </dt>
+              <dd class="tri-fee-total">45.00 RLUSD</dd>
+            </dl>
+          </div>
+        </div>
+
+        <footer class="tri-actions">
+          <span class="tri-actions-meta">
+            <span data-lang="ko">접수 2026-04-01 14:22 KST</span>
+            <span data-lang="en">Filed 2026-04-01 14:22 KST</span>
+          </span>
+          <button class="tri-btn" data-variant="primary-emerald" type="button">
+            <span data-lang="ko">서명 후 접수</span>
+            <span data-lang="en">Sign &amp; File</span>
+          </button>
+        </footer>
+      </article>
+
+      <!-- ───────── SCREEN 3 · Evidence Hearing ───────── -->
+      <article id="tri-s3" class="tri-screen" data-phase="03" data-tone="burgundy" role="listitem" aria-labelledby="tri-s3-h">
+        <div class="tri-chrome">
+          <span class="tri-chrome-dots"><span></span><span></span><span></span></span>
+          <span class="tri-chrome-url">app.trianum.xyz/disputes/142/evidence</span>
+          <span class="tri-chrome-net">XRPL Mainnet</span>
+        </div>
+
+        <header class="tri-screen-head">
+          <div class="tri-case">
+            <span class="tri-case-id">
+              <span data-lang="ko">분쟁 <em>#142</em></span>
+              <span data-lang="en">Dispute <em>#142</em></span>
+            </span>
+            <span class="tri-case-sub">
+              <span data-lang="ko" lang="ko">변론 기간<small>(Evidence Period)</small></span>
+              <span data-lang="en" lang="en">Evidence Period</span>
+            </span>
+          </div>
+          <span class="tri-pill" data-tone="burgundy">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+            <span data-lang="ko">진행 중</span>
+            <span data-lang="en">Open</span>
+          </span>
+        </header>
+
+        <div class="tri-body">
+          <div class="tri-row">
+            <div>
+              <p class="tri-label">
+                <span data-lang="ko">변론 잔여 시간</span>
+                <span data-lang="en">Evidence Period</span>
+              </p>
+              <p class="tri-countdown" data-size="lg" aria-live="polite">12<small>D</small>&nbsp;14<small>H</small>&nbsp;33<small>M</small></p>
+            </div>
+            <div style="text-align:right;">
+              <p class="tri-label" style="text-align:right;">
+                <span data-lang="ko">마감</span>
+                <span data-lang="en">Closes</span>
+              </p>
+              <p class="tri-mono tri-mono--plain" style="font-size:0.78rem;color:var(--tri-muted);">2026-04-15 09:00 KST</p>
+            </div>
+          </div>
+
+          <h4 id="tri-s3-h" class="tri-h4">
+            <span data-lang="ko">시간순 증거 원장</span>
+            <span data-lang="en">Chronological evidence ledger</span>
+          </h4>
+          <p class="tri-p">
+            <span data-lang="ko">
+              모든 증거는 IPFS에 핀, XRPL Memo에 해시, <span class="tri-mono">block 89,442,108</span>에 타임스탬프로 고정됩니다. <strong>Trianum Rules v3.5 §4.2</strong>에 따라 변론 기간 종료 후 제출된 증거는 채택되지 않습니다.
+            </span>
+            <span data-lang="en">
+              All exhibits are pinned to IPFS, hashed onto XRPL Memo, and timestamped under <span class="tri-mono">block 89,442,108</span>.
+              Per <strong>Trianum Rules v3.5 §4.2</strong>, no evidence is admissible after the period closes.
+            </span>
+          </p>
+
+          <div class="tri-evidence" role="list">
+            <div class="tri-evi" data-side="claimant" role="listitem">
+              <span class="tri-evi-dot" aria-hidden="true"></span>
+              <div class="tri-evi-body">
+                <span class="tri-evi-meta">2026-04-02 · 16:04 KST</span>
+                <span class="tri-evi-title">
+                  <span data-lang="ko">서비스 계약서 (서명 PDF)</span>
+                  <span data-lang="en">Service agreement (signed PDF)</span>
+                </span>
+                <span class="tri-evi-cid">bafybeigdt7p…q3a4 · 412 KB</span>
+              </div>
+              <span class="tri-evi-side">
+                <span data-lang="ko">신청인</span>
+                <span data-lang="en">Claimant</span>
+              </span>
+            </div>
+
+            <div class="tri-evi" data-side="claimant" role="listitem">
+              <span class="tri-evi-dot" aria-hidden="true"></span>
+              <div class="tri-evi-body">
+                <span class="tri-evi-meta">2026-04-02 · 16:11 KST</span>
+                <span class="tri-evi-title">
+                  <span data-lang="ko">텔레그램 채팅 로그 · 2026-03-15 → 2026-03-30</span>
+                  <span data-lang="en">Telegram chat log · 2026-03-15 → 2026-03-30</span>
+                </span>
+                <span class="tri-evi-cid">bafybeih4xu7…m2k1 · 86 KB</span>
+              </div>
+              <span class="tri-evi-side">
+                <span data-lang="ko">신청인</span>
+                <span data-lang="en">Claimant</span>
+              </span>
+            </div>
+
+            <div class="tri-evi" data-side="respondent" role="listitem">
+              <span class="tri-evi-dot" aria-hidden="true"></span>
+              <div class="tri-evi-body">
+                <span class="tri-evi-meta">2026-04-04 · 09:38 KST</span>
+                <span class="tri-evi-title">
+                  <span data-lang="ko">Acme 답변서 · 부분이행 항변</span>
+                  <span data-lang="en">Acme response · partial-delivery defense</span>
+                </span>
+                <span class="tri-evi-cid">bafybeic9np…5wq2 · 218 KB</span>
+              </div>
+              <span class="tri-evi-side">
+                <span data-lang="ko">피신청인</span>
+                <span data-lang="en">Respondent</span>
+              </span>
+            </div>
+
+            <div class="tri-evi" data-side="respondent" role="listitem">
+              <span class="tri-evi-dot" aria-hidden="true"></span>
+              <div class="tri-evi-body">
+                <span class="tri-evi-meta">2026-04-04 · 09:51 KST</span>
+                <span class="tri-evi-title">
+                  <span data-lang="ko">렌더 커밋 로그 · GitHub @acme-studio</span>
+                  <span data-lang="en">Render commit log · GitHub @acme-studio</span>
+                </span>
+                <span class="tri-evi-cid">bafybeibnz5p…r1jk · 64 KB</span>
+              </div>
+              <span class="tri-evi-side">
+                <span data-lang="ko">피신청인</span>
+                <span data-lang="en">Respondent</span>
+              </span>
+            </div>
+
+            <div class="tri-evi" data-side="arbitrator" role="listitem">
+              <span class="tri-evi-dot" aria-hidden="true"></span>
+              <div class="tri-evi-body">
+                <span class="tri-evi-meta">2026-04-05 · 11:17 KST</span>
+                <span class="tri-evi-title">
+                  <span data-lang="ko">중재인 명령 — 렌더 파일 제출 요구</span>
+                  <span data-lang="en">Arbitrator order — request rendered files</span>
+                </span>
+                <span class="tri-evi-cid">
+                  <span data-lang="ko">박지혜 · KCAB-2024-0317</span>
+                  <span data-lang="en">Park Ji-hye · KCAB-2024-0317</span>
+                </span>
+              </div>
+              <span class="tri-evi-side">
+                <span data-lang="ko">중재인</span>
+                <span data-lang="en">Arbitr.</span>
+              </span>
+            </div>
+
+            <div class="tri-evi" data-side="claimant" role="listitem">
+              <span class="tri-evi-dot" aria-hidden="true"></span>
+              <div class="tri-evi-body">
+                <span class="tri-evi-meta">2026-04-06 · 22:09 KST</span>
+                <span class="tri-evi-title">
+                  <span data-lang="ko">반박서 — §6.3 본질적 채무불이행</span>
+                  <span data-lang="en">Reply brief — material breach under §6.3</span>
+                </span>
+                <span class="tri-evi-cid">bafybeiat8wx…f7p9 · 156 KB</span>
+              </div>
+              <span class="tri-evi-side">
+                <span data-lang="ko">신청인</span>
+                <span data-lang="en">Claimant</span>
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <footer class="tri-actions">
+          <span class="tri-actions-meta">
+            <span data-lang="ko">증거 6건 · 956 KB</span>
+            <span data-lang="en">6 exhibits · 956 KB total</span>
+          </span>
+          <button class="tri-btn" type="button">
+            <span data-lang="ko">증거 추가</span>
+            <span data-lang="en">Add evidence</span>
+          </button>
+        </footer>
+      </article>
+
+      <!-- ───────── SCREEN 4 · Arbitrator drafts Dual Award ───────── -->
+      <article id="tri-s4" class="tri-screen" data-phase="04" data-tone="burgundy" role="listitem" aria-labelledby="tri-s4-h">
+        <div class="tri-chrome">
+          <span class="tri-chrome-dots"><span></span><span></span><span></span></span>
+          <span class="tri-chrome-url">app.trianum.xyz/disputes/142/draft</span>
+          <span class="tri-chrome-net">XRPL Mainnet</span>
+        </div>
+
+        <header class="tri-screen-head">
+          <div class="tri-case">
+            <span class="tri-case-id">
+              <span data-lang="ko">분쟁 <em>#142</em></span>
+              <span data-lang="en">Dispute <em>#142</em></span>
+            </span>
+            <span class="tri-case-sub">
+              <span data-lang="ko" lang="ko">중재인 판정문 작성<small>(Drafting)</small></span>
+              <span data-lang="en" lang="en">Arbitrator Drafting</span>
+            </span>
+          </div>
+          <span class="tri-pill" data-tone="burgundy">
+            <span data-lang="ko">Dual Award</span>
+            <span data-lang="en">Dual Award</span>
+          </span>
+        </header>
+
+        <div class="tri-body">
+          <h4 id="tri-s4-h" class="tri-h4">
+            <span data-lang="ko">두 개의 판정문, 하나의 서명 절차</span>
+            <span data-lang="en">Two awards. One signature lane.</span>
+          </h4>
+          <p class="tri-p">
+            <span data-lang="ko">
+              중재인 <strong>박지혜</strong>는 <em>판정문 A</em>와 <em>판정문 B</em>를 동시에 작성합니다.
+              각각 실정법·협약·계약 조항 중 하나를 근거로 인용해야 합니다. 배심원이 Commit-Reveal 절차로 두 판정문 중 하나를 선택할 때까지 어느 쪽도 효력이 발생하지 않습니다.
+            </span>
+            <span data-lang="en">
+              Arbitrator <strong>Park Ji-hye</strong> drafts <em>Award&nbsp;A</em> and <em>Award&nbsp;B</em> in parallel.
+              Each must cite positive law, convention, or contract clause. Jurors will choose between them under commit-reveal — neither is final until tally.
+            </span>
+          </p>
+
+          <div class="tri-split">
+            <section class="tri-award" data-award="A" aria-labelledby="tri-s4-a">
+              <span class="tri-award-tag">
+                <span data-lang="ko">판정문 A · 신청인 인용</span>
+                <span data-lang="en">Award A · Pro-Claimant</span>
+              </span>
+              <h5 id="tri-s4-a" class="tri-award-h">
+                <span data-lang="ko">전액 환불 + 위약벌</span>
+                <span data-lang="en">Full refund + penalty</span>
+              </h5>
+              <span class="tri-award-amt">
+                <span data-lang="ko">1,050 RLUSD → 신청인</span>
+                <span data-lang="en">1,050 RLUSD → Claimant</span>
+              </span>
+              <p class="tri-award-clause">
+                <span data-lang="ko">
+                  피신청인은 14일 SLA 내에 사용 가능한 산출물을 인도하지 못함. 본질적 채무불이행이 인정되어 전액 원본 환불에 더해 계약상 5% 지연 위약벌이 적용됨.
+                </span>
+                <span data-lang="en">
+                  Respondent failed to deliver any usable asset within the 14-day SLA. Material breach is established; full restitution plus the contractual 5% delay penalty applies.
+                </span>
+              </p>
+              <span class="tri-award-cite">
+                <span data-lang="ko">§6.3 SLA · §11.2 위약벌 · 민법 §390</span>
+                <span data-lang="en">§6.3 SLA · §11.2 penalty · KCC Art. 390</span>
+              </span>
+            </section>
+
+            <section class="tri-award" data-award="B" aria-labelledby="tri-s4-b">
+              <span class="tri-award-tag">
+                <span data-lang="ko">판정문 B · 부분 환불</span>
+                <span data-lang="en">Award B · Partial</span>
+              </span>
+              <h5 id="tri-s4-b" class="tri-award-h">
+                <span data-lang="ko">비례 환불 + 위약벌</span>
+                <span data-lang="en">Pro-rated refund + penalty</span>
+              </h5>
+              <span class="tri-award-amt">
+                <span data-lang="ko">850 RLUSD → 신청인</span>
+                <span data-lang="en">850 RLUSD → Claimant</span>
+              </span>
+              <p class="tri-award-clause">
+                <span data-lang="ko">
+                  Acme가 계약된 12개 모델 중 4개를 산출(commit <span class="tri-mono">a4f2c9</span>). 합리적 의존이익을 200 RLUSD로 인정해 환불액을 차감하되 위약벌은 그대로 유지.
+                </span>
+                <span data-lang="en">
+                  Acme produced 4 of 12 contracted models (commit <span class="tri-mono">a4f2c9</span>). Reasonable reliance value is preserved at 200 RLUSD; refund is reduced accordingly with penalty intact.
+                </span>
+              </p>
+              <span class="tri-award-cite">
+                <span data-lang="ko">§4.1 부분이행 · §11.2 위약벌 · 민법 §396</span>
+                <span data-lang="en">§4.1 partial-perf · §11.2 penalty · KCC Art. 396</span>
+              </span>
+            </section>
+          </div>
+
+          <div class="tri-callout" data-tone="burgundy">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l9 4-9 4-9-4 9-4z"/><path d="M3 12l9 4 9-4M3 17l9 4 9-4"/></svg>
+            <div class="tri-callout-body">
+              <strong>
+                <span data-lang="ko">법리 요건 — 법적 근거 필수</span>
+                <span data-lang="en">Legal grounding required</span>
+              </strong>
+              <span data-lang="ko">
+                각 판정문은 서명 시점에 해시되어 XRPL Memo에 기록됩니다. 6단계의 배심원 평결 없이는 어느 판정문도 효력을 갖지 않습니다.
+              </span>
+              <span data-lang="en">
+                Each draft is hashed and submitted to XRPL Memo at sign-time. Neither award is enforceable without juror confirmation in Phase 6.
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <footer class="tri-actions">
+          <span class="tri-actions-meta">
+            <span data-lang="ko">박지혜 작성 · KCAB-2024-0317</span>
+            <span data-lang="en">Drafted by Park Ji-hye · KCAB-2024-0317</span>
+          </span>
+          <button class="tri-btn" data-variant="primary-burgundy" type="button">
+            <span data-lang="ko">투표 회부</span>
+            <span data-lang="en">Submit for vote</span>
+          </button>
+        </footer>
+      </article>
+
+      <!-- ───────── SCREEN 5 · Juror Commit-Reveal Voting ───────── -->
+      <article id="tri-s5" class="tri-screen" data-phase="05" data-tone="gold" role="listitem" aria-labelledby="tri-s5-h">
+        <div class="tri-chrome">
+          <span class="tri-chrome-dots"><span></span><span></span><span></span></span>
+          <span class="tri-chrome-url">app.trianum.xyz/disputes/142/vote</span>
+          <span class="tri-chrome-net">XRPL Mainnet</span>
+        </div>
+
+        <header class="tri-screen-head">
+          <div class="tri-case">
+            <span class="tri-case-id">
+              <span data-lang="ko">분쟁 <em>#142</em></span>
+              <span data-lang="en">Dispute <em>#142</em></span>
+            </span>
+            <span class="tri-case-sub">
+              <span data-lang="ko" lang="ko">배심원 비밀 투표<small>(Commit · Reveal)</small></span>
+              <span data-lang="en" lang="en">Juror Secret Vote · Commit-Reveal</span>
+            </span>
+          </div>
+          <div style="text-align:right;">
+            <p class="tri-countdown" data-size="md" aria-live="polite">02<small>D</small>&nbsp;06<small>H</small>&nbsp;12<small>M</small></p>
+            <span class="tri-label" style="display:block;text-align:right;">
+              <span data-lang="ko">Commit 윈도우</span>
+              <span data-lang="en">Commit window</span>
+            </span>
+          </div>
+        </header>
+
+        <div class="tri-body">
+          <h4 id="tri-s5-h" class="tri-h4">
+            <span data-lang="ko">비밀 투표를 제출하세요</span>
+            <span data-lang="en">Cast your secret vote</span>
+          </h4>
+          <p class="tri-p">
+            <span data-lang="ko">
+              귀하는 VRF로 추첨된 배심원 <strong>10인 중 4번</strong>입니다 (<span class="tri-mono">이민준 · 0x6c9d…21fe</span>).
+              두 판정문을 검토하고 증거를 평가한 후 해시된 선택을 commit 하십시오. 10건의 commit이 도착하면 자동으로 reveal 단계가 열립니다.
+            </span>
+            <span data-lang="en">
+              You are juror <strong>4 of 10</strong> (<span class="tri-mono">Lee Min-jun · 0x6c9d…21fe</span>) drawn by VRF.
+              Read both awards, weigh the evidence, then commit your hashed choice. The reveal phase opens automatically when 10 commits land.
+            </span>
+          </p>
+
+          <div class="tri-votes">
+            <button class="tri-vote" data-award="A" type="button" aria-pressed="false">
+              <span class="tri-vote-tag">
+                <span data-lang="ko">판정문 A</span>
+                <span data-lang="en">Award A</span>
+              </span>
+              <h5 class="tri-vote-h">
+                <span data-lang="ko">전액 환불 + 위약벌</span>
+                <span data-lang="en">Full refund + penalty</span>
+              </h5>
+              <span class="tri-vote-sum">1,050 RLUSD</span>
+              <span class="tri-vote-foot">
+                <span data-lang="ko">본질적 채무불이행 — SLA 내 사용 가능 산출물 부재.</span>
+                <span data-lang="en">Material breach — no usable delivery within SLA.</span>
+              </span>
+            </button>
+
+            <button class="tri-vote" data-award="B" type="button" aria-pressed="true">
+              <span class="tri-vote-tag">
+                <span data-lang="ko">판정문 B</span>
+                <span data-lang="en">Award B</span>
+              </span>
+              <h5 class="tri-vote-h">
+                <span data-lang="ko">비례 환불</span>
+                <span data-lang="en">Pro-rated refund</span>
+              </h5>
+              <span class="tri-vote-sum">850 RLUSD</span>
+              <span class="tri-vote-foot">
+                <span data-lang="ko">부분이행 — 12개 산출물 중 4개가 온체인 검증됨.</span>
+                <span data-lang="en">Partial performance — 4 of 12 deliverables verified on-chain.</span>
+              </span>
+            </button>
+          </div>
+
+          <div class="tri-callout">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="9" rx="2"/><path d="M8 11V8a4 4 0 018 0v3"/></svg>
+            <div class="tri-callout-body">
+              <strong>
+                <span data-lang="ko">Commit-Reveal — 비밀 투표 메커니즘</span>
+                <span data-lang="en">Commit-Reveal — Secret Vote Mechanism</span>
+              </strong>
+              <span data-lang="ko">
+                선택은 일회성 솔트와 함께 해시됩니다. 지금은 해시만 온체인에 기록되며, 모든 commit이 도착한 뒤에야 reveal 합니다 — 매수·강박·군중심리가 봉쇄됩니다.
+              </span>
+              <span data-lang="en">
+                Your choice is hashed with a one-time salt; only the hash hits chain now. After all commits land, you reveal — coercion, vote-buying, and herd behaviour are eliminated.
+              </span>
+            </div>
+          </div>
+
+          <div class="tri-stake" aria-label="Stake and reward summary">
+            <div class="tri-stake-cell" data-tone="risk">
+              <span>
+                <span data-lang="ko">손실 위험</span>
+                <span data-lang="en">Stake at risk</span>
+              </span>
+              <strong>500 TRN</strong>
+              <em>
+                <span data-lang="ko">소수 의견 채택 시 슬래시.</span>
+                <span data-lang="en">Slashed if you side with the minority award.</span>
+              </em>
+            </div>
+            <div class="tri-stake-cell" data-tone="reward">
+              <span>
+                <span data-lang="ko">다수 보상</span>
+                <span data-lang="en">Reward on majority</span>
+              </span>
+              <strong>+ 1.5 RLUSD</strong>
+              <em>
+                <span data-lang="ko">판정 확정 시 비례 분배되는 배심원 보상풀.</span>
+                <span data-lang="en">Pro-rata juror pool, paid on Award finalisation.</span>
+              </em>
+            </div>
+          </div>
+        </div>
+
+        <footer class="tri-actions">
+          <span class="tri-actions-meta">VRF 0x9b22…ef01 · block 89,452,711</span>
+          <button class="tri-btn" data-variant="primary" type="button">
+            <span data-lang="ko">투표 commit</span>
+            <span data-lang="en">Commit vote</span>
+          </button>
+        </footer>
+      </article>
+
+      <!-- ───────── SCREEN 6 · Tally + Single-Instance Appeal Window ───────── -->
+      <article id="tri-s6" class="tri-screen" data-phase="06" data-tone="burgundy" role="listitem" aria-labelledby="tri-s6-h">
+        <div class="tri-chrome">
+          <span class="tri-chrome-dots"><span></span><span></span><span></span></span>
+          <span class="tri-chrome-url">app.trianum.xyz/disputes/142/tally</span>
+          <span class="tri-chrome-net">XRPL Mainnet</span>
+        </div>
+
+        <header class="tri-screen-head">
+          <div class="tri-case">
+            <span class="tri-case-id">
+              <span data-lang="ko">분쟁 <em>#142</em></span>
+              <span data-lang="en">Dispute <em>#142</em></span>
+            </span>
+            <span class="tri-case-sub">
+              <span data-lang="ko" lang="ko">평결 집계 · 단심제 확정<small>(Tally)</small></span>
+              <span data-lang="en" lang="en">Tally · Final Award</span>
+            </span>
+          </div>
+          <span class="tri-pill" data-tone="success">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4L19 6"/></svg>
+            <span data-lang="ko">정족수 도달</span>
+            <span data-lang="en">Quorum reached</span>
+          </span>
+        </header>
+
+        <div class="tri-body">
+          <h4 id="tri-s6-h" class="tri-h4">
+            <span data-lang="ko">판정문 B 채택 — 배심원 7/10</span>
+            <span data-lang="en">Award B prevails — 7 of 10 jurors</span>
+          </h4>
+
+          <div class="tri-tally" role="img" aria-label="Award A 3 votes, Award B 7 votes">
+            <div class="tri-tally-row">
+              <span>
+                <span data-lang="ko">판정문 A</span>
+                <span data-lang="en">Award A</span>
+              </span>
+              <span class="tri-tally-bar" style="--w:30%;--c:var(--tri-emerald);"></span>
+              <span>3 / 10</span>
+            </div>
+            <div class="tri-tally-row">
+              <span>
+                <span data-lang="ko">판정문 B</span>
+                <span data-lang="en">Award B</span>
+              </span>
+              <span class="tri-tally-bar" style="--w:70%;--c:var(--tri-burgundy);"></span>
+              <span>7 / 10</span>
+            </div>
+          </div>
+
+          <dl class="tri-defs">
+            <dt>
+              <span data-lang="ko">최종 판정<small lang="ko">Final award</small></span>
+              <span data-lang="en">Final award</span>
+            </dt>
+            <dd>
+              <span data-lang="ko"><strong>850 RLUSD</strong> → 신청인 김영수</span>
+              <span data-lang="en"><strong>850 RLUSD</strong> → Claimant Kim Young-soo</span>
+            </dd>
+
+            <dt>
+              <span data-lang="ko">판정 해시<small lang="ko">Award hash</small></span>
+              <span data-lang="en">Award hash</span>
+            </dt>
+            <dd>
+              <span class="tri-mono">0xb27e…91af</span> ·
+              <span data-lang="ko">block 89,478,930에 앵커링</span>
+              <span data-lang="en">anchored block 89,478,930</span>
+            </dd>
+
+            <dt>
+              <span data-lang="ko">다수 배심원<small lang="ko">Majority jurors</small></span>
+              <span data-lang="en">Majority jurors</span>
+            </dt>
+            <dd>
+              <span data-lang="ko">이민준, 정수아, 한도윤, 윤재희, 최연우, 임하늘, 박서윤</span>
+              <span data-lang="en">Lee Min-jun, Jung Soo-ah, Han Do-yoon, Yoon Jae-hee, Choi Yeon-woo, Lim Ha-neul, Park Seo-yoon</span>
+            </dd>
+          </dl>
+
+          <section class="tri-singleinstance" aria-labelledby="tri-s6-si">
+            <span class="tri-label" style="color:var(--tri-burgundy);">
+              <span data-lang="ko">단심제(<em class="tri-hanja">單審制</em>) 서명 기간</span>
+              <span data-lang="en">Single-Instance Appeal Window</span>
+            </span>
+            <h5 id="tri-s6-si" class="tri-singleinstance-h">
+              ⏳&nbsp;
+              <span class="tri-countdown" data-size="lg">06<small>D</small>&nbsp;23<small>H</small>&nbsp;47<small>M</small></span>
+              <em>
+                <span data-lang="ko">중재인 최종 서명까지</span>
+                <span data-lang="en">to final arbitrator signature</span>
+              </em>
+            </h5>
+            <p>
+              <span data-lang="ko">
+                Trianum은 <strong>단심제</strong>로 운영됩니다 — 재심도, 전원합의체 재심리도 없습니다. 본 기간 내 중재인 <strong>박지혜</strong>가 판정문 B에 부서명하면 결정은 취소불가능하며 XRPL 에스크로가 자동 해제됩니다.
+              </span>
+              <span data-lang="en">
+                Trianum is <strong>single-instance</strong> — there is no second round, no en-banc rehearing. Once arbitrator <strong>Park Ji-hye</strong> counter-signs Award B within this window, the verdict is irrevocable and the XRPL escrow auto-releases.
+              </span>
+            </p>
+          </section>
+
+          <div class="tri-callout" data-tone="warn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.3 3.86l-8.27 14a2 2 0 001.71 3h16.52a2 2 0 001.71-3l-8.27-14a2 2 0 00-3.4 0z"/><path d="M12 9v4M12 17h.01"/></svg>
+            <div class="tri-callout-body">
+              <strong>
+                <span data-lang="ko">왜 항소가 없는가?</span>
+                <span data-lang="en">Why no appeal?</span>
+              </strong>
+              <span data-lang="ko">
+                다단계 중재는 수개월의 지연과 스테이크 입찰전을 초래합니다. Trianum은 가역성을 포기하고 종국성을 택합니다 — 불복은 뉴욕협약 제5조 사유에 한해 국내 법원으로 이전됩니다.
+              </span>
+              <span data-lang="en">
+                Multi-round arbitration adds months and bidding wars on stake. Trianum trades reversibility for finality — challenges instead go to an off-chain national court under NY Convention Art.&nbsp;V grounds only.
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <footer class="tri-actions">
+          <span class="tri-actions-meta">
+            <span data-lang="ko">Reveal 종료 · 2026-04-22 11:00 KST</span>
+            <span data-lang="en">Reveals closed · 2026-04-22 11:00 KST</span>
+          </span>
+          <button class="tri-btn" data-variant="primary-burgundy" type="button">
+            <span data-lang="ko">중재인에게 통보</span>
+            <span data-lang="en">Notify arbitrator</span>
+          </button>
+        </footer>
+      </article>
+
+      <!-- ───────── SCREEN 7 · Final Signing + Execution ───────── -->
+      <article id="tri-s7" class="tri-screen" data-phase="07" data-tone="emerald" role="listitem" aria-labelledby="tri-s7-h">
+        <div class="tri-chrome">
+          <span class="tri-chrome-dots"><span></span><span></span><span></span></span>
+          <span class="tri-chrome-url">app.trianum.xyz/disputes/142/execute</span>
+          <span class="tri-chrome-net">XRPL Mainnet</span>
+        </div>
+
+        <header class="tri-screen-head">
+          <div class="tri-case">
+            <span class="tri-case-id">
+              <span data-lang="ko">분쟁 <em>#142</em></span>
+              <span data-lang="en">Dispute <em>#142</em></span>
+            </span>
+            <span class="tri-case-sub">
+              <span data-lang="ko" lang="ko">최종 서명 · 자동 집행<small>(Execution)</small></span>
+              <span data-lang="en" lang="en">Final Signing · Execution</span>
+            </span>
+          </div>
+          <span class="tri-pill" data-tone="success">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4L19 6"/></svg>
+            <span data-lang="ko">집행 완료</span>
+            <span data-lang="en">Settled</span>
+          </span>
+        </header>
+
+        <div class="tri-body">
+          <h4 id="tri-s7-h" class="tri-h4">
+            <span data-lang="ko">에스크로 해제 — 판정문 B 집행 완료.</span>
+            <span data-lang="en">Escrow released — Award B executed.</span>
+          </h4>
+
+          <div class="tri-sig" role="status">
+            <div class="tri-sig-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4L19 6"/></svg>
+            </div>
+            <div>
+              <div class="tri-sig-h">
+                <span data-lang="ko">박지혜 — 서명 완료</span>
+                <span data-lang="en">Park Ji-hye — Signed</span>
+              </div>
+              <div class="tri-sig-meta">
+                <span data-lang="ko">중재인 부서명 · 2026-04-29 16:08 KST · sig <span class="tri-mono">0xa18c…3d4f</span></span>
+                <span data-lang="en">Arbitrator counter-sig · 2026-04-29 16:08 KST · sig <span class="tri-mono">0xa18c…3d4f</span></span>
+              </div>
+            </div>
+          </div>
+
+          <!-- ★ AWARD MODAL ENTRY POINT ★ -->
+          <button class="tri-award-link" type="button" data-open-award="142" aria-haspopup="dialog" aria-controls="tri-award-142">
+            <span>
+              <span data-lang="ko">📜 중재판정문 보기</span>
+              <span data-lang="en">📜 View Arbitral Award</span>
+              <small>
+                <span data-lang="ko">2-페이지 IRAC · 증거 8건 · 단심제 확정</span>
+                <span data-lang="en">2-page IRAC · 8 exhibits · single-instance final</span>
+              </small>
+            </span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+          </button>
+
+          <ol class="tri-tx" aria-label="On-chain settlement steps">
+            <li class="tri-tx-row">
+              <span class="tri-tx-check" aria-hidden="true">✓</span>
+              <span class="tri-tx-label">
+                <span data-lang="ko">EscrowFinish · XRPL L1</span>
+                <span data-lang="en">EscrowFinish · XRPL L1</span>
+                <small>tx 0x4d2e…8f1c · ledger 89,482,401</small>
+              </span>
+              <span class="tri-tx-amt">−1,000 RLUSD</span>
+            </li>
+            <li class="tri-tx-row">
+              <span class="tri-tx-check" aria-hidden="true">✓</span>
+              <span class="tri-tx-label">
+                <span data-lang="ko">신청인 김영수에게 지급</span>
+                <span data-lang="en">Payout to claimant Kim Young-soo</span>
+                <small>0x7a3f…4c9b · Memo 0xb27e…91af</small>
+              </span>
+              <span class="tri-tx-amt">+&nbsp;850 RLUSD</span>
+            </li>
+            <li class="tri-tx-row">
+              <span class="tri-tx-check" aria-hidden="true">✓</span>
+              <span class="tri-tx-label">
+                <span data-lang="ko">피신청인 Acme에 환부</span>
+                <span data-lang="en">Refund to respondent Acme</span>
+                <small>0x9f1e…8a2d · undisputed remainder</small>
+              </span>
+              <span class="tri-tx-amt">+&nbsp;105 RLUSD</span>
+            </li>
+            <li class="tri-tx-row">
+              <span class="tri-tx-check" aria-hidden="true">✓</span>
+              <span class="tri-tx-label">
+                <span data-lang="ko">배심원 보상 분배</span>
+                <span data-lang="en">Juror reward distribution</span>
+                <small>
+                  <span data-lang="ko">다수 7 · 소수 3 슬래시</span>
+                  <span data-lang="en">7 majority · 3 minority slashed</span>
+                </small>
+              </span>
+              <span class="tri-tx-amt">+&nbsp;15 RLUSD</span>
+            </li>
+            <li class="tri-tx-row">
+              <span class="tri-tx-check" aria-hidden="true">✓</span>
+              <span class="tri-tx-label">
+                <span data-lang="ko">판정문 PDF, XRPL Memo에 앵커링</span>
+                <span data-lang="en">Award PDF anchored to XRPL Memo</span>
+                <small>CID bafybeih73mz…d8q1 · NY Convention-ready</small>
+              </span>
+              <span class="tri-tx-amt">hash ✓</span>
+            </li>
+          </ol>
+
+          <div>
+            <p class="tri-label">
+              <span data-lang="ko">소요 기간</span>
+              <span data-lang="en">Time-to-Verdict</span>
+            </p>
+            <div class="tri-vs" role="group" aria-label="Korean court versus Trianum">
+              <div>
+                <span class="tri-vs-label">
+                  <span data-lang="ko">한국 법원</span>
+                  <span data-lang="en">Korean Court</span>
+                </span>
+                <div class="tri-vs-num">18 months</div>
+                <span class="tri-vs-sub">
+                  <span data-lang="ko">평균 1심 종결 (서울지법)</span>
+                  <span data-lang="en">Civil first-instance avg. (Seoul Dist.)</span>
+                </span>
+              </div>
+              <div>
+                <span class="tri-vs-label">
+                  <span data-lang="ko">트리아눔</span>
+                  <span data-lang="en">Trianum</span>
+                </span>
+                <div class="tri-vs-num">28 days</div>
+                <span class="tri-vs-sub">
+                  <span data-lang="ko">접수→집행 · #142 실측치</span>
+                  <span data-lang="en">filing → enforcement · #142 actual</span>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <footer class="tri-actions">
+          <span class="tri-actions-meta">
+            <span data-lang="ko">종결 2026-04-29 16:14 KST · 단심제 확정</span>
+            <span data-lang="en">Closed 2026-04-29 16:14 KST · Final, single-instance</span>
+          </span>
+          <button class="tri-btn" data-variant="primary-emerald" type="button">
+            <span data-lang="ko">XRPL Explorer 보기</span>
+            <span data-lang="en">View on XRPL Explorer</span>
+          </button>
+        </footer>
+      </article>
+
+    </div>
+    </div>
+    <!-- ════════════════ /CAROUSEL ════════════════ -->
+
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <!-- ════════════════ AWARD MODAL (IRAC, 2 pages) ═════════ -->
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <dialog class="tri-award-modal" id="tri-award-142" aria-labelledby="tri-award-title">
+      <div class="tri-award-doc" role="document">
+        <header class="tri-award-header">
+          <h1 id="tri-award-title">
+            <span data-lang="ko">중재판정문 (Arbitral Award)</span>
+            <span data-lang="en">Arbitral Award</span>
+          </h1>
+          <button class="tri-award-close" type="button" aria-label="Close" data-close-award>×</button>
+        </header>
+
+        <article class="tri-award-body">
+
+          <!-- ═══ Page 1 · KO ═══ -->
+          <section class="tri-award-page" data-lang="ko">
+            <h2>I. 사건 개요</h2>
+            <table class="tri-award-meta-table">
+              <tr><th>사건번호</th><td>2026가합0142 · Trianum Dispute #142</td></tr>
+              <tr><th>중재인</th><td>박지혜</td></tr>
+              <tr><th>중재판정부</th><td>10인 배심원단 (VRF 추첨)</td></tr>
+              <tr><th>신청인</th><td>김영수 · Wallet 0x7a3…4c9b</td></tr>
+              <tr><th>피신청인</th><td>Acme Studio DAO · Multisig 0x9f1…8a2d</td></tr>
+              <tr><th>청구취지</th><td>1,000 RLUSD 에스크로 환불 + 지연 손해금</td></tr>
+              <tr><th>심리방식</th><td>온라인 비공개 심리 (XRPL EVM Sidechain)</td></tr>
+              <tr><th>판정일</th><td>2026년 4월 25일 16:08 KST</td></tr>
+            </table>
+
+            <p class="tri-irac-heading">I · Issue · 쟁점</p>
+            <ol>
+              <li>피신청인이 14일 SLA 내에 3D 캐릭터팩을 인도하지 못함으로써 본질적 채무불이행(material breach)을 구성하는지.</li>
+              <li>본질적 채무불이행이 인정될 경우, 신청인이 전액 환불 + 위약벌(지연손해금)을 청구할 권리가 있는지.</li>
+              <li>피신청인의 부분 납품 제안(40% 완성)이 채무이행으로 평가되어 청구를 차단할 수 있는지.</li>
+            </ol>
+
+            <p class="tri-irac-heading">R · Rule · 적용 법규</p>
+            <ul>
+              <li><strong>한국 민법 제544조</strong> — 이행지체로 인한 계약 해제권 발생</li>
+              <li><strong>한국 민법 제390조</strong> — 채무불이행으로 인한 손해배상</li>
+              <li><strong>한국 중재법 제3조</strong> — 당사자자치 원칙</li>
+              <li><strong>한국 중재법 제35조·제36조</strong> — 중재판정의 효력 및 단심제(불복절차 배제)</li>
+              <li><strong>Trianum Rules v3.5 §4.2</strong> — 증거능력 (변론 기간 종료 후 증거 불인정)</li>
+              <li><strong>Trianum Rules v3.5 §6.5</strong> — 단심제 절차 (7일 항소 기간 도과 후 중재인 서명)</li>
+              <li><strong>스마트 컨트랙트 §2.3</strong> — 14일 인도 SLA 조항</li>
+            </ul>
+          </section>
+
+          <!-- ═══ Page 2 · KO ═══ -->
+          <section class="tri-award-page" data-lang="ko">
+            <p class="tri-irac-heading">A · Analysis · 분석</p>
+            <p>본 중재판정부는 변론 기간(2026-04-01 ~ 04-15) 동안 양 당사자가 IPFS·XRPL Memo로 제출한 8건의 증거를 다음과 같이 평가한다:</p>
+
+            <ul class="tri-evidence-list">
+              <li><span class="tri-evi-id">E1</span> [IPFS bafy…x7q] 피신청인이 SLA 만료 4시간 전 채팅에서 "내일까지는 무리"라고 시인 → <em>의도적 지연 인정</em>.</li>
+              <li><span class="tri-evi-id">E2</span> [Block 89,442,108 / 2026-04-15 09:00 KST] SLA 도과 시점 온체인 타임스탬프 확정 → <em>객관적 채무불이행 시점 확정</em>.</li>
+              <li><span class="tri-evi-id">E3</span> [XRPL Memo 0x4d2…8f1c] 14일 동안 인도 확인 트랜잭션 부재 → <em>이행 부존재의 직접 증거</em>.</li>
+              <li><span class="tri-evi-id">E4</span> [Settlement offer 2026-04-12] 피신청인의 40% 부분 납품 제안 → <em>청구취지(완성품 인도) 미달, 본질적 이행 아님</em>.</li>
+              <li><span class="tri-evi-id">E5</span> [ETH Global 2025 Standards] 디지털 3D 자산 인도 SLA 업계 표준 14일 → <em>본 건 SLA의 합리성 확인</em>.</li>
+              <li><span class="tri-evi-id">E6</span> [대법원 2023다12345] 디지털 자산 인도 의무 위반에 대한 전부 해제 인정 선례 → <em>본 건 법리 적용의 직접 근거</em>.</li>
+              <li><span class="tri-evi-id">E7</span> [ICC Award 2024/567] 유사 NFT 인도 분쟁에서 전액 환불 + 위약벌 인용한 국제중재 선례 → <em>구제수단 산정의 비교법적 근거</em>.</li>
+              <li><span class="tri-evi-id">E8</span> [Mitigation 2026-04-17] 신청인이 대체 벤더 견적 900 RLUSD 확보 → <em>손해 경감 의무 이행 인정</em>.</li>
+            </ul>
+
+            <p>E1·E2·E3은 본질적 채무불이행의 객관적 사실을, E4는 피신청인의 항변 부적격을, E5는 SLA의 합리성을, E6·E7은 적용 법리와 구제수단을, E8은 손해 산정의 정당성을 각각 입증한다. 10인 배심원 중 7인이 본 분석을 채택하여 Award B(전액 환불 + 지연 손해금)에 표결하였다.</p>
+
+            <p class="tri-irac-heading">C · Conclusion · 결론</p>
+            <ol>
+              <li>피신청인의 채무불이행을 인정하고, 신청인의 청구를 인용한다.</li>
+              <li>피신청인은 신청인에게 <strong>1,000 RLUSD (원본 환불) + 50 RLUSD (지연 손해금) = 합계 1,050 RLUSD</strong>를 즉시 지급한다.</li>
+              <li>본 판정은 XRPL 에스크로 자동 집행 트랜잭션 (Tx <span class="tri-mono">0xb1f2…</span>)으로 자동 이행된다.</li>
+              <li>본 판정은 <strong>한국 중재법 제35조·제36조 및 Trianum Rules v3.5 §6.5에 따라 단심제로 확정</strong>되며, 7일의 항소 기간이 도과한 후 중재인 서명에 의해 최종 효력을 발생한다. 항소·재심·취소소송 일체의 불복절차가 배제된다.</li>
+            </ol>
+
+            <p class="tri-award-signature">
+              <strong>중재인 박지혜</strong><br>
+              2026-04-25 16:08 KST<br>
+              sig <span class="tri-mono">0xa18c…3d4f</span>
+            </p>
+          </section>
+
+          <!-- ═══ Page 1 · EN ═══ -->
+          <section class="tri-award-page" data-lang="en">
+            <h2>I. Case Overview</h2>
+            <table class="tri-award-meta-table">
+              <tr><th>Case No.</th><td>2026 GA-HAP 0142 · Trianum Dispute #142</td></tr>
+              <tr><th>Arbitrator</th><td>Park Ji-hye</td></tr>
+              <tr><th>Tribunal</th><td>10-Juror Panel (drawn by VRF)</td></tr>
+              <tr><th>Claimant</th><td>Kim Young-soo · Wallet 0x7a3…4c9b</td></tr>
+              <tr><th>Respondent</th><td>Acme Studio DAO · Multisig 0x9f1…8a2d</td></tr>
+              <tr><th>Relief Sought</th><td>Refund of 1,000 RLUSD escrow + delay damages</td></tr>
+              <tr><th>Hearing</th><td>Online, in camera (XRPL EVM Sidechain)</td></tr>
+              <tr><th>Award Date</th><td>April 25, 2026, 16:08 KST</td></tr>
+            </table>
+
+            <p class="tri-irac-heading">I · Issue</p>
+            <ol>
+              <li>Whether the Respondent's failure to deliver the 3D character pack within the 14-day SLA constitutes a material breach of the smart contract escrow agreement.</li>
+              <li>If material breach is established, whether the Claimant is entitled to a full refund plus liquidated delay damages.</li>
+              <li>Whether the Respondent's partial-delivery offer (40% completion) qualifies as performance sufficient to bar the claim.</li>
+            </ol>
+
+            <p class="tri-irac-heading">R · Applicable Rules</p>
+            <ul>
+              <li><strong>Korean Civil Code Art. 544</strong> — right of rescission upon delay in performance.</li>
+              <li><strong>Korean Civil Code Art. 390</strong> — damages for non-performance.</li>
+              <li><strong>Korean Arbitration Act Art. 3</strong> — principle of party autonomy.</li>
+              <li><strong>Korean Arbitration Act Arts. 35 &amp; 36</strong> — binding effect and single-instance finality (no appeal).</li>
+              <li><strong>Trianum Rules v3.5 §4.2</strong> — admissibility of evidence (no evidence after the close of the evidence period).</li>
+              <li><strong>Trianum Rules v3.5 §6.5</strong> — single-instance procedure (arbitrator signature after 7-day appeal window elapses).</li>
+              <li><strong>Smart Contract §2.3</strong> — 14-day delivery SLA clause.</li>
+            </ul>
+          </section>
+
+          <!-- ═══ Page 2 · EN ═══ -->
+          <section class="tri-award-page" data-lang="en">
+            <p class="tri-irac-heading">A · Analysis</p>
+            <p>The Tribunal evaluates the eight items of evidence submitted by the parties via IPFS and XRPL Memo during the evidence period (April 1 – April 15, 2026):</p>
+
+            <ul class="tri-evidence-list">
+              <li><span class="tri-evi-id">E1</span> [IPFS bafy…x7q] Respondent admitted, four hours before SLA expiry, in chat: "tomorrow is unrealistic" → <em>establishes intentional delay</em>.</li>
+              <li><span class="tri-evi-id">E2</span> [Block 89,442,108 / 2026-04-15 09:00 KST] On-chain timestamp at SLA expiry → <em>fixes objective time of breach</em>.</li>
+              <li><span class="tri-evi-id">E3</span> [XRPL Memo 0x4d2…8f1c] Absence of any delivery-confirmation transaction during the 14-day window → <em>direct evidence of non-performance</em>.</li>
+              <li><span class="tri-evi-id">E4</span> [Settlement offer 2026-04-12] Respondent's 40% partial-delivery proposal → <em>falls short of the relief sought; not substantial performance</em>.</li>
+              <li><span class="tri-evi-id">E5</span> [ETH Global 2025 Standards] Industry-standard 14-day SLA for digital 3D-asset delivery → <em>confirms reasonableness of the SLA</em>.</li>
+              <li><span class="tri-evi-id">E6</span> [Korean Supreme Court, 2023 Da 12345] Precedent recognizing full rescission for breach of digital-asset delivery → <em>direct doctrinal basis</em>.</li>
+              <li><span class="tri-evi-id">E7</span> [ICC Award No. 2024/567] Comparable international award granting full refund plus liquidated damages in an analogous NFT-delivery dispute → <em>comparative basis for remedies</em>.</li>
+              <li><span class="tri-evi-id">E8</span> [Mitigation, 2026-04-17] Claimant secured an alternative-vendor quote of 900 RLUSD → <em>satisfies duty to mitigate</em>.</li>
+            </ul>
+
+            <p>E1, E2, and E3 establish the objective facts of material breach; E4 disqualifies Respondent's defense; E5 confirms the reasonableness of the SLA; E6 and E7 supply the governing doctrine and comparative remedy basis; E8 supports the quantum. Seven of ten jurors adopted this analysis and voted for Award B (full refund plus delay damages).</p>
+
+            <p class="tri-irac-heading">C · Conclusion</p>
+            <ol>
+              <li>The Tribunal finds the Respondent in material breach and grants the Claimant's relief.</li>
+              <li>The Respondent shall immediately pay to the Claimant <strong>1,000 RLUSD (principal refund) + 50 RLUSD (delay damages) = 1,050 RLUSD in total</strong>.</li>
+              <li>This award is enforced automatically through the XRPL escrow-release transaction (Tx <span class="tri-mono">0xb1f2…</span>).</li>
+              <li>This award is <strong>final under Korean Arbitration Act Arts. 35 and 36 and Trianum Rules v3.5 §6.5</strong>, taking final effect upon arbitrator signature after the 7-day appeal window elapsed. All appellate, retrial, and set-aside proceedings are precluded.</li>
+            </ol>
+
+            <p class="tri-award-signature">
+              <strong>Park Ji-hye, Arbitrator</strong><br>
+              April 25, 2026 · 16:08 KST<br>
+              sig <span class="tri-mono">0xa18c…3d4f</span>
+            </p>
+          </section>
+
+        </article>
+
+        <footer class="tri-award-footer">
+          <button type="button" data-close-award>
+            <span data-lang="ko">닫기</span>
+            <span data-lang="en">Close</span>
+          </button>
+          <span class="tri-award-meta">Trianum Court · Dispute #142 · 2026-04-25</span>
+        </footer>
+      </div>
+    </dialog>
+
+    <!-- ═══ Below-carousel comparison band ═══ -->
+    <div class="tri-comparison" role="region" aria-label="Trianum vs traditional dispute resolution">
+      <div class="tri-vs-stat">
+        <span class="tri-vs-stat-label">
+          <span data-lang="ko">한국 법원 · 시간</span>
+          <span data-lang="en">Korean Court · time</span>
+        </span>
+        <span class="tri-vs-stat-num">18 mo</span>
+        <span class="tri-vs-stat-sub">
+          <span data-lang="ko">1심 평균 종결 기간<small>civil first-instance avg.</small></span>
+          <span data-lang="en">Civil first-instance avg.<small>Seoul District Court</small></span>
+        </span>
+      </div>
+      <div class="tri-vs-stat" data-trianum>
+        <span class="tri-vs-stat-label">
+          <span data-lang="ko">트리아눔 · 시간</span>
+          <span data-lang="en">Trianum · time</span>
+        </span>
+        <span class="tri-vs-stat-num">28 d</span>
+        <span class="tri-vs-stat-sub">
+          <span data-lang="ko">접수 → 집행 (단심제)<small>filing → enforcement</small></span>
+          <span data-lang="en">Filing → enforcement<small>single-instance</small></span>
+        </span>
+      </div>
+      <div class="tri-vs-stat">
+        <span class="tri-vs-stat-label">
+          <span data-lang="ko">전통 중재 · 비용</span>
+          <span data-lang="en">Trad. arbitration · cost</span>
+        </span>
+        <span class="tri-vs-stat-num">15–30%</span>
+        <span class="tri-vs-stat-sub">
+          <span data-lang="ko">분쟁 금액 대비 수수료<small>institutional fees + counsel</small></span>
+          <span data-lang="en">Of dispute amount<small>institutional fees + counsel</small></span>
+        </span>
+      </div>
+      <div class="tri-vs-stat" data-trianum>
+        <span class="tri-vs-stat-label">
+          <span data-lang="ko">트리아눔 · 비용</span>
+          <span data-lang="en">Trianum · cost</span>
+        </span>
+        <span class="tri-vs-stat-num">3%</span>
+        <span class="tri-vs-stat-sub">
+          <span data-lang="ko">프로토콜 수수료 · RLUSD<small>protocol fee, on-chain</small></span>
+          <span data-lang="en">Protocol fee · RLUSD<small>on-chain settlement</small></span>
+        </span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- ════════════════ JS — toggles + carousel + modal ═════ -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <script>
+    /* ═══════════════════════════════════════════════════════════════
+       v2.1 Patch #1A — Award modal: document-level event delegation.
+       Registered OUTSIDE the carousel/theme/lang IIFE so that even if the
+       IIFE silently throws, modal open/close still works. Wraps showModal()
+       in try/catch (Patch #3) to absorb InvalidStateError if the dialog is
+       somehow already open. Falls back to [open] attribute + class for
+       browsers without native <dialog> top-layer support (Patch #2).
+       ═══════════════════════════════════════════════════════════════ */
+    document.addEventListener('click', function (e) {
+      var openTrigger = e.target.closest && e.target.closest('[data-open-award]');
+      if (openTrigger) {
+        var id = openTrigger.dataset.openAward;
+        var dlg = document.getElementById('tri-award-' + id);
+        if (!dlg) { console.warn('[Trianum] dialog not found:', 'tri-award-' + id); return; }
+        try {
+          if (typeof dlg.showModal === 'function') {
+            dlg.showModal();
+          } else {
+            dlg.setAttribute('open', '');
+            dlg.classList.add('tri-modal-fallback-open');
+          }
+        } catch (err) {
+          console.error('[Trianum] showModal failed, using fallback:', err);
+          dlg.setAttribute('open', '');
+          dlg.classList.add('tri-modal-fallback-open');
+        }
+        return;
+      }
+      var closeTrigger = e.target.closest && e.target.closest('[data-close-award]');
+      if (closeTrigger) {
+        var dlg2 = closeTrigger.closest('dialog');
+        if (dlg2) {
+          try { dlg2.close(); } catch (_) {}
+          dlg2.removeAttribute('open');
+          dlg2.classList.remove('tri-modal-fallback-open');
+        }
+        return;
+      }
+      // Backdrop click on the dialog itself (clicking the dialog element
+      // means the user clicked outside the inner .tri-award-doc container).
+      if (e.target.tagName === 'DIALOG' && e.target.classList.contains('tri-award-modal')) {
+        try { e.target.close(); } catch (_) {}
+        e.target.removeAttribute('open');
+        e.target.classList.remove('tri-modal-fallback-open');
+      }
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') {
+        document.querySelectorAll('dialog.tri-award-modal[open], dialog.tri-award-modal.tri-modal-fallback-open').forEach(function (dlg) {
+          try { dlg.close(); } catch (_) {}
+          dlg.removeAttribute('open');
+          dlg.classList.remove('tri-modal-fallback-open');
+        });
+      }
+    });
+
+    (function () {
+      var html = document.documentElement;
+
+      /* ─── 1. Theme: default = dark ───────────────────── */
+      var savedTheme = null;
+      try { savedTheme = localStorage.getItem('tri-theme'); } catch (e) {}
+      html.setAttribute('data-theme', savedTheme === 'light' ? 'light' : 'dark');
+      var themeBtn = document.querySelector('#interface [data-toggle-theme]');
+      if (themeBtn) {
+        themeBtn.addEventListener('click', function () {
+          var cur = html.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
+          var next = cur === 'dark' ? 'light' : 'dark';
+          html.setAttribute('data-theme', next);
+          try { localStorage.setItem('tri-theme', next); } catch (e) {}
+        });
+      }
+
+      /* ─── 2. Language: default = ko ──────────────────── */
+      var savedLang = null;
+      try { savedLang = localStorage.getItem('tri-lang'); } catch (e) {}
+      var initialLang = savedLang === 'en' ? 'en' : 'ko';
+      html.setAttribute('data-lang', initialLang);
+      var langBtns = document.querySelectorAll('#interface [data-set-lang]');
+      function syncLangBtns(lang) {
+        langBtns.forEach(function (b) {
+          b.setAttribute('aria-selected', b.dataset.setLang === lang ? 'true' : 'false');
+        });
+      }
+      syncLangBtns(initialLang);
+      langBtns.forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          var lang = btn.dataset.setLang;
+          html.setAttribute('data-lang', lang);
+          syncLangBtns(lang);
+          try { localStorage.setItem('tri-lang', lang); } catch (e) {}
+        });
+      });
+
+      /* ─── 3. Carousel: wheel + keyboard (v1 preserved) ─ */
+      var track = document.querySelector('#interface .tri-storyboard');
+      if (track) {
+        track.addEventListener('wheel', function (e) {
+          if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
+            var atStart = track.scrollLeft <= 0 && e.deltaY < 0;
+            var atEnd   = track.scrollLeft + track.clientWidth >= track.scrollWidth - 1 && e.deltaY > 0;
+            if (atStart || atEnd) return;
+            e.preventDefault();
+            track.scrollLeft += e.deltaY;
+          }
+        }, { passive: false });
+
+        function cardStep() {
+          var card = track.querySelector('.tri-screen');
+          var w = card ? card.getBoundingClientRect().width : 380;
+          return w + 32;
+        }
+        track.addEventListener('keydown', function (e) {
+          var step = cardStep();
+          if (e.key === 'ArrowRight') { e.preventDefault(); track.scrollBy({ left:  step, behavior: 'smooth' }); }
+          if (e.key === 'ArrowLeft')  { e.preventDefault(); track.scrollBy({ left: -step, behavior: 'smooth' }); }
+          if (e.key === 'Home')       { e.preventDefault(); track.scrollTo({ left: 0, behavior: 'smooth' }); }
+          if (e.key === 'End')        { e.preventDefault(); track.scrollTo({ left: track.scrollWidth, behavior: 'smooth' }); }
+        });
+
+        var rails = document.querySelectorAll('#interface .tri-rail-step');
+        rails.forEach(function (a) {
+          a.addEventListener('click', function (e) {
+            var id = a.getAttribute('href');
+            if (!id || id.charAt(0) !== '#') return;
+            var target = document.querySelector(id);
+            if (!target || !track.contains(target)) return;
+            e.preventDefault();
+            var rect   = target.getBoundingClientRect();
+            var trect  = track.getBoundingClientRect();
+            var offset = (rect.left - trect.left) - (track.clientWidth - rect.width) / 2;
+            track.scrollBy({ left: offset, behavior: 'smooth' });
+          });
+        });
+      }
+
+      /* ─── 4. Award modal handlers: moved OUTSIDE this IIFE to the
+              document-level delegation block above (v2.1 Patch #1A). This
+              ensures modal open/close survives any throw in the carousel
+              setup code. Do not re-add direct listeners here. */
+    })();
+  </script>
+</section>
+  <!-- ─── /§07 · User Interface ─────────────────────────── -->
+
+
 </main>
 
 <!-- ─── FOOTER ─── -->
