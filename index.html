@@ -4165,13 +4165,14 @@ TRN Token</div>
       align-items: start;
     }
     #interface .tri-eyebrow {
-      font-family: var(--tri-serif-en);
+      font-family: inherit;          /* v2.3: site sans inheritance */
+      font-style: normal;             /* v2.3: remove italic for §08 consistency */
       font-size: 0.75rem;
-      letter-spacing: 0.18em;
+      letter-spacing: 0.15em;          /* v2.3: match site .section-label */
       text-transform: uppercase;
-      color: var(--tri-gold);
+      color: var(--color-accent, var(--tri-gold));  /* v2.3: site accent for consistency */
+      font-weight: 500;
       margin: 0 0 1.25rem;
-      font-style: italic;
     }
     #interface .tri-h2 {
       font-family: var(--tri-serif-en);
@@ -4285,6 +4286,9 @@ TRN Token</div>
       padding: 1rem 0.25rem;
       background: linear-gradient(180deg, transparent, var(--tri-vellum) 50%, transparent);
       border-radius: var(--tri-radius);
+      max-width: 1180px;
+      margin-left: auto;
+      margin-right: auto;
     }
     #interface .tri-rail::before {
       content: '';
@@ -4368,11 +4372,11 @@ TRN Token</div>
       display: flex;
       flex-wrap: nowrap;
       gap: 32px;
-      padding: 0.5rem calc(50vw - 190px) 1.5rem;
+      padding: 0.5rem max(1rem, calc(50vw - 590px)) 1.5rem;
       overflow-x: auto;
       overscroll-behavior-x: contain;
       scroll-snap-type: x mandatory;
-      scroll-padding-inline: calc(50vw - 190px); /* v2.1c: match visual padding so Home-key snaps to centered first card */
+      scroll-padding-inline: max(1rem, calc(50vw - 590px)); /* v2.1c: match visual padding so Home-key snaps to centered first card */
       -webkit-overflow-scrolling: touch;
       scrollbar-color: rgba(217, 168, 90, 0.3) transparent;
       scrollbar-width: thin;
@@ -5431,9 +5435,13 @@ TRN Token</div>
       top: 50% !important;
       left: 50% !important;
       transform: translate(-50%, -50%) !important;
-      z-index: 9999 !important;
       margin: 0 !important;
       inset: auto !important;
+      z-index: 99999 !important;
+      width: min(900px, calc(100vw - 32px)) !important;
+      max-width: calc(100vw - 32px) !important;
+      max-height: calc(100vh - 32px) !important;
+      box-sizing: border-box !important;
     }
     /* Manual backdrop for engines without ::backdrop support */
     #interface .tri-award-modal.tri-modal-fallback-open::before {
@@ -7141,7 +7149,7 @@ TRN Token</div>
       var dlg = document.getElementById('tri-award-' + id);
       if (!dlg) return;
       // Force display in case globals override
-      dlg.style.cssText += '; display:block !important; position:fixed !important; top:50% !important; left:50% !important; transform:translate(-50%,-50%) !important; z-index:99999 !important; margin:0 !important; inset:auto !important;';
+      dlg.style.cssText += '; display:block !important; position:fixed !important; top:50% !important; left:50% !important; transform:translate(-50%,-50%) !important; z-index:99999 !important; margin:0 !important; inset:auto !important; width:min(900px,calc(100vw - 32px)) !important; max-width:calc(100vw - 32px) !important; max-height:calc(100vh - 32px) !important; box-sizing:border-box !important;';
       try { if (typeof dlg.showModal === 'function' && !dlg.open) dlg.showModal(); }
       catch (_) { dlg.setAttribute('open',''); dlg.classList.add('tri-modal-fallback-open'); }
     }, true /* capture */);
