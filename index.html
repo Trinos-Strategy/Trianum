@@ -3491,6 +3491,59 @@ html[data-lang="en"] .trinity-hanja {
 [data-theme="dark"] .trn-card--r { background:linear-gradient(160deg,oklch(0.65 0.18 355/0.20) 0%,transparent 60%),var(--color-surface)!important; }
 [data-theme="dark"] .trn-card--n { background:linear-gradient(160deg,oklch(0.72 0.14 83/0.22) 0%,transparent 60%),var(--color-surface)!important; }
 #videos .proof-card { cursor:pointer; }
+
+  /* — FIX: Mobile horizontal scroll for sections 03, 07, 08 — */
+@media (max-width: 767px) {
+  /* Section 03: Timeline horizontal scroll */
+  .timeline {
+    display: flex !important;
+    overflow-x: auto !important;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    gap: var(--space-4) !important;
+    padding-bottom: var(--space-4);
+    grid-template-columns: unset !important;
+  }
+  .timeline::before {
+    display: none !important;
+  }
+  .timeline-step {
+    flex: 0 0 85vw;
+    scroll-snap-align: center;
+    min-width: 85vw;
+  }
+
+  /* Section 07 & 08: proof-grid horizontal scroll */
+  #videos .proof-grid,
+  #trn-meaning .proof-grid {
+    display: flex !important;
+    overflow-x: auto !important;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    gap: var(--space-4) !important;
+    padding-bottom: var(--space-4);
+    grid-template-columns: unset !important;
+  }
+  #videos .proof-card,
+  #trn-meaning .proof-card {
+    flex: 0 0 85vw !important;
+    scroll-snap-align: center;
+    min-width: 85vw;
+    aspect-ratio: auto !important;
+  }
+
+  /* Hide scrollbar but keep functionality */
+  .timeline::-webkit-scrollbar,
+  #videos .proof-grid::-webkit-scrollbar,
+  #trn-meaning .proof-grid::-webkit-scrollbar {
+    display: none;
+  }
+  .timeline,
+  #videos .proof-grid,
+  #trn-meaning .proof-grid {
+    scrollbar-width: none;
+  }
+}
 </style>
 </head>
 <body>
