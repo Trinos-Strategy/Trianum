@@ -3585,6 +3585,7 @@ html[data-lang="en"] .trinity-hanja {
     <a href="#team">Team</a>
             <a href="#videos">Videos</a>
         <a href="#trn-meaning">TRN Token</a>
+        <a href="#interface" aria-label="Interface">Interface</a>
     <a href="https://github.com/Trinos-Strategy/KKleros" target="_blank" rel="noopener">GitHub ↗</a>
   </div>
 </header>
@@ -3601,7 +3602,7 @@ html[data-lang="en"] .trinity-hanja {
         <li><a href="#proof"   data-chapter="V">V</a></li>
         <li><a href="#team"    data-chapter="VI">VI</a></li>
                       <li><a href="#videos"  data-chapter="VII">VII</a></li>
-                      <li><a href="#trn-meaning" data-chapter="VIII">VIII</a></li>
+                      <li><a href="#trn-meaning" data-chapter="VIII">VIII</a><a href="#interface" aria-label="Section 9: User Interface">IX</a></li>
       </ol>
     </nav>
 
@@ -5432,15 +5433,16 @@ TRN Token</div>
     #interface .tri-award-modal.tri-modal-fallback-open,
     body > .tri-award-modal[open],
     body > .tri-award-modal.tri-modal-fallback-open {
-      display: block !important;
+      display: flex !important;
+      flex-direction: column !important;
       position: fixed !important;
-      inset: 1rem !important;             /* fill viewport with 1rem margin all sides */
+      inset: 1rem !important;
       margin: auto !important;
-      transform: none !important;          /* v2.4: no transform — bypass parent-transform issue */
+      transform: none !important;
       z-index: 99999 !important;
       width: min(900px, calc(100vw - 32px)) !important;
       max-width: calc(100vw - 32px) !important;
-      height: fit-content !important;
+      height: auto !important;
       max-height: calc(100vh - 32px) !important;
       box-sizing: border-box !important;
       overflow: hidden !important;
@@ -5693,14 +5695,14 @@ TRN Token</div>
         <p class="tri-lede">
           <span data-lang="ko">
             가로로 스크롤하면 분쟁 접수부터 온체인 집행까지의 전체 절차를 따라갈 수 있습니다.
-            아래 모든 화면이 동일한 사건 — <strong>분쟁&nbsp;#142 · 사건번호&nbsp;2026가합0142</strong>,
+            아래 모든 화면이 동일한 사건 — <strong>Trianum Dispute&nbsp;#142</strong>,
             인도되지 않은 3D 캐릭터팩에 대한 <strong>1,000 RLUSD</strong> 에스크로 분쟁 — 을 다룹니다.
           </span>
           <span data-lang="en">
             Scroll horizontally to walk through a complete dispute lifecycle —
             from scope verification to on-chain enforcement. Every screen below
             renders the <strong>same</strong> dispute:
-            <strong>Dispute #142 · Case No. 2026 GA-HAP 0142</strong>,
+            <strong>Trianum Dispute #142</strong>,
             a 1,000 RLUSD escrow over an undelivered 3D character pack.
           </span>
         </p>
@@ -5820,11 +5822,11 @@ TRN Token</div>
             <p class="tri-p">
               <span data-lang="ko">
                 Trianum의 각 법원은 <em class="tri-hanja" lang="ko">조리(條理)</em>·<em class="tri-hanja" lang="ko">법리(法理)</em>·<em class="tri-hanja" lang="ko">자치(自治)</em>의 가중치를 다르게 적용합니다.
-                <strong>한국 중재법 제3조</strong>에 따른 당사자자치 원칙에 의해, 접수 시 양 당사자는 단일 법원에 구속됩니다.
+                본 General Court는 분쟁 등록 시 양 당사자를 단일 법정에 구속합니다.
               </span>
               <span data-lang="en">
                 Each Trianum court applies a different weighting between <em>common reason</em>, <em>legal doctrine</em>, and <em>party autonomy</em>.
-                Under <strong>Korean Arbitration Act Article 3</strong> (party autonomy), filing binds both sides to one court.
+                Filing binds both parties to the General Court at registration.
               </span>
             </p>
           </div>
@@ -6809,7 +6811,7 @@ TRN Token</div>
           <section class="tri-award-page" data-lang="ko">
             <h2>I. 사건 개요</h2>
             <table class="tri-award-meta-table">
-              <tr><th>사건번호</th><td>2026가합0142 · Trianum Dispute #142</td></tr>
+              <tr><th>사건번호</th><td>Trianum Dispute #142</td></tr>
               <tr><th>중재인</th><td>박지혜</td></tr>
               <tr><th>중재판정부</th><td>10인 배심원단 (VRF 추첨)</td></tr>
               <tr><th>신청인</th><td>김영수 · Wallet 0x7a3…4c9b</td></tr>
@@ -6826,16 +6828,28 @@ TRN Token</div>
               <li>피신청인의 부분 납품 제안(40% 완성)이 채무이행으로 평가되어 청구를 차단할 수 있는지.</li>
             </ol>
 
-            <p class="tri-irac-heading">R · Rule · 적용 법규</p>
-            <ul>
-              <li><strong>한국 민법 제544조</strong> — 이행지체로 인한 계약 해제권 발생</li>
-              <li><strong>한국 민법 제390조</strong> — 채무불이행으로 인한 손해배상</li>
-              <li><strong>한국 중재법 제3조</strong> — 당사자자치 원칙</li>
-              <li><strong>한국 중재법 제35조·제36조</strong> — 중재판정의 효력 및 단심제(불복절차 배제)</li>
-              <li><strong>Trianum Rules v3.5 §4.2</strong> — 증거능력 (변론 기간 종료 후 증거 불인정)</li>
-              <li><strong>Trianum Rules v3.5 §6.5</strong> — 단심제 절차 (7일 항소 기간 도과 후 중재인 서명)</li>
-              <li><strong>스마트 컨트랙트 §2.3</strong> — 14일 인도 SLA 조항</li>
-            </ul>
+            <p class="tri-irac-heading">R · Rule · 준거규범</p>
+
+          <p style="font-weight:600;margin:1rem 0 0.4rem;color:var(--tri-emerald);">1. 관할 합의 및 준거법 (Forum &amp; Choice of Law)</p>
+          <ul>
+            <li><strong>관할 합의</strong> — 본 분쟁은 분쟁 대상 스마트 컨트랙트의 모델 조항(Trianum Rules Annex A)에 따라 Trianum Hybrid Arbitration Rules에 의해 해결된다. Trianum General Court 단독 관할.</li>
+            <li><strong>준거 실체법</strong> — 모델 조항에 따른 당사자 합의로, 본안 실체법으로 대한민국 민법을 적용한다.</li>
+            <li><strong>중재지 (Seat)</strong> — 서울, 대한민국.</li>
+          </ul>
+
+          <p style="font-weight:600;margin:1rem 0 0.4rem;color:var(--tri-emerald);">2. 적용 실체법 (Applicable Substantive Law)</p>
+          <ul>
+            <li><strong>민법 제544조</strong> — 이행지체로 인한 계약 해제권 발생</li>
+            <li><strong>민법 제390조</strong> — 채무불이행으로 인한 손해배상</li>
+            <li><strong>민법 제398조</strong> — 손해배상의 예정 및 위약벌</li>
+            <li><strong>스마트 컨트랙트 §2.3</strong> — 14일 인도 SLA 조항</li>
+          </ul>
+
+          <p style="font-weight:600;margin:1rem 0 0.4rem;color:var(--tri-emerald);">3. 절차 규범 (Procedural Rules · 참조)</p>
+          <ul>
+            <li><strong>Trianum Rules v0.2 Article 13</strong> — 증거능력 (변론 기간 종료 후 제출 증거 불인정)</li>
+            <li><strong>Trianum Rules v0.2 Article 23·26</strong> — 단심제 절차 (7일 Reconsideration Window 도과 후 중재인 서명)</li>
+          </ul>
           </section>
 
           <!-- ═══ Page 2 · KO ═══ -->
@@ -6861,7 +6875,7 @@ TRN Token</div>
               <li>피신청인의 채무불이행을 인정하고, 신청인의 청구를 인용한다.</li>
               <li>피신청인은 신청인에게 <strong>1,000 RLUSD (원본 환불) + 50 RLUSD (지연 손해금) = 합계 1,050 RLUSD</strong>를 즉시 지급한다.</li>
               <li>본 판정은 XRPL 에스크로 자동 집행 트랜잭션 (Tx <span class="tri-mono">0xb1f2…</span>)으로 자동 이행된다.</li>
-              <li>본 판정은 <strong>한국 중재법 제35조·제36조 및 Trianum Rules v3.5 §6.5에 따라 단심제로 확정</strong>되며, 7일의 항소 기간이 도과한 후 중재인 서명에 의해 최종 효력을 발생한다. 항소·재심·취소소송 일체의 불복절차가 배제된다.</li>
+              <li>본 판정은 <strong>Trianum Rules v0.2 Article 23·26에 따라 단심제로 확정</strong>되며, 7일의 항소 기간이 도과한 후 중재인 서명에 의해 최종 효력을 발생한다. 항소·재심·취소소송 일체의 불복절차가 배제된다.</li>
             </ol>
 
             <p class="tri-award-signature">
@@ -6875,7 +6889,7 @@ TRN Token</div>
           <section class="tri-award-page" data-lang="en">
             <h2>I. Case Overview</h2>
             <table class="tri-award-meta-table">
-              <tr><th>Case No.</th><td>2026 GA-HAP 0142 · Trianum Dispute #142</td></tr>
+              <tr><th>Case No.</th><td>Trianum Dispute #142</td></tr>
               <tr><th>Arbitrator</th><td>Park Ji-hye</td></tr>
               <tr><th>Tribunal</th><td>10-Juror Panel (drawn by VRF)</td></tr>
               <tr><th>Claimant</th><td>Kim Young-soo · Wallet 0x7a3…4c9b</td></tr>
@@ -6892,16 +6906,28 @@ TRN Token</div>
               <li>Whether the Respondent's partial-delivery offer (40% completion) qualifies as performance sufficient to bar the claim.</li>
             </ol>
 
-            <p class="tri-irac-heading">R · Applicable Rules</p>
-            <ul>
-              <li><strong>Korean Civil Code Art. 544</strong> — right of rescission upon delay in performance.</li>
-              <li><strong>Korean Civil Code Art. 390</strong> — damages for non-performance.</li>
-              <li><strong>Korean Arbitration Act Art. 3</strong> — principle of party autonomy.</li>
-              <li><strong>Korean Arbitration Act Arts. 35 &amp; 36</strong> — binding effect and single-instance finality (no appeal).</li>
-              <li><strong>Trianum Rules v3.5 §4.2</strong> — admissibility of evidence (no evidence after the close of the evidence period).</li>
-              <li><strong>Trianum Rules v3.5 §6.5</strong> — single-instance procedure (arbitrator signature after 7-day appeal window elapses).</li>
-              <li><strong>Smart Contract §2.3</strong> — 14-day delivery SLA clause.</li>
-            </ul>
+            <p class="tri-irac-heading">R · Governing Norms</p>
+
+          <p style="font-weight:600;margin:1rem 0 0.4rem;color:var(--tri-emerald);">1. Forum &amp; Choice of Law</p>
+          <ul>
+            <li><strong>Forum agreement</strong> — by the model clause embedded in the disputed smart contract (Trianum Rules Annex A), the parties have agreed to resolve this dispute under the Trianum Hybrid Arbitration Rules, sole jurisdiction of the Trianum General Court.</li>
+            <li><strong>Substantive law</strong> — by party agreement under the model clause, the substantive law of the merits is the law of the Republic of Korea.</li>
+            <li><strong>Seat</strong> — Seoul, Republic of Korea.</li>
+          </ul>
+
+          <p style="font-weight:600;margin:1rem 0 0.4rem;color:var(--tri-emerald);">2. Applicable Substantive Law</p>
+          <ul>
+            <li><strong>Korean Civil Code Art. 544</strong> — right of rescission upon delay in performance.</li>
+            <li><strong>Korean Civil Code Art. 390</strong> — damages for non-performance.</li>
+            <li><strong>Korean Civil Code Art. 398</strong> — liquidated damages and contractual penalty.</li>
+            <li><strong>Smart Contract §2.3</strong> — the 14-day delivery SLA clause.</li>
+          </ul>
+
+          <p style="font-weight:600;margin:1rem 0 0.4rem;color:var(--tri-emerald);">3. Procedural Rules (referenced)</p>
+          <ul>
+            <li><strong>Trianum Rules v0.2 Article 13</strong> — admissibility of evidence (no submissions accepted after the close of the evidence period).</li>
+            <li><strong>Trianum Rules v0.2 Article 23 &amp; 26</strong> — single-instance procedure (arbitrator signature after the 7-day Reconsideration Window elapses).</li>
+          </ul>
           </section>
 
           <!-- ═══ Page 2 · EN ═══ -->
@@ -6927,7 +6953,7 @@ TRN Token</div>
               <li>The Tribunal finds the Respondent in material breach and grants the Claimant's relief.</li>
               <li>The Respondent shall immediately pay to the Claimant <strong>1,000 RLUSD (principal refund) + 50 RLUSD (delay damages) = 1,050 RLUSD in total</strong>.</li>
               <li>This award is enforced automatically through the XRPL escrow-release transaction (Tx <span class="tri-mono">0xb1f2…</span>).</li>
-              <li>This award is <strong>final under Korean Arbitration Act Arts. 35 and 36 and Trianum Rules v3.5 §6.5</strong>, taking final effect upon arbitrator signature after the 7-day appeal window elapsed. All appellate, retrial, and set-aside proceedings are precluded.</li>
+              <li>This award is <strong>final under Trianum Rules v0.2 Article 23 &amp; 26</strong>, taking final effect upon arbitrator signature after the 7-day appeal window elapsed. All appellate, retrial, and set-aside proceedings are precluded.</li>
             </ol>
 
             <p class="tri-award-signature">
@@ -7038,6 +7064,7 @@ TRN Token</div>
           try { dlg2.close(); } catch (_) {}
           dlg2.removeAttribute('open');
           dlg2.classList.remove('tri-modal-fallback-open');
+          dlg2.style.cssText = '';   /* v2.5: reset forced inline style */
         }
         return;
       }
@@ -7047,6 +7074,7 @@ TRN Token</div>
         try { e.target.close(); } catch (_) {}
         e.target.removeAttribute('open');
         e.target.classList.remove('tri-modal-fallback-open');
+        e.target.style.cssText = '';   /* v2.5: reset forced inline style */
       }
     });
     document.addEventListener('keydown', function (e) {
@@ -7055,6 +7083,7 @@ TRN Token</div>
           try { dlg.close(); } catch (_) {}
           dlg.removeAttribute('open');
           dlg.classList.remove('tri-modal-fallback-open');
+          dlg.style.cssText = '';   /* v2.5: reset forced inline style */
         });
       }
     });
@@ -7161,7 +7190,7 @@ TRN Token</div>
         document.body.appendChild(dlg);
       }
       // Force display in case globals override
-      dlg.style.cssText += '; display:block !important; position:fixed !important; top:50% !important; left:50% !important; transform:none !important; z-index:99999 !important; margin:auto !important; inset:1rem !important; height:fit-content !important; width:min(900px,calc(100vw - 32px)) !important; max-width:calc(100vw - 32px) !important; max-height:calc(100vh - 32px) !important; box-sizing:border-box !important;';
+      dlg.style.cssText += '; display:flex !important; flex-direction:column !important; position:fixed !important; top:50% !important; left:50% !important; transform:none !important; z-index:99999 !important; margin:auto !important; inset:1rem !important; height:auto !important; width:min(900px,calc(100vw - 32px)) !important; max-width:calc(100vw - 32px) !important; max-height:calc(100vh - 32px) !important; box-sizing:border-box !important;';
       try { if (typeof dlg.showModal === 'function' && !dlg.open) dlg.showModal(); }
       catch (_) { dlg.setAttribute('open',''); dlg.classList.add('tri-modal-fallback-open'); }
     }, true /* capture */);
