@@ -4165,12 +4165,12 @@ TRN Token</div>
       align-items: start;
     }
     #interface .tri-eyebrow {
-      font-family: inherit;          /* v2.3: site sans inheritance */
-      font-style: normal;             /* v2.3: remove italic for §08 consistency */
+      font-family: inherit;
+      font-style: normal;
       font-size: 0.75rem;
-      letter-spacing: 0.15em;          /* v2.3: match site .section-label */
+      letter-spacing: 0.15em;
       text-transform: uppercase;
-      color: var(--color-accent, var(--tri-gold));  /* v2.3: site accent for consistency */
+      color: var(--color-accent, var(--tri-gold));
       font-weight: 500;
       margin: 0 0 1.25rem;
     }
@@ -4635,7 +4635,7 @@ TRN Token</div>
       background: transparent; border: 0; padding: 0;
     }
 
-    /* ═══ Court selection (Screen 1) ═══ */
+    /* ═══ Scope Verification (Screen 1) ═══ */
     #interface .tri-courts {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -5429,19 +5429,27 @@ TRN Token</div>
       display: none !important;
     }
     #interface .tri-award-modal[open],
-    #interface .tri-award-modal.tri-modal-fallback-open {
+    #interface .tri-award-modal.tri-modal-fallback-open,
+    body > .tri-award-modal[open],
+    body > .tri-award-modal.tri-modal-fallback-open {
       display: block !important;
       position: fixed !important;
-      top: 50% !important;
-      left: 50% !important;
-      transform: translate(-50%, -50%) !important;
-      margin: 0 !important;
-      inset: auto !important;
+      inset: 1rem !important;             /* fill viewport with 1rem margin all sides */
+      margin: auto !important;
+      transform: none !important;          /* v2.4: no transform — bypass parent-transform issue */
       z-index: 99999 !important;
       width: min(900px, calc(100vw - 32px)) !important;
       max-width: calc(100vw - 32px) !important;
+      height: fit-content !important;
       max-height: calc(100vh - 32px) !important;
       box-sizing: border-box !important;
+      overflow: hidden !important;
+    }
+    /* v2.4: dialog backdrop also covers full viewport regardless of parent */
+    .tri-award-modal::backdrop {
+      background: rgba(0, 0, 0, 0.65) !important;
+      backdrop-filter: blur(8px) !important;
+      -webkit-backdrop-filter: blur(8px) !important;
     }
     /* Manual backdrop for engines without ::backdrop support */
     #interface .tri-award-modal.tri-modal-fallback-open::before {
@@ -5690,7 +5698,7 @@ TRN Token</div>
           </span>
           <span data-lang="en">
             Scroll horizontally to walk through a complete dispute lifecycle —
-            from court selection to on-chain enforcement. Every screen below
+            from scope verification to on-chain enforcement. Every screen below
             renders the <strong>same</strong> dispute:
             <strong>Dispute #142 · Case No. 2026 GA-HAP 0142</strong>,
             a 1,000 RLUSD escrow over an undelivered 3D character pack.
@@ -5777,7 +5785,7 @@ TRN Token</div>
     <div class="tri-storyboard-wrap">
     <div class="tri-storyboard" role="list" tabindex="0" aria-label="Dispute lifecycle storyboard. Use arrow keys to navigate.">
 
-      <!-- ───────── SCREEN 1 · Court Selection ───────── -->
+      <!-- ───────── SCREEN 1 · Scope Verification ───────── -->
       <article id="tri-s1" class="tri-screen" data-phase="01" data-tone="emerald" role="listitem" aria-labelledby="tri-s1-h">
         <div class="tri-chrome">
           <span class="tri-chrome-dots"><span></span><span></span><span></span></span>
@@ -5806,8 +5814,8 @@ TRN Token</div>
         <div class="tri-body">
           <div>
             <p class="tri-label">
-              <span data-lang="ko">관할 법원 선택</span>
-              <span data-lang="en">Choose a Court</span>
+              <span data-lang="ko">분쟁 유형 확인</span>
+              <span data-lang="en">Confirm Scope</span>
             </p>
             <p class="tri-p">
               <span data-lang="ko">
@@ -6276,7 +6284,7 @@ TRN Token</div>
           </p>
 
           <div class="tri-split">
-            <section class="tri-award" data-award="A" aria-labelledby="tri-s4-a">
+            <section class="tri-award" data-award="A" data-open-award="142" role="button" tabindex="0" style="cursor:pointer;border-radius:4px;" onmouseover="this.style.boxShadow='0 0 0 2px rgba(95,186,138,0.4)'" onmouseout="this.style.boxShadow=''" aria-labelledby="tri-s4-a">
               <span class="tri-award-tag">
                 <span data-lang="ko">판정문 A · 신청인 인용</span>
                 <span data-lang="en">Award A · Pro-Claimant</span>
@@ -6303,7 +6311,7 @@ TRN Token</div>
               </span>
             </section>
 
-            <section class="tri-award" data-award="B" aria-labelledby="tri-s4-b">
+            <section class="tri-award" data-award="B" data-open-award="142" role="button" tabindex="0" style="cursor:pointer;border-radius:4px;" onmouseover="this.style.boxShadow='0 0 0 2px rgba(95,186,138,0.4)'" onmouseout="this.style.boxShadow=''" aria-labelledby="tri-s4-b">
               <span class="tri-award-tag">
                 <span data-lang="ko">판정문 B · 부분 환불</span>
                 <span data-lang="en">Award B · Partial</span>
@@ -6521,7 +6529,7 @@ TRN Token</div>
             <span data-lang="en">Award B prevails — 7 of 10 jurors</span>
           </h4>
 
-          <div class="tri-tally" role="img" aria-label="Award A 3 votes, Award B 7 votes">
+          <div class="tri-tally" role="img" data-open-award="142" tabindex="0" style="cursor:pointer;" onmouseover="this.style.opacity='0.85'" onmouseout="this.style.opacity=''" aria-label="Award A 3 votes, Award B 7 votes">
             <div class="tri-tally-row">
               <span>
                 <span data-lang="ko">판정문 A</span>
@@ -7148,8 +7156,12 @@ TRN Token</div>
       var id  = trig.dataset.openAward;
       var dlg = document.getElementById('tri-award-' + id);
       if (!dlg) return;
+      // v2.4: relocate to <body> direct child to bypass parent-transform CSS
+      if (dlg.parentNode !== document.body) {
+        document.body.appendChild(dlg);
+      }
       // Force display in case globals override
-      dlg.style.cssText += '; display:block !important; position:fixed !important; top:50% !important; left:50% !important; transform:translate(-50%,-50%) !important; z-index:99999 !important; margin:0 !important; inset:auto !important; width:min(900px,calc(100vw - 32px)) !important; max-width:calc(100vw - 32px) !important; max-height:calc(100vh - 32px) !important; box-sizing:border-box !important;';
+      dlg.style.cssText += '; display:block !important; position:fixed !important; top:50% !important; left:50% !important; transform:none !important; z-index:99999 !important; margin:auto !important; inset:1rem !important; height:fit-content !important; width:min(900px,calc(100vw - 32px)) !important; max-width:calc(100vw - 32px) !important; max-height:calc(100vh - 32px) !important; box-sizing:border-box !important;';
       try { if (typeof dlg.showModal === 'function' && !dlg.open) dlg.showModal(); }
       catch (_) { dlg.setAttribute('open',''); dlg.classList.add('tri-modal-fallback-open'); }
     }, true /* capture */);
