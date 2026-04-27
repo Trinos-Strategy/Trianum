@@ -3723,7 +3723,7 @@ html[data-lang="en"] .trinity-hanja {
                   <a class="nav-link" data-i18n="nav.team" href="#team">Team</a>
             <a class="nav-link" data-i18n="nav.videos" href="#videos">Videos</a>
             <a class="nav-link" data-i18n="nav.trn" href="#trn-meaning">TRN Token</a>
-      <a class="nav-link" href="#docs/rules" aria-label="View full documentation" data-i18n="nav.docs">Docs</a>
+      <a class="nav-link" href="#docs/whitepaper" aria-label="View full documentation" data-i18n="nav.docs">Docs</a>
             <a class="nav-link" href="https://github.com/Trinos-Strategy/KKleros" target="_blank" rel="noopener">GitHub</a>
           <button type="button" id="lang-toggle" class="nav-link" aria-label="Switch language" data-i18n="lang.toggle">EN</button>
     </nav>
@@ -7363,7 +7363,7 @@ TRN Token</div>
   </script>
     <!-- v1: Read Full Documentation CTA -->
     <div class="tri-docs-cta" style="margin: 3rem auto 1rem; text-align: center; max-width: 720px;">
-      <a href="#docs/rules"
+      <a href="#docs/whitepaper"
          style="display: inline-flex; align-items: center; gap: 0.6rem;
                 padding: 0.95rem 1.75rem; border-radius: 999px;
                 background: var(--tri-vellum); color: var(--tri-emerald);
@@ -7374,14 +7374,14 @@ TRN Token</div>
          onmouseover="this.style.transform='translateY(-1px)'; this.style.boxShadow='0 4px 12px rgba(95,186,138,0.25)';"
          onmouseout="this.style.transform=''; this.style.boxShadow='';">
         <span style="font-size: 1.2em;">📄</span>
-        <span data-lang="ko">전체 문서 보기 — Rules · Annexes · Foundation · Charts</span>
-        <span data-lang="en">View Full Documentation — Rules · Annexes · Foundation · Charts</span>
+        <span data-lang="ko">전체 문서 보기 — Whitepaper · Rules · Token · DAO · Charts</span>
+        <span data-lang="en">View Full Documentation — Whitepaper · Rules · Token · DAO · Charts</span>
         <span style="font-size: 0.85em; opacity: 0.7;">→</span>
       </a>
       <p style="margin: 0.75rem 0 0; font-size: 0.78rem; color: var(--tri-faint);
                 letter-spacing: 0.04em;">
-        <span data-lang="ko">Trianum Arbitration Rules · Enforceability Test · Compliance · Game Theory · Simulation</span>
-        <span data-lang="en">Trianum Arbitration Rules · Enforceability Test · Compliance · Game Theory · Simulation</span>
+        <span data-lang="ko">Whitepaper · Rules · Token · DAO Charter · Game Theory · Simulation</span>
+        <span data-lang="en">Whitepaper · Rules · Token · DAO Charter · Game Theory · Simulation</span>
       </p>
     </div>
 
@@ -7729,10 +7729,14 @@ TRN Token</div>
     <div class="trn-docs-shell">
       <aside class="trn-docs-nav">
         <h2>Trianum Docs</h2>
-        <div class="trn-docs-cat">Normative</div>
-        <div class="trn-docs-toc" id="trn-docs-toc-norm"></div>
-        <div class="trn-docs-cat">Internal Analysis</div>
-        <div class="trn-docs-toc" id="trn-docs-toc-int"></div>
+        <div class="trn-docs-cat">Overview</div>
+        <div class="trn-docs-toc" id="trn-docs-toc-overview"></div>
+        <div class="trn-docs-cat">Rules &amp; Procedure</div>
+        <div class="trn-docs-toc" id="trn-docs-toc-rules"></div>
+        <div class="trn-docs-cat">Token &amp; Governance</div>
+        <div class="trn-docs-toc" id="trn-docs-toc-token"></div>
+        <div class="trn-docs-cat">Technical Analysis</div>
+        <div class="trn-docs-toc" id="trn-docs-toc-tech"></div>
       </aside>
       <div class="trn-docs-content-wrap">
         <header class="trn-docs-header">
@@ -7754,11 +7758,14 @@ TRN Token</div>
   (function () {
     'use strict';
     var TOC = [
-      { cat: 'norm', slug: 'rules',                title: 'Trianum Arbitration Rules',         icon: '📜' },
-      { cat: 'norm', slug: 'annex-d',              title: 'Enforceability Test',  icon: '🔍' },
-      { cat: 'norm', slug: 'annex-e',              title: 'Korean Arbitration Act Compliance',       icon: '⚖️' },
-      { cat: 'int',  slug: 'game-theory-memo',     title: 'Game-Theoretic Foundation',               icon: '🎲' },
-      { cat: 'int',  slug: 'simulation-results',   title: 'Calibration Simulation Results',             icon: '📊' }
+      { cat: 'overview', slug: 'whitepaper',           title: 'Whitepaper',                           icon: '📖' },
+      { cat: 'rules',    slug: 'rules',                title: 'Trianum Arbitration Rules',            icon: '📜' },
+      { cat: 'rules',    slug: 'annex-d',              title: 'Enforceability Test',                  icon: '🔍' },
+      { cat: 'rules',    slug: 'annex-e',              title: 'Korean Arbitration Act Compliance',    icon: '⚖️' },
+      { cat: 'token',    slug: 'token',                title: 'TRN Token Paper',                      icon: '🪙' },
+      { cat: 'token',    slug: 'dao-governance',       title: 'DAO Governance Charter',               icon: '🏛️' },
+      { cat: 'tech',     slug: 'game-theory-memo',     title: 'Game-Theoretic Foundation',            icon: '🎲' },
+      { cat: 'tech',     slug: 'simulation-results',   title: 'Calibration Simulation Results',       icon: '📊' }
     ];
     var RAW_BASE = 'https://raw.githubusercontent.com/Trinos-Strategy/Trianum/main/docs/';
 
@@ -7768,9 +7775,9 @@ TRN Token</div>
     if (!modal || !article || !titleEl) return;
 
     function renderTOC(activeSlug) {
-      var groups = { norm: [], int: [] };
+      var groups = { overview: [], rules: [], token: [], tech: [] };
       TOC.forEach(function (item) { groups[item.cat].push(item); });
-      ['norm', 'int'].forEach(function (cat) {
+      ['overview', 'rules', 'token', 'tech'].forEach(function (cat) {
         var wrap = document.getElementById('trn-docs-toc-' + cat);
         if (!wrap) return;
         wrap.innerHTML = groups[cat].map(function (item) {
