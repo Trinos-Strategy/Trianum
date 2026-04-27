@@ -1,0 +1,6 @@
+{
+  "version": 1,
+  "description": "No Pages Functions are used; serve all paths as static assets only.",
+  "include": [],
+  "exclude": ["/*"]
+}
