@@ -1,0 +1,28 @@
+# Cloudflare Pages — explicit routing rules
+# Generated: 2026-04-27
+# Purpose: override the default SPA fallback so /docs.html, /docs/*, and
+# /docs-assets/* are served as their actual files (not rewritten to /index.html).
+#
+# Without this file, Pages was returning index.html for every URL that did not
+# match its initial deploy snapshot, breaking the documentation viewer.
+#
+# Rules are evaluated top-to-bottom; first match wins. The `!` flag forces
+# the rule to take precedence over Pages' built-in SPA fallback.
+
+# ── Documentation viewer (must take precedence) ────────────────────────
+/docs.html               /docs.html                       200!
+/docs                    /docs.html                       200!
+/docs/                   /docs.html                       200!
+
+# ── Markdown source files (fetched by viewer.js) ──────────────────────
+/docs/:slug.md           /docs/:slug.md                   200!
+
+# ── Static assets (CSS, JS, JSON, interactive chart) ──────────────────
+/docs-assets/:asset      /docs-assets/:asset              200!
+/docs-assets/:asset.html /docs-assets/:asset.html         200!
+
+# ── Existing site root + landing fallback ─────────────────────────────
+# (No SPA fallback declared — Pages will 404 missing assets, which is
+#  the desired behaviour. If a true SPA fallback is needed later, add:
+#    /*                  /index.html                       200
+#  but ONLY after the rules above so they win precedence.)
