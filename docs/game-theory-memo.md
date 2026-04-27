@@ -3,7 +3,7 @@
 ## Schelling Point Convergence and Slashing Calibration
 
 **Version**: 1.0
-**Issuer**: Trinos, Inc.
+**Issuer**: Trinos
 **Effective Date**: 2026-04-27
 **Reference Articles**: Trianum Rules Article 22(5)
 
@@ -235,4 +235,4 @@ Refuse-to-Arbitrate provides a self-correcting signal mechanism without undermin
 
 ---
 
-*© 2026 Trinos, Inc. | Trianum Protocol*
+*© 2026 Trinos | Trianum Protocol*

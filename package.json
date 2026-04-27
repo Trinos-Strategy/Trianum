@@ -3,7 +3,7 @@
   "version": "0.1.0-alpha",
   "description": "Trianum — XRPL-native decentralized dispute resolution protocol. Three-fold structure (조리·법리·자치) + Dual Award procedure + Korean legal-system aware. Kleros-derivative core bridged via Axelar GMP. KFIP 2026 submission.",
   "license": "MIT",
-  "author": "Trinos, Inc. <dk@trinos.group>",
+  "author": "Trinos <dk@trinos.group>",
   "homepage": "https://github.com/Trinos-Strategy/Trianum#readme",
   "repository": {
     "type": "git",

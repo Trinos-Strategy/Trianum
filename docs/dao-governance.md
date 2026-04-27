@@ -3,7 +3,7 @@
 ## Trianum Protocol — Governance Structure and Decentralisation Roadmap
 
 **Version**: 1.0
-**Issuer**: Trinos, Inc.
+**Issuer**: Trinos
 **Effective Date**: 2026-04-27
 
 ---
@@ -150,10 +150,10 @@ Parameter changes apply prospectively only. Disputes already registered under th
 The DAO Council is a 7-member body that performs operational duties between governance proposals:
 
 - 4 elected members, 1-year staggered terms
-- 2 ex-officio members (Trinos, Inc. CTO; Lead Counsel)
+- 2 ex-officio members (Trinos CTO; Lead Counsel)
 - 1 community ombudsperson (rotated quarterly from active jurors)
 
-Until DAO Phase 2, all Council members are appointed by Trinos, Inc. From Phase 2 onward, elected positions are filled by TRN-holder vote.
+Until DAO Phase 2, all Council members are appointed by Trinos From Phase 2 onward, elected positions are filled by TRN-holder vote.
 
 ### 6.2 Council Authority
 
@@ -203,9 +203,9 @@ The Council holds authority to pause new dispute filings for up to 14 days in ca
 
 ### Phase 1 — Foundation Steward (2026 Q2 launch)
 
-- Trinos, Inc. operates as foundation-multisig steward.
+- Trinos operates as foundation-multisig steward.
 - TRN-holders vote in advisory capacity on parameter recommendations.
-- All Treasury disbursements require Trinos, Inc. approval.
+- All Treasury disbursements require Trinos approval.
 
 ### Phase 2 — Hybrid Governance (2026 Q4)
 
@@ -217,7 +217,7 @@ The Council holds authority to pause new dispute filings for up to 14 days in ca
 
 - All DAO-amendable parameters under direct TRN-holder vote.
 - Treasury moves from multi-signature to DAO-controlled smart contract.
-- Trinos, Inc. retains only consultative role (no veto).
+- Trinos retains only consultative role (no veto).
 
 ### Phase 4 — Constitutional DAO (2028)
 
@@ -263,4 +263,4 @@ This Charter may be amended by Trianum DAO under the constitutional-change thres
 
 ---
 
-*© 2026 Trinos, Inc. | Trianum Protocol*
+*© 2026 Trinos | Trianum Protocol*

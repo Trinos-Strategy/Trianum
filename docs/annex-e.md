@@ -3,7 +3,7 @@
 ## Trianum Hybrid Arbitration Rules — Compliance Memorandum
 
 **Version**: 1.0
-**Issuer**: Trinos, Inc.
+**Issuer**: Trinos
 **Effective Date**: 2026-04-27
 **Governing Statute**: Korean Arbitration Act (Act No. 17574, partially amended 6 October 2020)
 
@@ -236,4 +236,4 @@ The Rules are designed to produce Awards that are enforceable under §35 of the 
 
 ---
 
-*© 2026 Trinos, Inc. | Trianum Protocol*
+*© 2026 Trinos | Trianum Protocol*

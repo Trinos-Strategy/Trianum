@@ -3,7 +3,7 @@
 ## On-Chain Dispute Resolution for Smart-Contract-Enforceable Claims
 
 **Version**: 1.0
-**Issuer**: Trinos, Inc.
+**Issuer**: Trinos
 **Effective Date**: 2026-04-27
 **Seat of Arbitration**: Seoul, Republic of Korea
 
@@ -703,4 +703,4 @@ The detailed compliance memorandum is set out in the separate **Annex E — Kore
 
 ---
 
-*© 2026 Trinos, Inc. | Trianum Protocol | MIT License (derivative of Kleros Protocol). Effective 2026-04-27. Amendments are governed by Article 34.*
+*© 2026 Trinos | Trianum Protocol | MIT License (derivative of Kleros Protocol). Effective 2026-04-27. Amendments are governed by Article 34.*

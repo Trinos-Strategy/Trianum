@@ -268,7 +268,7 @@ See [CONTRIBUTING.md](./CONTRIBUTING.md) for details and [CODE_OF_CONDUCT.md](./
 
 - **License**: MIT — see [LICENSE](./LICENSE).
 - **NOTICE**: This project is a derivative work of the [Kleros protocol](https://github.com/kleros/kleros) (MIT). Three files (`KlerosCore.sol`, `DisputeKit.sol`, `SortitionModule.sol`) contain substantial derivative code. Attribution is given in [NOTICE](./NOTICE); the Trianum brand and Korean legal-system adaptations are original.
-- **Built by**: [Trinos, Inc.](https://swonlaw.com) (주식회사 트리노스) — International arbitration attorneys and blockchain engineers.
+- **Built by**: [Trinos](https://swonlaw.com) (주식회사 트리노스) — International arbitration attorneys and blockchain engineers.
 
 ---
 

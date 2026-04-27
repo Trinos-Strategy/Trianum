@@ -3,7 +3,7 @@
 ## Cross-Border Smart-Contract Dispute Resolution, Resolved On-Chain
 
 **Version**: 1.0
-**Issuer**: Trinos, Inc.
+**Issuer**: Trinos
 **Effective Date**: 2026-04-27
 
 ---
@@ -180,4 +180,4 @@ This whitepaper is the entry point to the Trianum documentation corpus:
 
 ---
 
-*© 2026 Trinos, Inc. | Trianum Protocol*
+*© 2026 Trinos | Trianum Protocol*

@@ -3,7 +3,7 @@
 ## Slashing Parameters — Empirical Validation
 
 **Version**: 1.0
-**Issuer**: Trinos, Inc.
+**Issuer**: Trinos
 **Effective Date**: 2026-04-27
 **Method**: Monte Carlo simulation, 3,000 samples per scenario
 
@@ -113,4 +113,4 @@ The simulation will be re-run periodically against accumulated live dispute data
 
 ---
 
-*© 2026 Trinos, Inc. | Trianum Protocol*
+*© 2026 Trinos | Trianum Protocol*

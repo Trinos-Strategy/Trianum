@@ -3,7 +3,7 @@
 ## Trianum Hybrid Arbitration Rules — Detailed Reference
 
 **Version**: 1.0
-**Issuer**: Trinos, Inc.
+**Issuer**: Trinos
 **Effective Date**: 2026-04-27
 **Reference Articles**: Article 1(3)–(5), Article 5
 
@@ -276,4 +276,4 @@ This Annex may be amended by Trianum DAO governance under Article 34 of the Rule
 
 ---
 
-*© 2026 Trinos, Inc. | Trianum Protocol*
+*© 2026 Trinos | Trianum Protocol*
