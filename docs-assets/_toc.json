@@ -1,0 +1,20 @@
+[
+  {
+    "category": "Normative",
+    "category_ko": "규범",
+    "items": [
+      { "slug": "rules", "title": "Arbitration Rules v0.2", "title_ko": "중재규칙 v0.2", "icon": "📜" },
+      { "slug": "annex-d", "title": "Annex D — Enforceability Test", "title_ko": "부속서 D — 적격 테스트", "icon": "🔍" },
+      { "slug": "annex-e", "title": "Annex E — KAA Compliance", "title_ko": "부속서 E — 한국 중재법 정합성", "icon": "⚖️" }
+    ]
+  },
+  {
+    "category": "Internal Analysis",
+    "category_ko": "내부 분석",
+    "items": [
+      { "slug": "design-commentary", "title": "Design Commentary v2.0", "title_ko": "설계 해설 v2.0", "icon": "📝" },
+      { "slug": "game-theory-memo", "title": "Game Theory Memo", "title_ko": "게임이론 메모", "icon": "🎲" },
+      { "slug": "simulation-results", "title": "Simulation Results", "title_ko": "시뮬레이션 결과", "icon": "📊" }
+    ]
+  }
+]

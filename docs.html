@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="ko" data-theme="dark" data-lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Trianum Documentation</title>
+  <meta name="description" content="Trianum Hybrid Arbitration Rules v0.2, Annexes, and analytical memoranda — Trianum Protocol documentation hub.">
+  <meta name="theme-color" content="#0B0F14">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Noto+Serif+KR:wght@400;500;600&family=Pretendard:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" />
+  <link rel="stylesheet" href="/docs-assets/docs.css" />
+
+  <script src="https://cdn.jsdelivr.net/npm/marked@11/marked.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/dompurify@3/dist/purify.min.js"></script>
+</head>
+<body>
+  <div class="docs-shell">
+
+    <!-- ═══ Sidebar ═══ -->
+    <aside class="docs-nav" aria-label="Documentation navigation">
+      <h1><a href="/">Trianum</a></h1>
+      <p class="docs-nav-sub">
+        <span data-lang-content>
+          <span data-lang="ko">문서 허브</span>
+          <span data-lang="en">Documentation</span>
+        </span>
+      </p>
+
+      <nav id="docs-toc"></nav>
+
+      <div class="docs-toggles">
+        <button type="button" data-set-lang="ko" aria-selected="true">한국어</button>
+        <button type="button" data-set-lang="en" aria-selected="false">English</button>
+        <button type="button" data-toggle-theme aria-label="Toggle theme">
+          <span>🌙</span>
+        </button>
+      </div>
+
+      <div class="docs-back">
+        <a href="/">
+          <span data-lang="ko">← 트리아눔 홈으로</span>
+          <span data-lang="en">← Back to Trianum home</span>
+        </a>
+      </div>
+    </aside>
+
+    <!-- ═══ Main content ═══ -->
+    <main class="docs-main">
+      <article id="docs-article" class="docs-content"></article>
+    </main>
+
+  </div>
+
+  <!-- Inline lang display rule -->
+  <style>
+    :root[data-lang="ko"] [data-lang="en"] { display: none; }
+    :root[data-lang="en"] [data-lang="ko"] { display: none; }
+  </style>
+
+  <script src="/docs-assets/viewer.js"></script>
+</body>
+</html>

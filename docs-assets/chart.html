@@ -1,0 +1,313 @@
+<!doctype html>
+<html lang="ko" data-theme="dark">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Trianum Slashing Calibration · Interactive Chart</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,500&family=Pretendard:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap" />
+  <link rel="stylesheet" href="/docs-assets/docs.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <style>
+    body { padding: 2rem clamp(1rem, 3vw, 3rem); max-width: 1100px; margin: 0 auto; }
+    h1 {
+      font-family: var(--tri-serif-en);
+      font-weight: 500;
+      margin: 0 0 0.5rem;
+      font-size: 2rem;
+    }
+    .chart-meta {
+      color: var(--tri-faint);
+      font-size: 0.875rem;
+      margin: 0 0 2.5rem;
+    }
+    .chart-section {
+      background: var(--tri-paper);
+      border: 1px solid var(--tri-line);
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+    }
+    .chart-section h2 {
+      font-family: var(--tri-serif-en);
+      font-weight: 500;
+      margin: 0 0 0.5rem;
+      font-size: 1.3rem;
+      color: var(--tri-emerald);
+    }
+    .chart-section p {
+      color: var(--tri-muted);
+      font-size: 0.9rem;
+      margin: 0 0 1rem;
+    }
+    .chart-wrap { position: relative; height: 360px; }
+    .chart-controls {
+      display: flex;
+      gap: 0.6rem;
+      margin-bottom: 1rem;
+      flex-wrap: wrap;
+    }
+    .chart-controls button {
+      background: var(--tri-vellum);
+      border: 1px solid var(--tri-line-2);
+      color: var(--tri-muted);
+      padding: 0.45rem 0.85rem;
+      border-radius: 6px;
+      font-family: inherit;
+      font-size: 0.78rem;
+      cursor: pointer;
+      transition: all 150ms;
+    }
+    .chart-controls button:hover { border-color: var(--tri-emerald); color: var(--tri-ink); }
+    .chart-controls button.active {
+      background: rgba(95,186,138,0.12);
+      border-color: var(--tri-emerald);
+      color: var(--tri-emerald);
+    }
+    .back-link {
+      display: inline-block;
+      margin-top: 2rem;
+      color: var(--tri-faint);
+      font-size: 0.85rem;
+    }
+    .back-link:hover { color: var(--tri-emerald); }
+    .summary-stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 0.75rem;
+      margin-bottom: 1.25rem;
+    }
+    .stat {
+      background: var(--tri-vellum);
+      padding: 0.75rem 0.9rem;
+      border-radius: 8px;
+      border-left: 3px solid var(--tri-emerald);
+    }
+    .stat-label {
+      font-size: 0.7rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--tri-faint);
+      margin-bottom: 0.3rem;
+    }
+    .stat-value {
+      font-family: var(--tri-mono);
+      font-size: 1.1rem;
+      color: var(--tri-emerald);
+    }
+  </style>
+</head>
+<body>
+  <h1>Slashing Calibration · Monte Carlo Simulation</h1>
+  <p class="chart-meta">
+    Trianum Hybrid Arbitration Rules v0.2 · Article 22(5) parameter validation<br>
+    N = 10 jurors · 3,000 samples per scenario · Source: <code>slashing_simulation.py</code>
+  </p>
+
+  <div class="summary-stats" id="summary"></div>
+
+  <!-- Chart 1 -->
+  <section class="chart-section">
+    <h2>① Honest vs Naive Utility — Calibration Sweep</h2>
+    <p>각 (slash rate, multiplier) 조합에서 honest 투표와 naive(무작위) 투표의 기대 효용 비교. v0.2 default(s=10%, r=1.5×)는 안전 + 적정선 조합.</p>
+    <div class="chart-controls">
+      <button data-p="p075" class="active">일반 분쟁 (p = 0.75)</button>
+      <button data-p="p055">어려운 사건 (p = 0.55)</button>
+    </div>
+    <div class="chart-wrap"><canvas id="calibChart"></canvas></div>
+  </section>
+
+  <!-- Chart 2 -->
+  <section class="chart-section">
+    <h2>② Sybil Attack ROI — v0.2 Default Parameters</h2>
+    <p>분쟁가액별 attacker stake share에 따른 공격 net expected value. <strong>음수 = 공격 비수익</strong>. 100M TRN total staked, TRN @ $1 가정.</p>
+    <div class="chart-wrap"><canvas id="sybilChart"></canvas></div>
+  </section>
+
+  <a href="/docs.html?doc=simulation-results" class="back-link">← Simulation Results 로 돌아가기</a>
+
+  <script>
+    // Chart.js global theme
+    Chart.defaults.color = getComputedStyle(document.documentElement).getPropertyValue('--tri-muted').trim() || '#A8AEB8';
+    Chart.defaults.font.family = "'Pretendard', system-ui, sans-serif";
+    Chart.defaults.borderColor = getComputedStyle(document.documentElement).getPropertyValue('--tri-line').trim();
+
+    const COL_HONEST  = '#5FBA8A';
+    const COL_NAIVE   = '#E07A8E';
+    const COL_DEFAULT = '#D9A85A';
+
+    let calibChartInstance = null;
+    let calibData = null;
+
+    fetch('/docs-assets/slashing-calibration.json')
+      .then(r => r.json())
+      .then(data => {
+        calibData = data;
+        renderSummary(data);
+        renderCalib('p075');
+        renderSybil(data.sybil_attack);
+      })
+      .catch(err => {
+        document.body.insertAdjacentHTML('beforeend',
+          `<div class="docs-error">데이터 로드 실패: ${err.message}</div>`);
+      });
+
+    function renderSummary(data) {
+      const def = data.calibration_p075.find(d => d.is_default);
+      const sybilProfitable = data.sybil_attack.filter(s => s.profitable).length;
+      const sybilUnprofitable = data.sybil_attack.length - sybilProfitable;
+      document.getElementById('summary').innerHTML = `
+        <div class="stat">
+          <div class="stat-label">v0.2 default Δ (p=0.75)</div>
+          <div class="stat-value">+${def.delta.toFixed(2)}</div>
+        </div>
+        <div class="stat">
+          <div class="stat-label">Honest dominant scenarios</div>
+          <div class="stat-value">${data.calibration_p075.filter(d => d.delta > 0).length} / ${data.calibration_p075.length}</div>
+        </div>
+        <div class="stat">
+          <div class="stat-label">Sybil attack profitable</div>
+          <div class="stat-value">${sybilProfitable} / ${sybilProfitable + sybilUnprofitable}</div>
+        </div>
+        <div class="stat">
+          <div class="stat-label">Default slash / mult</div>
+          <div class="stat-value">10% / 1.5×</div>
+        </div>
+      `;
+    }
+
+    function renderCalib(pKey) {
+      const rows = calibData['calibration_' + pKey] || [];
+      const labels = rows.map(r =>
+        `${r.scenario}\n(s=${(r.slash_rate*100).toFixed(0)}%, r=${r.multiplier}×)`);
+      const honest = rows.map(r => r.u_honest);
+      const naive  = rows.map(r => r.u_naive);
+
+      const cfg = {
+        type: 'bar',
+        data: {
+          labels,
+          datasets: [
+            {
+              label: 'U_honest',
+              data: honest,
+              backgroundColor: rows.map(r => r.is_default ? COL_DEFAULT : COL_HONEST),
+              borderColor: COL_HONEST,
+              borderWidth: 1,
+            },
+            {
+              label: 'U_naive',
+              data: naive,
+              backgroundColor: COL_NAIVE + 'AA',
+              borderColor: COL_NAIVE,
+              borderWidth: 1,
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          interaction: { mode: 'index', intersect: false },
+          plugins: {
+            legend: { position: 'top' },
+            tooltip: {
+              callbacks: {
+                title: (items) => items[0].label.replace('\n', ' '),
+                afterBody: (items) => {
+                  const idx = items[0].dataIndex;
+                  return `Δ = +${rows[idx].delta.toFixed(2)}` +
+                    (rows[idx].is_default ? ' ← v0.2 default' : '');
+                }
+              }
+            }
+          },
+          scales: {
+            y: {
+              title: { display: true, text: 'Expected utility (W=100 baseline)' },
+              suggestedMin: 95
+            }
+          }
+        }
+      };
+      if (calibChartInstance) calibChartInstance.destroy();
+      calibChartInstance = new Chart(document.getElementById('calibChart'), cfg);
+    }
+
+    document.querySelectorAll('.chart-controls button').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.chart-controls button').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        renderCalib(btn.dataset.p);
+      });
+    });
+
+    function renderSybil(rows) {
+      // Group by dispute_value
+      const values = [...new Set(rows.map(r => r.dispute_value))].sort((a, b) => a - b);
+      const shares = [...new Set(rows.map(r => r.attacker_share))].sort((a, b) => a - b);
+
+      const datasets = values.map((v, i) => {
+        const data = shares.map(s => {
+          const row = rows.find(r => r.dispute_value === v && r.attacker_share === s);
+          return row ? row.net_expected : 0;
+        });
+        const colors = ['#5FBA8A', '#D9A85A', '#E07A8E', '#A8AEB8'];
+        return {
+          label: '$' + v.toLocaleString(),
+          data,
+          borderColor: colors[i % colors.length],
+          backgroundColor: colors[i % colors.length] + '33',
+          tension: 0.3,
+          borderWidth: 2,
+          pointRadius: 4,
+          pointHoverRadius: 6,
+        };
+      });
+
+      new Chart(document.getElementById('sybilChart'), {
+        type: 'line',
+        data: {
+          labels: shares.map(s => (s * 100).toFixed(0) + '%'),
+          datasets
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          interaction: { mode: 'index', intersect: false },
+          plugins: {
+            legend: { position: 'top' },
+            tooltip: {
+              callbacks: {
+                label: (ctx) => `${ctx.dataset.label}: $${ctx.raw.toLocaleString()}`
+              }
+            },
+            annotation: {
+              annotations: {
+                zeroLine: {
+                  type: 'line',
+                  yMin: 0, yMax: 0,
+                  borderColor: '#5FBA8A',
+                  borderWidth: 1,
+                  borderDash: [4, 4]
+                }
+              }
+            }
+          },
+          scales: {
+            x: { title: { display: true, text: 'Attacker stake share' } },
+            y: {
+              title: { display: true, text: 'Net Expected ($)' },
+              ticks: { callback: (v) => '$' + (v/1000).toFixed(0) + 'K' }
+            }
+          }
+        }
+      });
+    }
+
+    // Theme persistence
+    try {
+      const saved = localStorage.getItem('tri-theme');
+      if (saved) document.documentElement.setAttribute('data-theme', saved);
+    } catch (_) {}
+  </script>
+</body>
+</html>

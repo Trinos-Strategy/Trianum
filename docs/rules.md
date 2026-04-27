@@ -1,0 +1,749 @@
+# TRIANUM HYBRID ARBITRATION RULES
+## On-Chain Dispute Resolution for Smart-Contract-Enforceable Claims
+
+**문서 코드**: TRIANUM-RULE-001
+**버전**: v0.2 Draft
+**발행**: Trinos, Inc.
+**날짜**: 2026-04-26
+**근거**: Kleros Alpha Arbitration Rules v1.1.4 (변환·파생), Trianum Space Instruction v1.0
+**전제 조건**: General Court는 스마트컨트랙트로 해결 가능한 분쟁만 수리한다
+**상태**: KFIP 2026 제출용 초안 (P0 + P1 + P2 통합)
+
+---
+
+> **브랜드 고지**: 본 Rules에서 "Trianum Protocol", "TRN", "Trianum Platform"은 Trinos, Inc.의 공식 명칭이다. 구버전 문서에 등장하는 "K-Kleros", "K-PNK" 표현은 히스토리 자료이며 현행 설계에 적용되지 않는다.
+
+> **v0.1 → v0.2 핵심 변경점**:
+> 1. **Art. 1·5 역할 분리**: Art. 1 = substantive scope, Art. 5 = procedural verification
+> 2. **Art. 13(5) 추정 강도 조정**: "primary evidence" → "rebuttable presumption with clear and convincing rebuttal standard"
+> 3. **Art. 26 표제·문언 정정**: "Appeal" → "Internal Reconsideration / Expanded Panel Review" (한국 중재법 §35·§36 단심제 외관 정합)
+> 4. **신설 Annex D**: Smart Contract Enforceability 4-Step Determination Test
+> 5. **신설 Annex E**: Korean Arbitration Act Compliance Memorandum
+> 6. **Edge case 조항 신설**: Art. 12-bis (Bug Discovery), Art. 23-bis (Arbitrator Emergency), Art. 24-bis (Bridge Failure)
+> 7. **Art. 28 Fee Lock-in 조항 추가**
+
+---
+
+## PREAMBLE
+
+These Rules govern arbitration proceedings conducted under the Trianum Hybrid Arbitration framework. They establish a procedure whereby a professional Arbitrator drafts two complete, reasoned arbitral awards and a panel of Trianum Jurors selects the award whose factual basis is better supported by the evidence. The Arbitrator signs the selected award after the Reconsideration Window has elapsed, and the signed award constitutes the final and binding Award, automatically enforced on-chain.
+
+**세 가지 정당성의 수렴 (Three-Fold Legitimacy):**
+
+| 정당성 (Pillar) | 한국법 근거 | 온체인 구현 |
+|:---:|:---:|:---:|
+| 조리 (Common Reason) | 민법 제1조 | Stake-weighted Commit-Reveal voting |
+| 법리 (Legal Doctrine) | 중재법 전문 중재인 | Dual Award drafting |
+| 당사자 자치 (Party Autonomy) | 중재법 제3조 | 중재합의 + 에스크로 자동 집행 |
+
+These Rules apply **exclusively** to disputes for which the verdict can be fully and automatically enforced via a smart-contract function call (`IArbitrable.rule(disputeId, ruling)`). The 4-Step Enforceability Test in **Annex D** governs admission. Disputes failing the Test are dismissed under Article 5.
+
+---
+
+## PART I — GENERAL PROVISIONS
+
+### Article 1 — Scope (Substantive)
+
+(1) These Rules shall apply to any dispute where the Parties have agreed to resolve disputes under the Trianum Hybrid Arbitration Rules.
+
+(2) All disputes under these Rules are subject to the **Binary Principle**: all claims shall be resolved entirely in favour of either the Claimant or the Respondent. Partial awards, split decisions, and apportioned liability are outside the scope of these Rules.
+
+(3) These Rules apply **exclusively** to disputes that satisfy the **Smart-Contract Enforceability Test** set out in Annex D. A dispute is within scope only if the ruling can be executed via `IArbitrable.rule(disputeId, ruling)` (or, for XRPL Mainnet escrows, via Axelar GMP–bridged `EscrowFinish`/`EscrowCancel`) without any court order, physical act, or off-chain enforcement step.
+
+(4) The following dispute categories are **presumptively within scope**, subject to the Annex D Test:
+
+| Dispute Category | Enforcement Mechanism |
+|---|---|
+| XRPL Escrow (EscrowCreate/Finish) conditional disputes | EscrowBridge → XRPL EscrowFinish/Cancel |
+| XRPL EVM Sidechain smart-contract performance disputes | `IArbitrable.rule()` direct execution |
+| RLUSD conditional payment disputes | Trustline + Escrow auto-settlement |
+| DeFi LP / lending protocol disputes (where contract exposes IArbitrable) | Contract direct execution |
+| NFT conditional transfer disputes (where contract exposes IArbitrable) | Contract direct execution |
+| DAO resolution enforcement disputes (where Timelock exposes IArbitrable) | Timelock execution |
+
+The above categories are **classifications, not separate sub-courts**. All disputes resolve before the same General Court (Article 2).
+
+(5) The following dispute categories are **outside scope** and shall be dismissed under Article 5:
+- (a) Off-chain contract performance claims requiring court enforcement;
+- (b) Physical asset or service performance disputes;
+- (c) Damages quantification, partial-performance evaluation, or any non-binary outcome;
+- (d) Disputes where the disputed contract does not implement `IArbitrable` and cannot be wrapped in an Axelar GMP–bridged escrow.
+
+(6) By agreeing to these Rules, the Parties consent to the Dual-Award Procedure set out in Part V, including the use of Trianum Jurors as a procedural selection mechanism, and the Internal Reconsideration mechanism set out in Article 26.
+
+---
+
+### Article 2 — Definitions
+
+In these Rules, the following terms shall have the meanings set out below:
+
+**"Arbitrator"** means the natural person appointed under Article 8, drawn from the Trianum DAO–managed arbitrator panel, to conduct the arbitration, draft the Dual Awards, and sign the final Award.
+
+**"AI Authenticity Report"** means the document generated by the AI Authenticity Verification Tool under Article 13, setting out a probability assessment of the likelihood that each submitted off-chain document has been fabricated or digitally altered.
+
+**"AI Authenticity Verification Tool"** means the artificial-intelligence screening tool that analyses off-chain documentary evidence submitted under Article 13(1). **On-chain records verified under Articles 13(7)–(8) are not processed by this Tool.**
+
+**"Award"** means the final, binding, and on-chain enforceable arbitral award signed by the Arbitrator pursuant to Article 23.
+
+**"Award A"** means the complete, reasoned arbitral award in which the Claimant's claims are upheld in their entirety (`ruling = 1`).
+
+**"Award B"** means the complete, reasoned arbitral award in which the Respondent's position prevails in its entirety (`ruling = 2`).
+
+**"Case Package"** means the structured set of materials provided to Jurors under Article 19, comprising: Case Summary, Evidence Bundle, AI Authenticity Report, On-Chain Verification Records, Smart Contract State Snapshot, Execution Preview, Award A, Award B, and the Dispute Policy.
+
+**"Claimant"** means the Party initiating the arbitration.
+
+**"Commit-Reveal"** means the two-phase voting mechanism: Jurors commit `keccak256(choice, salt)` during the Commit Phase (48h), then reveal the original choice and salt during the Reveal Phase (24h).
+
+**"Dispute Policy"** means the juror guidance document that defines Jurors' role, scope, evidentiary weighting standards, and decision criteria. It constitutes the court policy of the General Court.
+
+**"Dual Awards"** means Award A and Award B collectively.
+
+**"Enforceability Test"** or **"Annex D Test"** means the four-step determination set out in Annex D, by which the Arbitrator under Article 5 confirms that a dispute falls within Article 1(3).
+
+**"Evidence Bundle"** means all evidence in the arbitration: (i) off-chain OCR-Readable PDFs, and (ii) On-Chain Verification Records generated under Article 13(8).
+
+**"Execution Preview"** means the automatically generated simulation of on-chain effects of Award A vs. Award B on the disputed contract or escrow.
+
+**"Fee Lock Snapshot"** means the RLUSD-denominated fee amount and the contemporaneous XRP/USD oracle reference fixed at the moment of `createDispute()`. Once locked, the fee amount is not affected by subsequent RLUSD or XRP price movements (Article 28(2)).
+
+**"General Court"** means the **single unified court** within the Trianum Protocol from which all Jurors are drawn. **No separate specialized sub-courts are established under the current design.** Additional courts may be created by Trianum DAO governance in a future phase.
+
+**"IArbitrable"** means the interface (ERC-792 family) implemented by a disputable smart contract, exposing `rule(disputeId, ruling)` for automatic Award enforcement.
+
+**"Internal Reconsideration"** means the procedural mechanism under Article 26 by which a Party may request review of the tally outcome by an expanded Juror panel within the same arbitral proceeding. Internal Reconsideration is part of, and not external to, the arbitration. It does not constitute a court appeal.
+
+**"Juror"** means a natural person who has staked TRN tokens and been selected through SortitionModule to participate in the Voting Procedure under Articles 20–22.
+
+**"KlerosCore"** means the central dispute state-machine smart contract implementing IArbitrator (ERC-792), deployed on XRPL EVM Sidechain (Chain ID 1440002).
+
+**"New York Convention"** means the *Convention on the Recognition and Enforcement of Foreign Arbitral Awards*, New York, 10 June 1958.
+
+**"Notice of Claim"** means the transaction by which the Claimant calls `createDispute()` on the IArbitrable contract, or files a Notice through the Trianum Platform.
+
+**"OCR-Readable PDF"** means a Portable Document Format file in which all text is machine-readable through optical character recognition.
+
+**"On-Chain Evidence Reference"** means a structured document submitted by a Party identifying on-chain records by transaction hash, contract address, blockchain network, and block number (or XRPL ledger index).
+
+**"On-Chain Verification Record"** means the document generated by the Trianum Platform confirming the existence and content of on-chain records, verified against the relevant blockchain via public RPC or rippled endpoints at a specified timestamp.
+
+**"Party"** means the Claimant or the Respondent.
+
+**"Platform"** means the Trianum web-based interface and smart-contract system through which disputes are filed, evidence submitted, Jurors selected, and Awards executed.
+
+**"Reconsideration Window"** means the seven-day period commencing immediately upon completion of tally under Article 22(4), during which a Party may request Internal Reconsideration under Article 26. The Arbitrator's signature under Article 23 is only permissible after this Window has expired without a valid request.
+
+**"Respondent"** means the Party against whom the Notice of Claim is filed.
+
+**"RLUSD"** means the USD-denominated stablecoin issued by Ripple, approved by NYDFS, used for arbitration-fee settlement.
+
+**"Schelling Point"** means the focal-point coordination mechanism by which Jurors independently converge on the Award with the better evidentiary basis without communication.
+
+**"Scope Verification"** means the Arbitrator's procedural confirmation under Article 5 that the dispute satisfies the Annex D Enforceability Test.
+
+**"Smart Contract State Snapshot"** means the automatically captured state of the disputed smart contract or XRPL Escrow at the time of dispute registration.
+
+**"TRN"** means the Trianum Work Token (ERC-20, ERC20Votes) on XRPL EVM Sidechain (Chain ID 1440002), used for Juror staking, DAO voting, and court-creation bonds.
+
+**"Trianum DAO"** means the decentralized autonomous organization of TRN token holders governing the Trianum Protocol.
+
+---
+
+### Article 3 — Model Arbitration Clause
+
+> *"Any dispute arising out of or relating to this smart contract shall be referred to and finally resolved by arbitration under the Trianum Hybrid Arbitration Rules. The Parties expressly consent to the Dual-Award Procedure, including the selection of the final Award by Trianum Jurors via the Schelling Point mechanism, and to the Internal Reconsideration mechanism set out in Article 26 of those Rules. The verdict shall be automatically enforced on-chain via `IArbitrable.rule()`. The Seat of Arbitration shall be Seoul, Republic of Korea."*
+
+---
+
+## PART II — COMMENCEMENT
+
+### Article 4 — Notice of Claim
+
+(1) A Party commences arbitration by filing a Notice of Claim on the Platform or by calling `createDispute()` on the IArbitrable contract.
+
+(2) The Notice shall include: identification of the Parties and the disputed contract or XRPL Escrow; statement of the dispute and relief sought; contractual or on-chain basis for the claim; all supporting evidence; and the applicable fee in RLUSD.
+
+(3) Upon registration, the Platform shall automatically: freeze the disputed funds; capture the Smart Contract State Snapshot; lock the Fee Lock Snapshot under Article 28(2); and generate the Execution Preview for Award A and Award B.
+
+---
+
+### Article 5 — Scope Verification (Procedural)
+
+(1) Within 48 hours of dispute registration, the Arbitrator shall conduct **Scope Verification** by applying the Annex D Enforceability Test to the dispute.
+
+(2) **The Arbitrator shall dismiss the claim** if any of the four Annex D steps fails. Specifically, dismissal shall follow if:
+- (a) the dispute cannot be enforced solely by `IArbitrable.rule()` or by an Axelar GMP–bridged XRPL `EscrowFinish`/`EscrowCancel`;
+- (b) the dispute is not capable of binary resolution under Article 1(2);
+- (c) the disputed contract does not implement `IArbitrable` and cannot be wrapped in an enforceability-equivalent escrow; or
+- (d) the dispute requires physical performance, judicial quantification, or any off-chain enforcement step.
+
+(3) Where the claim is dismissed under paragraph (2):
+- (a) Fifty per cent (50%) of the filing fee shall be refunded to the Claimant in RLUSD;
+- (b) The Platform shall publish the Scope Verification dismissal reasoning, with PII redacted;
+- (c) The Claimant retains the right to pursue the same dispute through other fora; the dismissal under these Rules has no preclusive effect on such proceedings.
+
+(4) The Scope Verification dismissal is subject to Internal Reconsideration under Article 26 only if the Claimant alleges manifest error in applying the Annex D Test.
+
+---
+
+### Article 6 — Response
+
+(1) Within 14 days of receiving notice, the Respondent shall file a Response.
+
+(2) The Response shall include the Respondent's position, any counterclaim within scope, and all supporting evidence.
+
+(3) Non-response shall not be treated as an admission. The arbitration proceeds on available evidence.
+
+---
+
+## PART III — THE ARBITRATOR
+
+### Article 7 — Sole Arbitrator
+
+(1) Each arbitration shall be conducted by a sole Arbitrator.
+
+(2) The Arbitrator is the sole member of the arbitral tribunal and retains full legal authority over the Award.
+
+(3) **The Jurors are not members of the arbitral tribunal.** They constitute a procedural selection mechanism agreed to by the Parties under Article 1(6).
+
+---
+
+### Article 8 — Appointment
+
+(1) The Arbitrator shall be drawn from the Trianum DAO–managed arbitrator panel.
+
+(2) Panel eligibility requires: (a) law degree or equivalent professional qualification; (b) DAO-certified smart-contract literacy; (c) declaration of non-holding of TRN tokens.
+
+(3) The Parties may agree on the Arbitrator. Where they fail to agree within 7 days, the Platform randomly assigns one from the panel.
+
+(4) Assignment shall be completed within 3 days of dispute registration.
+
+---
+
+### Article 9 — Disclosure and Independence
+
+(1) Within 72 hours of appointment, the Arbitrator shall disclose any circumstances giving rise to justifiable doubts as to impartiality or independence.
+
+(2) The Arbitrator shall not hold TRN tokens or any asset conferring economic interest in the Trianum Protocol.
+
+(3) The Arbitrator shall have no financial interest in the disputed contract or XRPL Escrow.
+
+(4) The Arbitrator's compensation shall be paid in RLUSD.
+
+(5) The duty of disclosure is continuous throughout the arbitration.
+
+---
+
+### Article 10 — Challenge and Replacement
+
+(1) A Party may challenge the Arbitrator within 7 days of discovering grounds for challenge.
+
+(2) Challenges are decided by Trianum DAO governance vote.
+
+(3) Where a challenge is upheld, the Trianum DAO appoints a replacement.
+
+---
+
+## PART IV — PROCEEDINGS
+
+### Article 11 — Jurisdiction
+
+(1) The Arbitrator has the power to rule on jurisdiction, including objections to the existence or validity of the arbitration agreement.
+
+(2) Jurisdiction objections shall be raised no later than the filing of the Response.
+
+---
+
+### Article 12 — Governing Law and Seat
+
+(1) These Rules shall be interpreted in accordance with the *Korean Arbitration Act*.
+
+(2) The juridical seat of arbitration shall be **Seoul, Republic of Korea**, unless the Parties agree otherwise.
+
+(3) All proceedings shall be conducted remotely via the Platform.
+
+---
+
+### Article 12-bis — Smart-Contract Bug Discovery During Proceedings *(신설)*
+
+(1) Where, during the proceedings, a Party or the Arbitrator identifies a bug or vulnerability in the disputed smart contract that may prevent or distort `IArbitrable.rule()` execution, the Arbitrator shall:
+- (a) suspend the proceedings for up to 14 days;
+- (b) notify both Parties and the Trianum DAO;
+- (c) commission an independent on-chain assessment by a DAO-approved security reviewer.
+
+(2) Where the assessment confirms that the bug renders the dispute non-enforceable under the Annex D Test, the dispute shall be dismissed under Article 5(2)(c) and the filing fee refunded **in full** to the Claimant.
+
+(3) Where the assessment confirms enforceability is preserved, the proceedings resume from the point of suspension. The 21-day drafting period under Article 16(2) is tolled during the suspension.
+
+---
+
+### Article 13 — Evidence and Authenticity Verification
+
+**(A) Off-Chain Documentary Evidence**
+
+(1) All off-chain documentary evidence shall be submitted in OCR-Readable PDF format.
+
+(2) The Platform shall process each off-chain document through the AI Authenticity Verification Tool. The Tool shall, at minimum, perform multi-layer forensic analysis — including metadata inspection, pixel-level alteration detection, and content consistency verification — and produce a structured report with a numerical confidence score per identified anomaly. **The Tool shall support Korean-language documents with equivalent accuracy to English-language documents.** On-chain records verified under Articles 13(7)–(8) shall not be processed through the AI Authenticity Verification Tool; their integrity is established by direct blockchain verification.
+
+(2-bis) *(P2-1)* Where the AI Authenticity Verification Tool becomes unavailable for any reason, the Trianum DAO shall, within 30 days, designate a vendor-equivalent replacement satisfying the same minimum-functional specification (R1–R4 in Annex C-1). During the transition period, the Arbitrator may proceed on the basis of off-chain evidence with explicit annotation of the absence of automated authenticity scoring.
+
+(3) The AI Authenticity Report shall be included in the Case Package as reference material for Jurors.
+
+(4) The Arbitrator may request additional evidence and set submission deadlines.
+
+**(B) On-Chain Evidence — Rebuttable Presumption of Accuracy** *(P0-C1 수정)*
+
+(5) The following on-chain records carry a **rebuttable presumption of accuracy**: transaction hashes; smart-contract states and event logs; block timestamps; XRPL ledger entries, escrow states, and Trustline balances. Such records are admissible in their native blockchain form.
+
+(5-bis) The presumption under paragraph (5) may be rebutted only by **clear and convincing evidence** of one or more of the following:
+- (a) oracle manipulation affecting the inputs to the disputed contract;
+- (b) smart-contract exploit or protocol-level fault demonstrably altering the on-chain state;
+- (c) cryptographic-key compromise demonstrably affecting the disputing Party's relevant transactions;
+- (d) chain-reorganization or finality failure of the relevant block.
+
+The Arbitrator shall set out, in the Award, whether the rebuttal standard has been met.
+
+(5-ter) The presumption is **not absolute**. Where rebuttal evidence under paragraph (5-bis) is presented, the Arbitrator shall weigh the on-chain record alongside other evidence in accordance with the Dispute Policy, the Korean Arbitration Act, and the standards of natural justice.
+
+(6) On-chain records, including transaction hashes, smart-contract states, and block timestamps, shall be admissible as evidence, separate from the OCR-Readable PDF pipeline.
+
+(7) A Party seeking to rely on on-chain records shall submit an **On-Chain Evidence Reference** identifying each record by:
+- (a) transaction hash (or XRPL transaction hash / TX ID);
+- (b) contract address (or XRPL account / escrow sequence);
+- (c) blockchain network; and
+- (d) block number or XRPL ledger index.
+
+(8) Upon receipt of an On-Chain Evidence Reference, the Trianum Platform shall verify the records via public RPC or rippled endpoints and generate an **On-Chain Verification Record** for inclusion in the Evidence Bundle.
+
+Primary supported networks: **XRPL Mainnet** and **XRPL EVM Sidechain (Chain ID 1440002)**. Additional networks (Ethereum, Arbitrum, Base, Polygon) may be supported as published at trianum.trinos.group. Where a reference identifies a record on an unsupported network, the Party may submit alternative documentary proof under Article 13(1).
+
+(9) Where a Party submits on-chain evidence solely as a blockchain-explorer screenshot without an On-Chain Evidence Reference, such evidence shall be treated as documentary evidence under Article 13(1) and classified as **weaker evidence** in the Dispute Policy.
+
+**(C) Automatic On-Chain Evidence Collection**
+
+(10) Upon dispute registration, the Platform shall automatically collect and include in the Evidence Bundle: the transaction history of the disputed contract or XRPL Escrow; the Smart Contract State Snapshot; and all relevant on-chain events. Automatically collected records may not be deleted or altered by any Party.
+
+---
+
+### Article 14 — Confidentiality and Redaction
+
+(1) All materials are confidential, except as required for Award enforcement.
+
+(2) The Arbitrator shall redact PII, trade secrets, and data not necessary for Juror evaluation before transmitting the Case Package.
+
+(3) On-chain data — dispute ID, vote distribution, execution-transaction hash — shall be publicly accessible. The Parties consent to this limited disclosure.
+
+---
+
+### Article 15 — Language
+
+(1) The language of the arbitration shall be English. *(Note: where both Parties are Korean nationals or have agreed in writing, Korean may be designated as the proceedings language; the Award shall in such case be issued in Korean with an English summary.)*
+
+(2) The Platform shall provide AI-generated translations of non-language-of-record evidence. The submitting Party bears accuracy responsibility.
+
+(3) Translation disputes shall be resolved per the process set out in Article 15(3) of the Kleros Alpha Arbitration Rules v1.1.4 (incorporated by reference).
+
+---
+
+### Article 16 — Close of Evidence and Drafting Period
+
+(1) The evidence-submission period is 14 days from dispute registration. Upon expiry, the Arbitrator declares proceedings closed for drafting.
+
+(2) Within 21 days, the Arbitrator shall draft Award A and Award B.
+
+(3) If the Arbitrator fails to deliver within 21 days (subject to tolling under Article 12-bis(3) and Article 23-bis), KlerosCore notifies the Trianum DAO, which appoints a replacement. The non-performing Arbitrator is removed from the panel.
+
+---
+
+## PART V — THE DUAL-AWARD PROCEDURE
+
+### Article 17 — Dual Awards
+
+(1) The Arbitrator shall draft:
+- (a) **Award A**: Claimant's claims upheld in entirety (`ruling = 1`); and
+- (b) **Award B**: Respondent's position prevails in entirety (`ruling = 2`).
+
+(2) Each Award shall contain: facts as asserted by each Party; applicable law and interpretation; complete legal analysis; specific relief granted; and cost allocation.
+
+(3) **Award A and Award B shall be drafted with equivalent professional rigor.** *(P1-2 수정)* Each shall be of substantially equivalent length and depth, and each shall constitute a defensible reasoned award on its assumed factual basis. The Arbitrator may, in setting out the legal analysis, identify the strongest argument available on each side; the Arbitrator shall not, however, by drafting style, formatting, or omission, signal a preference between the two Awards.
+
+(4) Each Award shall specify the `rule()` parameter and the resulting on-chain execution effect, consistent with the Execution Preview.
+
+---
+
+### Article 18 — Smart Contract State Snapshot and Execution Preview
+
+(1) The Smart Contract State Snapshot, automatically captured at dispute registration, shall be immutable in the Case Package.
+
+(2) The Execution Preview shall show:
+- Award A → `ruling = 1`: funds to Claimant / XRPL `EscrowFinish` to Claimant;
+- Award B → `ruling = 2`: funds to Respondent / XRPL `EscrowCancel` to Respondent.
+
+(3) Relief specified in each Award must be consistent with the Execution Preview.
+
+---
+
+### Article 19 — Case Package
+
+(1) The Case Package shall comprise:
+
+| Component | Source |
+|-----------|--------|
+| Case Summary | Arbitrator |
+| Evidence Bundle (off-chain PDFs + On-Chain Verification Records) | Parties + Platform |
+| AI Authenticity Report (off-chain documents only) | Platform |
+| Smart Contract State Snapshot | Platform (automatic) |
+| Execution Preview | Platform (automatic) |
+| Award A | Arbitrator |
+| Award B | Arbitrator |
+| Dispute Policy | Trianum Protocol |
+
+(2) The Case Package shall be uploaded to IPFS. The root CID `keccak256` hash shall be committed to DisputeKit via `commitDualAward(disputeId, awardAHash, awardBHash, casePackageRoot)`. Post-commit modification is prohibited.
+
+(3) **The Dispute Policy issued under this Article shall constitute the court policy of the General Court of the Trianum Protocol.** The General Court is the single court from which all Jurors are drawn. No separate sub-courts are established in the current design.
+
+(4) Award A and Award B order shall be randomized within the Case Package to mitigate primacy bias.
+
+---
+
+### Article 20 — Juror Selection
+
+(1) Jurors shall be drawn from the **General Court** via TRN staking and SortitionModule selection.
+
+(2) Minimum Jurors: **3**. The Trianum DAO may increase this based on dispute value and complexity.
+
+(3) Selection uses **Stake-Weighted Random Selection**: higher TRN stake confers proportionally higher selection probability.
+
+(4) A Juror with a conflict of interest shall be automatically replaced.
+
+(5) Selected Jurors' TRN stakes are subject to Transfer Restriction for the duration of the dispute.
+
+---
+
+### Article 21 — Voting: Commit Phase
+
+(1) The **Commit Phase (48 hours)** commences upon Juror selection.
+
+(2) Each Juror commits: `keccak256(abi.encodePacked(choice, salt))`, where `choice = 1` (Award A), `2` (Award B), or `0` (Refuse to Arbitrate — see Article 22(4)(c)).
+
+(3) No Juror can view another Juror's committed vote during the Commit Phase.
+
+(4) A Juror who fails to commit within 48 hours loses voting rights and their TRN stake is fully slashed.
+
+---
+
+### Article 22 — Voting: Reveal Phase and Tally
+
+(1) The **Reveal Phase (24 hours)** commences upon completion of the Commit Phase.
+
+(2) Each Juror reveals their choice and salt. Votes not matching the committed hash are invalid.
+
+(3) A Juror who fails to reveal within 24 hours has their vote invalidated and TRN stake fully slashed.
+
+(4) KlerosCore calls `tallyVotes()` upon completion:
+- (a) simple majority Award A → `ruling = 1`;
+- (b) simple majority Award B → `ruling = 2`;
+- (c) majority Refuse to Arbitrate (`choice = 0`) — meaning that the majority finds that *neither* Award is a defensible reflection of the evidence — triggers Article 24-ter (Re-drafting);
+- (d) tie → Arbitrator exercises casting vote within 3 days.
+
+(5) **Slashing and redistribution.** *(P1-3: subject to Game Theory Memo calibration)*
+Jurors voting against the majority outcome have their TRN stakes slashed at the **Slashing Rate**, and the slashed amounts are redistributed to majority-vote Jurors at the **Redistribution Multiplier**. The initial calibration is:
+
+| Parameter | v0.2 Initial Value | Authority |
+|---|:---:|---|
+| Slashing Rate | **10%** | DAO-amendable |
+| Redistribution Multiplier | **1.5×** | DAO-amendable |
+
+The initial values shall be reviewed by the Trianum DAO no later than 90 days after the Effective Date, on the basis of the Game-Theory Analysis Memo and live Schelling-Point performance data.
+
+(6) The **Reconsideration Window (Article 26)** commences immediately upon completion of tally. The Arbitrator's signature under Article 23 is permitted only after the Window has expired without a valid Reconsideration request.
+
+---
+
+## PART VI — THE AWARD
+
+### Article 23 — Execution of the Award
+
+(1) Following the expiry of the Reconsideration Window (7 days from tally) without a valid Reconsideration request, the Arbitrator shall sign the selected Award within **3 days** via EIP-712 qualified electronic signature.
+
+(2) The non-selected Award shall be permanently discarded. Its `keccak256` hash shall be retained on-chain for audit purposes only.
+
+(3) If the Arbitrator fails to sign within 3 days (subject to Article 23-bis), KlerosCore auto-confirms the ruling (`autoConfirmAward()`). The Arbitrator's fee shall be reduced by 50%, transferred to the Trianum DAO treasury.
+
+---
+
+### Article 23-bis — Arbitrator Incapacity *(신설)*
+
+(1) Where the Arbitrator becomes incapacitated, deceased, or otherwise unable to perform between the close of evidence and the signing of the Award, the Trianum DAO shall, within 7 days, appoint a replacement Arbitrator from the panel.
+
+(2) The replacement Arbitrator shall:
+- (a) review the existing Case Package and Dual Awards;
+- (b) sign the Award already selected by the Juror tally, **provided** the replacement Arbitrator independently certifies that the selected Award is defensible on its facts and law; or
+- (c) where the replacement Arbitrator finds the selected Award not defensible, decline to sign and trigger Article 24-ter (Re-drafting).
+
+(3) The 21-day drafting period and the 3-day signing period are tolled during any incapacity-driven appointment process.
+
+---
+
+### Article 24 — On-Chain Automatic Execution
+
+(1) Upon Award finalization, KlerosCore automatically calls `IArbitrable.rule(disputeId, ruling)` on the disputed contract.
+
+(2) Execution effects:
+- `ruling = 1` (Award A): `escrow.release(claimant)` or XRPL `EscrowFinish` → funds to Claimant;
+- `ruling = 2` (Award B): `escrow.refund(respondent)` or XRPL `EscrowCancel` → funds to Respondent;
+- `ruling = 0` (Refused — see Article 24-ter): the disputed funds are **returned in full** to the Party who originally placed them in escrow, less the Article 28 fee. No Schelling-Point redistribution occurs in this scenario; majority Refuse-Jurors receive Refusal Reward (Article 28(5)).
+
+(3) For XRPL Mainnet escrows, EscrowBridge transmits execution via Axelar GMP.
+
+(4) `executeRuling()` is **permissionless**: any address may call it once the Award is in Signed status.
+
+(5) **No court order or off-chain step is required or possible** between Award finalization and fund movement.
+
+---
+
+### Article 24-bis — Cross-Chain Bridge Failure *(신설)*
+
+(1) Where Axelar GMP, the XRPL EscrowBridge, or any other cross-chain mechanism necessary for execution under Article 24(3) is unavailable for more than 72 hours, KlerosCore shall enter a **Pending Execution** state.
+
+(2) During Pending Execution, the disputed funds remain frozen. The Trianum DAO shall:
+- (a) monitor restoration of the bridge;
+- (b) within 30 days, where restoration is not foreseeable, authorise an alternative Axelar-substitute or manual multi-signature execution path consistent with the signed Award;
+- (c) report each Pending Execution event in the public protocol log.
+
+(3) Pending Execution does not affect the binding nature of the signed Award. Interest, if any, accrues from the date of signing in accordance with the disputed contract's terms.
+
+---
+
+### Article 24-ter — Re-Drafting on Refuse-to-Arbitrate Majority *(신설)*
+
+(1) Where the tally under Article 22(4)(c) results in a majority Refuse-to-Arbitrate, KlerosCore shall enter a **Re-Drafting** state.
+
+(2) The Trianum DAO shall, within 7 days, appoint a different Arbitrator from the panel.
+
+(3) The replacement Arbitrator shall, within 21 days, draft a fresh Dual Award (new Award A′ and Award B′) on the basis of the existing Evidence Bundle.
+
+(4) A new Voting Procedure under Articles 20–22 ensues. The original Article 28 fee is preserved; the original Arbitrator forfeits 100% of the Arbitrator-fee component.
+
+(5) Re-Drafting may occur **only once** per dispute. A second consecutive Refuse-to-Arbitrate majority results in proportional refund under Article 24(2) `ruling = 0` and dispute closure.
+
+---
+
+### Article 25 — Form of the Award
+
+The Award shall: be in writing; state the date; state the Seat (Seoul, Republic of Korea, unless otherwise agreed); contain reasons; specify claims and relief; allocate costs; be signed by the Arbitrator; and specify the `disputeId`, `ruling` parameter, and execution-transaction hash.
+
+The Award shall not grant partial relief or apportion the outcome between the Parties.
+
+---
+
+### Article 26 — Internal Reconsideration *(P0-C2 변경)*
+
+(1) The Award is final and binding from the date of signature or auto-confirmation under Article 23. There is no court appeal on the merits, to the extent permitted by the law of the Seat (*Korean Arbitration Act* §35, §36).
+
+(2) Within the **7-day Reconsideration Window** following tally, either Party may request **Internal Reconsideration** by calling `requestReconsideration()` on KlerosCore and depositing a Reconsideration Bond (2× the original arbitration fee). Internal Reconsideration is part of the same arbitral proceeding under these Rules and is not an external appeal.
+
+(3) A valid Internal Reconsideration request triggers a new Voting Procedure before an **expanded Juror panel** (`2n + 1` Jurors, where `n` is the prior panel size), using the same Case Package.
+
+(4) **Maximum 3 Reconsideration rounds** per dispute. The ruling after the third round is final and absolute.
+
+(5) Reconsideration Bond escalation: Round 1 = 2×; Round 2 = 4×; Round 3 = 8× of the original arbitration fee. Where Reconsideration succeeds (ruling reversed): bond refunded to requesting Party. Where it fails: bond forfeited to Trianum DAO treasury.
+
+(6) The Parties waive any right of appeal on the merits to any court, to the extent permitted by the law of the Seat. The grounds for set-aside before a court of the Seat under Korean Arbitration Act §38 are preserved and not waived by these Rules.
+
+---
+
+### Article 27 — Correction and Interpretation
+
+Within 14 days of receiving the Award, a Party may request correction of computational, clerical, or typographical errors. The Arbitrator shall respond within 14 days.
+
+---
+
+## PART VII — COSTS
+
+### Article 28 — Fee Structure
+
+(1) Total arbitration fee: **3% of the disputed amount** (minimum 10 XRP equivalent in RLUSD).
+
+| Component | Rate | Currency |
+|-----------|:----:|:--------:|
+| Arbitrator fee | 1.0% | RLUSD |
+| Juror reward pool | 1.2% | TRN + RLUSD |
+| Trianum DAO treasury | 0.5% | RLUSD |
+| Protocol operations | 0.3% | RLUSD |
+
+(2) **Fee Lock Snapshot.** *(P1-5 신설)* The fee amount in RLUSD, computed under paragraph (1) at the moment of `createDispute()`, shall be locked as the **Fee Lock Snapshot**. Subsequent RLUSD or XRP price movements shall not adjust the locked amount. Where the disputed amount itself fluctuates (e.g., a fluctuating LP position), the snapshot is taken at the block timestamp of `createDispute()` for the purposes of fee computation only; the disputed amount for substantive Award purposes is determined under the disputed contract's terms.
+
+(3) The Claimant deposits the full Fee Lock Snapshot in RLUSD upon filing, locked in escrow until Award finalization.
+
+(4) The fee rate may be amended by Trianum DAO governance vote, prospectively only; rate changes do not apply to disputes already registered.
+
+(5) **Refusal Reward.** *(신설, paired with Art. 24(2) ruling = 0)* Where the dispute is closed under `ruling = 0` (proportional refund), majority Refuse-to-Arbitrate Jurors receive a flat Refusal Reward equal to 30% of the standard Juror reward, drawn from the Juror reward pool. The remaining 70% returns to the Parties pro rata to their original deposits.
+
+(6) **Indigent-Party Fee Waiver.** *(P2-2 신설)* Where the Claimant demonstrates inability to pay the Article 28(1) fee, and the dispute satisfies the Annex D Test, the Trianum DAO may, by simple-majority vote, waive up to 100% of the fee. The Trianum DAO treasury covers any waived amount. Waiver eligibility criteria shall be established by separate DAO resolution.
+
+---
+
+### Article 29 — Allocation of Costs
+
+(1) The Arbitrator shall allocate costs in the Award. Default rule: **loser pays**, subject to Arbitrator's discretion based on the conduct of the Parties.
+
+(2) Where the dispute is dismissed under Article 5(2), Article 5(3) governs.
+
+(3) Where Article 24(2) `ruling = 0` applies, costs are split pro rata to original deposits.
+
+---
+
+## PART VIII — MISCELLANEOUS
+
+**Article 30 — Default**: Non-compliance by a Party shall not be treated as an admission. The Arbitrator may proceed and render an Award on available evidence.
+
+**Article 31 — Waiver**: A Party proceeding without promptly objecting to a Rules breach shall be deemed to have waived the right to object.
+
+**Article 32 — Limitation of Liability**: Neither the Arbitrator, Platform administrator, nor any Juror shall be liable except for intentional wrongdoing.
+
+**Article 33 — Severability**: Invalid provisions shall be replaced by valid provisions achieving the intended purpose.
+
+**Article 34 — Amendment**: These Rules may be amended by Trianum DAO. Amendments shall not apply to ongoing arbitrations unless both Parties consent.
+
+**Article 35 — Effective Date**: These Rules take effect upon Trianum DAO adoption.
+
+---
+
+## SCHEDULE 1 — FEE SCHEDULE
+
+| Fee Component | Rate | Payable By |
+|---------------|:----:|:----------:|
+| Arbitration Fee | 3% of disputed amount | Claimant (deposit, Fee Lock Snapshot) |
+| Minimum Fee | 10 XRP equivalent in RLUSD (snapshot at filing) | Claimant |
+| Reconsideration Bond Round 1 | 2× arbitration fee | Requesting Party |
+| Reconsideration Bond Round 2 | 4× arbitration fee | Requesting Party |
+| Reconsideration Bond Round 3 | 8× arbitration fee | Requesting Party |
+
+*All fees denominated and locked in RLUSD at the time of filing under Article 28(2).*
+
+---
+
+## ANNEX A — MODEL ARBITRATION CLAUSES
+
+**Standard Clause (English):**
+> *"Any dispute arising out of or relating to this smart contract shall be referred to and finally resolved by arbitration under the Trianum Hybrid Arbitration Rules. The Parties consent to the Dual-Award Procedure, including selection of the final Award by Trianum Jurors, and to the Internal Reconsideration mechanism set out in Article 26 of those Rules. The verdict shall be automatically enforced via `IArbitrable.rule()`. Seat: Seoul, Republic of Korea."*
+
+**Standard Clause (Korean):**
+> *"본 스마트 컨트랙트와 관련하여 발생하는 모든 분쟁은 Trianum Hybrid Arbitration Rules에 따른 중재로 최종 해결한다. 당사자들은 Dual-Award 절차 — Trianum 배심원에 의한 판정문 선택을 포함한다 — 및 같은 Rules 제26조의 Internal Reconsideration 절차에 동의한다. 판정은 `IArbitrable.rule()` 호출을 통해 온체인에서 자동 집행된다. 중재지: 대한민국 서울."*
+
+*(P2-3: v0.1 Annex A의 Solidity Comment Block은 컴파일 시 소실되어 법적 효력이 없으므로 본 v0.2에서 삭제했다. NatSpec 주석을 통한 메타데이터 보존이 필요한 경우, 별도 기술 문서에서 다룬다.)*
+
+---
+
+## ANNEX B — ON-CHAIN EVIDENCE REFERENCE FORM
+
+| Field | Description | XRPL Mainnet Example | XRPL EVM Sidechain Example |
+|-------|-------------|----------------------|----------------------------|
+| Network | Blockchain network | XRPL Mainnet | XRPL EVM Sidechain (Chain ID 1440002) |
+| TX Hash / TX ID | Transaction identifier | `ABC123…XYZ` | `0xdef456…789` |
+| Contract / Account | Smart contract or XRPL account | `rXXX…` | `0xabc…` |
+| Block / Ledger Index | Block or XRPL ledger sequence | `89,442,108` | `5,123,456` |
+| Event / Function | Specific event or function | `EscrowCreate` | `Transfer` |
+| Relevance | Why this record is material | Shows fund lock at filing date | Shows function-call argument |
+| Verification Endpoint | Public RPC or rippled URL | `s1.ripple.com:51234` | `https://rpc.xrplevm.org` |
+| Timestamp of Verification | UTC timestamp at which the Platform verified the record | `2026-04-15T09:00:00Z` | `2026-04-15T09:00:00Z` |
+
+*Primary supported networks: XRPL Mainnet, XRPL EVM Sidechain (Chain ID 1440002).*
+*Additional networks: published at trianum.trinos.group.*
+*(P2-4: dApp Filing UI maps each row to a labeled input field.)*
+
+---
+
+## ANNEX C — EVIDENCE WEIGHTING HIERARCHY *(Dispute Policy Reference)*
+
+### C-1 — AI Authenticity Tool Functional Requirements
+
+| Req. | Description |
+|---|---|
+| R1 | OCR-Readable PDF processing |
+| R2 | Multi-layer forensic alteration detection (metadata, pixel-level, content consistency) |
+| R3 | Structured machine-readable AI Authenticity Report |
+| R4 | Per-document numerical confidence score |
+
+### C-2 — Evidence Tier Hierarchy *(P0-C1 정합 수정)*
+
+| Tier | Type | Treatment |
+|:---:|---|---|
+| **Tier 1 — Strongest** | On-Chain Verification Record (rippled / JSON-RPC verified) | **Rebuttable presumption of accuracy** under Article 13(5). Prevails absent **clear and convincing evidence** of oracle manipulation, smart-contract exploit, key compromise, or chain-reorganization (Article 13(5-bis)) |
+| **Tier 2 — Strong** | AI-Authenticated off-chain document (high confidence score) | Full weight; Jurors may consider AI report flags |
+| **Tier 3 — Moderate** | Off-chain document (not AI-flagged, not AI-authenticated) | Standard weight; Jurors assess credibility |
+| **Tier 4 — Weaker** | Blockchain-explorer screenshot without On-Chain Evidence Reference | Treated as documentary evidence only; Jurors must discount vs. Tier 1 records |
+| **Tier 5 — Weakest** | Unsubstantiated oral / written assertion about on-chain events | Minimal weight without supporting evidence |
+
+*Where an On-Chain Verification Record exists, Jurors shall follow the Dispute Policy weighting standards in selecting between Award A and Award B. Jurors do not independently weigh evidence; they select the Award whose factual basis is better supported by the Evidence Bundle.*
+
+---
+
+## ANNEX D — SMART-CONTRACT ENFORCEABILITY 4-STEP DETERMINATION TEST *(신설, P0-C3)*
+
+> 본 Annex는 Article 1(3)·(5)와 Article 5의 Scope Verification 적용 기준을 명확히 한다. 자세한 해설 및 기각 사례는 별도 *Design Commentary v2.0* §3 참조.
+
+A dispute is within scope only if **all four** of the following Steps are satisfied. Failure of any Step requires dismissal under Article 5(2).
+
+### Step 1 — On-Chain Target Identification
+
+The dispute must identify a specific on-chain target:
+- (a) an XRPL Escrow with a known sequence number; **or**
+- (b) a smart contract on a supported network with a known address and the relevant `disputeId` exposed via `IArbitrable`.
+
+**Fail conditions**: dispute about an off-chain agreement merely *referencing* an on-chain payment; dispute about a future on-chain event not yet instantiated on chain.
+
+### Step 2 — Binary Outcome Capability
+
+The dispute must be resolvable as a binary outcome — Award A (Claimant prevails entirely) or Award B (Respondent prevails entirely).
+
+**Fail conditions**: damages quantification ("how much does Respondent owe?"); partial-performance evaluation ("what fraction of the work was completed?"); apportionment of fault.
+
+### Step 3 — `IArbitrable.rule()` Sufficiency
+
+The on-chain consequence of the Award must be fully expressible as a single `IArbitrable.rule(disputeId, ruling)` call (or the Axelar GMP–bridged XRPL `EscrowFinish`/`EscrowCancel` equivalent), without external coordination, court order, or human-mediated step.
+
+**Fail conditions**: enforcement requires registered-mail service; enforcement requires court-issued writ; enforcement requires off-chain custody transfer.
+
+### Step 4 — No Off-Chain Performance Component
+
+The relief sought must not require any off-chain physical performance, judicial discretion, or non-economic remedy.
+
+**Fail conditions**: order to deliver physical goods; order to perform a personal service; order to abstain from a future act in the physical world; injunction enforceable only by court order.
+
+### Worked Examples
+
+| Example | Step 1 | Step 2 | Step 3 | Step 4 | Result |
+|---|:---:|:---:|:---:|:---:|---|
+| XRPL Escrow conditional release dispute | ✓ | ✓ | ✓ | ✓ | **Within scope** |
+| RLUSD payment-on-delivery dispute (digital deliverable confirmed via on-chain attestation) | ✓ | ✓ | ✓ | ✓ | **Within scope** |
+| Off-chain consultancy contract dispute referencing crypto payment | ✗ | (n/a) | (n/a) | (n/a) | **Out of scope** (Step 1) |
+| LP-position partial-loss apportionment | ✓ | ✗ | (n/a) | (n/a) | **Out of scope** (Step 2) |
+| Smart-contract dispute requiring a court injunction to freeze a third-party EOA | ✓ | ✓ | ✗ | (n/a) | **Out of scope** (Step 3) |
+| Tokenised real-estate physical-delivery dispute | ✓ | ✓ | ✗ | ✗ | **Out of scope** (Step 3, 4) |
+
+---
+
+## ANNEX E — KOREAN ARBITRATION ACT COMPLIANCE MEMORANDUM *(신설, P0)*
+
+> 본 Annex는 한국 중재법의 주요 조문과 본 Rules의 정합성을 요약한다. 자세한 분석은 별도 *Korean Arbitration Act Compliance Memorandum*(`03_Annex_E_KoreanArbitrationAct_Compliance.md`) 참조.
+
+| 한국 중재법 조문 | 본 Rules 정합 조항 | 정합성 평가 |
+|---|---|:---:|
+| §3 (당사자 자치) | Art. 1(6), Art. 3 모델 조항 | ✅ |
+| §8 (중재합의의 방식) | Art. 3 (Solidity comment 명시) | ✅ |
+| §12 (중재인 선임) | Art. 8 | ✅ |
+| §17 (중재판정부의 자기관할 결정) | Art. 11 | ✅ |
+| §20 (절차 원칙: 평등·반대신문 기회) | Art. 13 (증거), Art. 21–22 (투표) | ✅ |
+| §32 (판정의 형식 및 내용) | Art. 25 | ✅ |
+| §33 (판정의 정정·해석) | Art. 27 | ✅ |
+| §35 (판정의 효력) | Art. 23, Art. 26(1) | ✅ |
+| §36 (중재판정 취소의 소) | Art. 26(6) (set-aside 권리 보존) | ✅ |
+| §38 (취소사유) | Art. 13(5)–(5-ter), Art. 26 | ✅ |
+| §39 (중재판정의 승인 및 집행) | Art. 24 (자동 집행, 법원 개입 불필요) | ✅ |
+
+---
+
+*© 2026 Trinos, Inc. | Trianum Protocol | MIT License (derivative of Kleros Protocol)*
+*trianum.trinos.group | github.com/Trinos-Strategy/Trianum | dk@trinos.group*

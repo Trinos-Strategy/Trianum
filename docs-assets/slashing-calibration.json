@@ -1,0 +1,441 @@
+{
+  "meta": {
+    "n_jurors": 10,
+    "samples": 3000,
+    "description": "Trianum Slashing Calibration — Monte Carlo"
+  },
+  "calibration_p075": [
+    {
+      "scenario": "Test phase",
+      "slash_rate": 0.05,
+      "multiplier": 1.0,
+      "p": 0.75,
+      "u_honest": 100.02,
+      "u_naive": 98.47,
+      "delta": 1.55,
+      "is_default": false
+    },
+    {
+      "scenario": "Mature DAO",
+      "slash_rate": 0.08,
+      "multiplier": 1.3,
+      "p": 0.75,
+      "u_honest": 100.6,
+      "u_naive": 97.94,
+      "delta": 2.66,
+      "is_default": false
+    },
+    {
+      "scenario": "v0.2 DEFAULT",
+      "slash_rate": 0.1,
+      "multiplier": 1.5,
+      "p": 0.75,
+      "u_honest": 101.22,
+      "u_naive": 97.74,
+      "delta": 3.48,
+      "is_default": true
+    },
+    {
+      "scenario": "Slight tighten",
+      "slash_rate": 0.12,
+      "multiplier": 1.7,
+      "p": 0.75,
+      "u_honest": 102.03,
+      "u_naive": 97.67,
+      "delta": 4.36,
+      "is_default": false
+    },
+    {
+      "scenario": "High-attack risk",
+      "slash_rate": 0.15,
+      "multiplier": 2.0,
+      "p": 0.75,
+      "u_honest": 103.61,
+      "u_naive": 97.8,
+      "delta": 5.8,
+      "is_default": false
+    },
+    {
+      "scenario": "Sybil detected",
+      "slash_rate": 0.2,
+      "multiplier": 2.5,
+      "p": 0.75,
+      "u_honest": 107.17,
+      "u_naive": 98.66,
+      "delta": 8.51,
+      "is_default": false
+    },
+    {
+      "scenario": "Crisis mode",
+      "slash_rate": 0.3,
+      "multiplier": 3.0,
+      "p": 0.75,
+      "u_honest": 114.3,
+      "u_naive": 100.37,
+      "delta": 13.93,
+      "is_default": false
+    }
+  ],
+  "calibration_p055": [
+    {
+      "scenario": "Test phase",
+      "slash_rate": 0.05,
+      "multiplier": 1.0,
+      "p": 0.55,
+      "u_honest": 99.46,
+      "u_naive": 99.13,
+      "delta": 0.33,
+      "is_default": false
+    },
+    {
+      "scenario": "Mature DAO",
+      "slash_rate": 0.08,
+      "multiplier": 1.3,
+      "p": 0.55,
+      "u_honest": 99.76,
+      "u_naive": 99.16,
+      "delta": 0.59,
+      "is_default": false
+    },
+    {
+      "scenario": "v0.2 DEFAULT",
+      "slash_rate": 0.1,
+      "multiplier": 1.5,
+      "p": 0.55,
+      "u_honest": 100.2,
+      "u_naive": 99.41,
+      "delta": 0.79,
+      "is_default": true
+    },
+    {
+      "scenario": "Slight tighten",
+      "slash_rate": 0.12,
+      "multiplier": 1.7,
+      "p": 0.55,
+      "u_honest": 100.86,
+      "u_naive": 99.85,
+      "delta": 1.01,
+      "is_default": false
+    },
+    {
+      "scenario": "High-attack risk",
+      "slash_rate": 0.15,
+      "multiplier": 2.0,
+      "p": 0.55,
+      "u_honest": 102.21,
+      "u_naive": 100.85,
+      "delta": 1.36,
+      "is_default": false
+    },
+    {
+      "scenario": "Sybil detected",
+      "slash_rate": 0.2,
+      "multiplier": 2.5,
+      "p": 0.55,
+      "u_honest": 105.5,
+      "u_naive": 103.44,
+      "delta": 2.06,
+      "is_default": false
+    },
+    {
+      "scenario": "Crisis mode",
+      "slash_rate": 0.3,
+      "multiplier": 3.0,
+      "p": 0.55,
+      "u_honest": 112.07,
+      "u_naive": 108.62,
+      "delta": 3.45,
+      "is_default": false
+    }
+  ],
+  "sybil_attack": [
+    {
+      "dispute_value": 10000,
+      "attacker_share": 0.1,
+      "p_majority": 0.0001,
+      "expected_gain": 1,
+      "expected_loss": 999853,
+      "net_expected": -999852,
+      "profitable": false
+    },
+    {
+      "dispute_value": 10000,
+      "attacker_share": 0.2,
+      "p_majority": 0.0064,
+      "expected_gain": 64,
+      "expected_loss": 1987261,
+      "net_expected": -1987198,
+      "profitable": false
+    },
+    {
+      "dispute_value": 10000,
+      "attacker_share": 0.3,
+      "p_majority": 0.0473,
+      "expected_gain": 473,
+      "expected_loss": 2857953,
+      "net_expected": -2857480,
+      "profitable": false
+    },
+    {
+      "dispute_value": 10000,
+      "attacker_share": 0.4,
+      "p_majority": 0.1662,
+      "expected_gain": 1662,
+      "expected_loss": 3335046,
+      "net_expected": -3333383,
+      "profitable": false
+    },
+    {
+      "dispute_value": 10000,
+      "attacker_share": 0.5,
+      "p_majority": 0.377,
+      "expected_gain": 3770,
+      "expected_loss": 3115234,
+      "net_expected": -3111465,
+      "profitable": false
+    },
+    {
+      "dispute_value": 10000,
+      "attacker_share": 0.6,
+      "p_majority": 0.6331,
+      "expected_gain": 6331,
+      "expected_loss": 2201380,
+      "net_expected": -2195049,
+      "profitable": false
+    },
+    {
+      "dispute_value": 10000,
+      "attacker_share": 0.7,
+      "p_majority": 0.8497,
+      "expected_gain": 8497,
+      "expected_loss": 1051878,
+      "net_expected": -1043381,
+      "profitable": false
+    },
+    {
+      "dispute_value": 10000,
+      "attacker_share": 0.8,
+      "p_majority": 0.9672,
+      "expected_gain": 9672,
+      "expected_loss": 262348,
+      "net_expected": -252676,
+      "profitable": false
+    },
+    {
+      "dispute_value": 100000,
+      "attacker_share": 0.1,
+      "p_majority": 0.0001,
+      "expected_gain": 15,
+      "expected_loss": 999853,
+      "net_expected": -999838,
+      "profitable": false
+    },
+    {
+      "dispute_value": 100000,
+      "attacker_share": 0.2,
+      "p_majority": 0.0064,
+      "expected_gain": 637,
+      "expected_loss": 1987261,
+      "net_expected": -1986624,
+      "profitable": false
+    },
+    {
+      "dispute_value": 100000,
+      "attacker_share": 0.3,
+      "p_majority": 0.0473,
+      "expected_gain": 4735,
+      "expected_loss": 2857953,
+      "net_expected": -2853218,
+      "profitable": false
+    },
+    {
+      "dispute_value": 100000,
+      "attacker_share": 0.4,
+      "p_majority": 0.1662,
+      "expected_gain": 16624,
+      "expected_loss": 3335046,
+      "net_expected": -3318422,
+      "profitable": false
+    },
+    {
+      "dispute_value": 100000,
+      "attacker_share": 0.5,
+      "p_majority": 0.377,
+      "expected_gain": 37695,
+      "expected_loss": 3115234,
+      "net_expected": -3077539,
+      "profitable": false
+    },
+    {
+      "dispute_value": 100000,
+      "attacker_share": 0.6,
+      "p_majority": 0.6331,
+      "expected_gain": 63310,
+      "expected_loss": 2201380,
+      "net_expected": -2138070,
+      "profitable": false
+    },
+    {
+      "dispute_value": 100000,
+      "attacker_share": 0.7,
+      "p_majority": 0.8497,
+      "expected_gain": 84973,
+      "expected_loss": 1051878,
+      "net_expected": -966905,
+      "profitable": false
+    },
+    {
+      "dispute_value": 100000,
+      "attacker_share": 0.8,
+      "p_majority": 0.9672,
+      "expected_gain": 96721,
+      "expected_loss": 262348,
+      "net_expected": -165627,
+      "profitable": false
+    },
+    {
+      "dispute_value": 1000000,
+      "attacker_share": 0.1,
+      "p_majority": 0.0001,
+      "expected_gain": 147,
+      "expected_loss": 999853,
+      "net_expected": -999706,
+      "profitable": false
+    },
+    {
+      "dispute_value": 1000000,
+      "attacker_share": 0.2,
+      "p_majority": 0.0064,
+      "expected_gain": 6369,
+      "expected_loss": 1987261,
+      "net_expected": -1980892,
+      "profitable": false
+    },
+    {
+      "dispute_value": 1000000,
+      "attacker_share": 0.3,
+      "p_majority": 0.0473,
+      "expected_gain": 47349,
+      "expected_loss": 2857953,
+      "net_expected": -2810604,
+      "profitable": false
+    },
+    {
+      "dispute_value": 1000000,
+      "attacker_share": 0.4,
+      "p_majority": 0.1662,
+      "expected_gain": 166239,
+      "expected_loss": 3335046,
+      "net_expected": -3168807,
+      "profitable": false
+    },
+    {
+      "dispute_value": 1000000,
+      "attacker_share": 0.5,
+      "p_majority": 0.377,
+      "expected_gain": 376953,
+      "expected_loss": 3115234,
+      "net_expected": -2738281,
+      "profitable": false
+    },
+    {
+      "dispute_value": 1000000,
+      "attacker_share": 0.6,
+      "p_majority": 0.6331,
+      "expected_gain": 633103,
+      "expected_loss": 2201380,
+      "net_expected": -1568277,
+      "profitable": false
+    },
+    {
+      "dispute_value": 1000000,
+      "attacker_share": 0.7,
+      "p_majority": 0.8497,
+      "expected_gain": 849732,
+      "expected_loss": 1051878,
+      "net_expected": -202147,
+      "profitable": false
+    },
+    {
+      "dispute_value": 1000000,
+      "attacker_share": 0.8,
+      "p_majority": 0.9672,
+      "expected_gain": 967207,
+      "expected_loss": 262348,
+      "net_expected": 704859,
+      "profitable": true
+    },
+    {
+      "dispute_value": 10000000,
+      "attacker_share": 0.1,
+      "p_majority": 0.0001,
+      "expected_gain": 1469,
+      "expected_loss": 999853,
+      "net_expected": -998384,
+      "profitable": false
+    },
+    {
+      "dispute_value": 10000000,
+      "attacker_share": 0.2,
+      "p_majority": 0.0064,
+      "expected_gain": 63694,
+      "expected_loss": 1987261,
+      "net_expected": -1923567,
+      "profitable": false
+    },
+    {
+      "dispute_value": 10000000,
+      "attacker_share": 0.3,
+      "p_majority": 0.0473,
+      "expected_gain": 473490,
+      "expected_loss": 2857953,
+      "net_expected": -2384463,
+      "profitable": false
+    },
+    {
+      "dispute_value": 10000000,
+      "attacker_share": 0.4,
+      "p_majority": 0.1662,
+      "expected_gain": 1662386,
+      "expected_loss": 3335046,
+      "net_expected": -1672659,
+      "profitable": false
+    },
+    {
+      "dispute_value": 10000000,
+      "attacker_share": 0.5,
+      "p_majority": 0.377,
+      "expected_gain": 3769531,
+      "expected_loss": 3115234,
+      "net_expected": 654297,
+      "profitable": true
+    },
+    {
+      "dispute_value": 10000000,
+      "attacker_share": 0.6,
+      "p_majority": 0.6331,
+      "expected_gain": 6331033,
+      "expected_loss": 2201380,
+      "net_expected": 4129652,
+      "profitable": true
+    },
+    {
+      "dispute_value": 10000000,
+      "attacker_share": 0.7,
+      "p_majority": 0.8497,
+      "expected_gain": 8497317,
+      "expected_loss": 1051878,
+      "net_expected": 7445438,
+      "profitable": true
+    },
+    {
+      "dispute_value": 10000000,
+      "attacker_share": 0.8,
+      "p_majority": 0.9672,
+      "expected_gain": 9672065,
+      "expected_loss": 262348,
+      "net_expected": 9409717,
+      "profitable": true
+    }
+  ]
+}

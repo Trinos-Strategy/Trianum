@@ -1,0 +1,376 @@
+/* =================================================================
+   Trianum Documentation — viewer styles
+   Brand-aligned with index.html (dark default + emerald/burgundy/gold)
+   ================================================================= */
+
+:root, :root[data-theme="dark"] {
+  --tri-ivory:    #0B0F14;
+  --tri-paper:    #141A22;
+  --tri-vellum:   #1A2230;
+  --tri-ink:      #E8E4D8;
+  --tri-muted:    #A8AEB8;
+  --tri-faint:    #6F7682;
+  --tri-line:     rgba(232, 228, 216, 0.12);
+  --tri-line-2:   rgba(232, 228, 216, 0.18);
+  --tri-emerald:  #5FBA8A;
+  --tri-burgundy: #E07A8E;
+  --tri-gold:     #D9A85A;
+  --tri-shadow:   0 4px 16px rgba(0, 0, 0, 0.5);
+  --tri-serif-en: 'EB Garamond', 'Source Serif Pro', Georgia, serif;
+  --tri-serif-kr: 'Noto Serif KR', 'Nanum Myeongjo', serif;
+  --tri-sans:     'Pretendard', 'Inter', system-ui, -apple-system, sans-serif;
+  --tri-mono:     'JetBrains Mono', 'SF Mono', Menlo, monospace;
+}
+
+:root[data-theme="light"] {
+  --tri-ivory:    #FAF7F0;
+  --tri-paper:    #FFFFFF;
+  --tri-vellum:   #F5EFE0;
+  --tri-ink:      #0F172A;
+  --tri-muted:    #475569;
+  --tri-faint:    #94A3B8;
+  --tri-line:     rgba(120, 53, 15, 0.15);
+  --tri-line-2:   rgba(120, 53, 15, 0.25);
+  --tri-emerald:  #14532D;
+  --tri-burgundy: #8B1538;
+  --tri-gold:     #78350F;
+  --tri-shadow:   0 4px 16px rgba(0, 0, 0, 0.06);
+}
+
+/* ─── Reset & base ─────────────────────────────────────── */
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  font-family: var(--tri-sans);
+  background: var(--tri-ivory);
+  color: var(--tri-ink);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+a { color: var(--tri-emerald); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+/* ─── Layout ───────────────────────────────────────────── */
+
+.docs-shell {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  min-height: 100vh;
+}
+
+.docs-nav {
+  background: var(--tri-paper);
+  border-right: 1px solid var(--tri-line);
+  padding: 1.5rem 1.25rem;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+}
+
+.docs-nav h1 {
+  font-family: var(--tri-serif-en);
+  font-size: 1.25rem;
+  font-weight: 500;
+  margin: 0 0 0.5rem;
+  letter-spacing: 0.02em;
+}
+.docs-nav h1 a { color: var(--tri-ink); }
+.docs-nav h1 a:hover { color: var(--tri-emerald); text-decoration: none; }
+
+.docs-nav-sub {
+  font-size: 0.7rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--tri-gold);
+  margin-bottom: 1.5rem;
+}
+
+.docs-cat {
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--tri-faint);
+  margin: 1.25rem 0 0.4rem;
+}
+
+.docs-toc {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.docs-toc a {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.55rem 0.7rem;
+  border-radius: 6px;
+  color: var(--tri-muted);
+  font-size: 0.875rem;
+  transition: background 150ms, color 150ms;
+}
+
+.docs-toc a:hover {
+  background: var(--tri-vellum);
+  color: var(--tri-ink);
+  text-decoration: none;
+}
+
+.docs-toc a.active {
+  background: rgba(95, 186, 138, 0.12);
+  color: var(--tri-emerald);
+  font-weight: 500;
+}
+
+.docs-toc a .icon {
+  width: 1.2em;
+  text-align: center;
+}
+
+.docs-toggles {
+  margin-top: 2rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--tri-line);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.docs-toggles button {
+  background: transparent;
+  border: 1px solid var(--tri-line-2);
+  color: var(--tri-muted);
+  padding: 0.4rem 0.7rem;
+  border-radius: 6px;
+  font-family: inherit;
+  font-size: 0.75rem;
+  cursor: pointer;
+  transition: all 150ms;
+}
+
+.docs-toggles button:hover {
+  border-color: var(--tri-emerald);
+  color: var(--tri-ink);
+}
+
+.docs-toggles button[aria-selected="true"] {
+  background: var(--tri-vellum);
+  border-color: var(--tri-emerald);
+  color: var(--tri-emerald);
+}
+
+.docs-back {
+  margin-top: auto;
+  padding-top: 1rem;
+  font-size: 0.75rem;
+}
+.docs-back a { color: var(--tri-faint); }
+.docs-back a:hover { color: var(--tri-emerald); }
+
+/* ─── Main content ─────────────────────────────────────── */
+
+.docs-main {
+  padding: 3rem clamp(1rem, 4vw, 4rem);
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+.docs-content {
+  max-width: 880px;
+  margin: 0 auto;
+}
+
+/* Markdown rendered styles */
+.docs-content h1 {
+  font-family: var(--tri-serif-en);
+  font-size: clamp(1.6rem, 1.4rem + 1vw, 2.2rem);
+  font-weight: 500;
+  margin: 0 0 0.75rem;
+  letter-spacing: -0.01em;
+  color: var(--tri-ink);
+}
+
+.docs-content h1:has(+ p) {
+  margin-bottom: 1.25rem;
+}
+
+.docs-content h2 {
+  font-family: var(--tri-serif-en);
+  font-size: clamp(1.25rem, 1.1rem + 0.6vw, 1.55rem);
+  font-weight: 500;
+  margin: 2.5rem 0 0.75rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--tri-line);
+  color: var(--tri-emerald);
+}
+
+.docs-content h3 {
+  font-family: var(--tri-serif-en);
+  font-size: 1.1rem;
+  font-weight: 500;
+  margin: 1.75rem 0 0.5rem;
+  color: var(--tri-ink);
+}
+
+.docs-content h4, .docs-content h5 {
+  font-family: var(--tri-sans);
+  font-weight: 600;
+  margin: 1.25rem 0 0.4rem;
+  font-size: 0.95rem;
+  color: var(--tri-muted);
+  letter-spacing: 0.02em;
+}
+
+.docs-content p {
+  line-height: 1.75;
+  margin: 0 0 1rem;
+  color: var(--tri-ink);
+}
+
+.docs-content em {
+  font-style: italic;
+  color: var(--tri-muted);
+}
+
+.docs-content strong {
+  color: var(--tri-emerald);
+  font-weight: 600;
+}
+
+.docs-content blockquote {
+  border-left: 3px solid var(--tri-emerald);
+  margin: 1.25rem 0;
+  padding: 0.5rem 1rem;
+  background: var(--tri-vellum);
+  border-radius: 0 6px 6px 0;
+  font-style: italic;
+  color: var(--tri-muted);
+}
+
+.docs-content ul, .docs-content ol {
+  padding-left: 1.5rem;
+  margin: 0 0 1rem;
+}
+
+.docs-content li {
+  line-height: 1.7;
+  margin: 0.25rem 0;
+}
+
+.docs-content code {
+  font-family: var(--tri-mono);
+  font-size: 0.85em;
+  background: var(--tri-vellum);
+  padding: 0.15em 0.4em;
+  border-radius: 4px;
+  color: var(--tri-burgundy);
+}
+
+.docs-content pre {
+  font-family: var(--tri-mono);
+  font-size: 0.82rem;
+  background: var(--tri-paper);
+  border: 1px solid var(--tri-line);
+  border-radius: 8px;
+  padding: 1rem;
+  overflow-x: auto;
+  line-height: 1.5;
+}
+
+.docs-content pre code {
+  background: transparent;
+  padding: 0;
+  color: var(--tri-ink);
+}
+
+.docs-content table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 1rem 0 1.5rem;
+  font-size: 0.875rem;
+}
+
+.docs-content th, .docs-content td {
+  text-align: left;
+  padding: 0.6rem 0.85rem;
+  border-bottom: 1px solid var(--tri-line);
+}
+
+.docs-content th {
+  font-weight: 600;
+  background: var(--tri-vellum);
+  color: var(--tri-emerald);
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.docs-content tr:hover td {
+  background: var(--tri-vellum);
+}
+
+.docs-content hr {
+  border: 0;
+  border-top: 1px solid var(--tri-line);
+  margin: 2rem 0;
+}
+
+.docs-content a {
+  color: var(--tri-emerald);
+  border-bottom: 1px solid transparent;
+  transition: border 150ms;
+}
+
+.docs-content a:hover {
+  border-bottom-color: var(--tri-emerald);
+  text-decoration: none;
+}
+
+/* Loading + error states */
+.docs-status {
+  text-align: center;
+  padding: 4rem 1rem;
+  color: var(--tri-faint);
+  font-style: italic;
+}
+
+.docs-error {
+  background: rgba(224, 122, 142, 0.08);
+  border: 1px solid var(--tri-burgundy);
+  border-radius: 8px;
+  padding: 1rem 1.25rem;
+  color: var(--tri-burgundy);
+  margin: 2rem 0;
+}
+
+/* ─── Mobile ────────────────────────────────────────────── */
+
+@media (max-width: 768px) {
+  .docs-shell {
+    grid-template-columns: 1fr;
+  }
+  .docs-nav {
+    position: static;
+    height: auto;
+    border-right: none;
+    border-bottom: 1px solid var(--tri-line);
+  }
+  .docs-main {
+    padding: 1.5rem 1rem;
+  }
+}
+
+/* ─── Print ─────────────────────────────────────────────── */
+
+@media print {
+  .docs-nav, .docs-toggles { display: none; }
+  .docs-shell { grid-template-columns: 1fr; }
+  .docs-main { padding: 0; }
+  .docs-content { max-width: 100%; }
+  body { background: white; color: black; }
+}
