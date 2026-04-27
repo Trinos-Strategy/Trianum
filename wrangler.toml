@@ -1,0 +1,29 @@
+# Cloudflare Workers Static Assets configuration
+# Generated: 2026-04-27
+#
+# Purpose: explicitly disable SPA fallback so that:
+#   • /docs.html               serves the documentation viewer
+#   • /docs/<slug>.md          serves the markdown source files
+#   • /docs-assets/<file>      serves CSS / JS / JSON / chart.html
+#
+# Without this file, the trianum-landing Pages project (now backed by
+# Workers Static Assets) was applying not_found_handling = "single-page-
+# application" internally, which rewrote every URL to /index.html.
+#
+# The Cloudflare dashboard's new Workers/Pages combined UI no longer
+# exposes "Build output directory" or "Framework preset" toggles, so
+# this file is the canonical way to override the default behaviour.
+
+name = "trianum-landing"
+compatibility_date = "2026-04-25"
+
+[assets]
+# Serve everything from the repo root.
+directory = "./"
+
+# When a request does not match a static file, return a 404 — do NOT
+# rewrite to index.html. This is the critical line.
+not_found_handling = "404-page"
+
+# Allow assets to be served at any path that matches a file on disk.
+html_handling = "auto-trailing-slash"
