@@ -1,98 +1,49 @@
-/**
- * Trianum Protocol — Devnet Contract Verification
- *
- * Submits source code for the deployed Trianum contracts to the
- * XRPL EVM Sidechain devnet block explorer (evm-sidechain.xrpl.org)
- * via hardhat-verify.
- *
- * Usage:
- *   npx hardhat run scripts/verify.ts --network xrplEvmDevnet
- *
- * Reads `deployments/<network>.json` produced by deploy.ts. For each
- * non-proxy contract address, calls `hardhat verify` with the correct
- * constructor args. Proxy contracts (UUPS) are verified at the
- * implementation address — hardhat-upgrades exposes `erc1967.getImplementationAddress`.
- */
+import { run } from "hardhat";
 
-import { run, network, upgrades } from "hardhat";
-import * as fs from "fs";
-import * as path from "path";
+const DEPLOYER = "0x307844674A4F66a6b534A1B98aF8596CF9965fb5";
+const ZERO = "0x0000000000000000000000000000000000000000";
 
-interface DeploymentRecord {
-  network: string;
-  chainId: number;
-  contracts: Record<string, string>;
-  roles: { daoTreasury: string; operationsWallet: string; admin: string };
-}
-
-async function verify(label: string, address: string, constructorArguments: any[] = []) {
-  console.log(`\n→ Verifying ${label} at ${address}`);
-  try {
-    await run("verify:verify", { address, constructorArguments });
-    console.log(`  ✓ ${label} verified`);
-  } catch (err: any) {
-    if (String(err?.message || err).toLowerCase().includes("already verified")) {
-      console.log(`  · ${label} already verified`);
-    } else {
-      console.warn(`  ✗ ${label} verification failed: ${err?.message || err}`);
-    }
-  }
-}
-
-async function getImpl(proxyAddr: string): Promise<string> {
-  return upgrades.erc1967.getImplementationAddress(proxyAddr);
-}
+const TIMELOCK_MIN_DELAY = Number(process.env.TIMELOCK_MIN_DELAY ?? 24 * 60 * 60); // 86400
+const TIMELOCK_PROPOSERS: string[] = [];           // deploy.ts: []
+const TIMELOCK_EXECUTORS: string[] = [ZERO];        // deploy.ts: [ethers.ZeroAddress]
+const TIMELOCK_ADMIN = DEPLOYER;                    // deploy.ts: deployer.address
 
 async function main() {
-  const inPath = path.join(__dirname, "..", "deployments", `${network.name}.json`);
-  if (!fs.existsSync(inPath)) {
-    throw new Error(`No deployment record at ${inPath}. Run deploy.ts first.`);
-  }
-  const record = JSON.parse(fs.readFileSync(inPath, "utf8")) as DeploymentRecord;
+  const proxies: Record<string, string> = {
+    TRNToken:        "0x91b14CCF775141A6B9c7E3E60BF85DDa5de255ef",
+    SortitionModule: "0xFbdcC4d4f080f759E9B59f757e4c43A3A429763c",
+    DisputeKit:      "0xBbbeb9f3004ED582A3eB1d7F96607418c41771Dc",
+    EscrowBridge:    "0x8dBff83997190a896bB5CAe6B70FB741250E029F",
+    KlerosCore:      "0x1BAC0e629fD897d69d4e67044f16B38A9270F24f",
+    TrianumGovernor: "0x4eDdB2D27D1Da8D9e9020E31AB2a5b32D7a70A9E",
+  };
 
-  console.log("=".repeat(60));
-  console.log("  Trianum Devnet Verification");
-  console.log(`  Network: ${record.network} (chainId ${record.chainId})`);
-  console.log("=".repeat(60));
-
-  const c = record.contracts;
-  const admin = record.roles.admin;
-
-  // Non-proxy: MockAxelarGateway, MockArbitrable, TimelockController
-  await verify("MockAxelarGateway", c.MockAxelarGateway, []);
-  await verify("MockArbitrable",    c.MockArbitrable,    [c.KlerosCore]);
-  await verify("TimelockController", c.TimelockController, [
-    2,
-    [],
-    ["0x0000000000000000000000000000000000000000"],
-    admin,
-  ]);
-
-  // UUPS proxies: verify at implementation address
-  for (const [label, proxy] of Object.entries({
-    TRNToken:        c.TRNToken,
-    SortitionModule: c.SortitionModule,
-    DisputeKit:      c.DisputeKit,
-    EscrowBridge:    c.EscrowBridge,
-    KlerosCore:      c.KlerosCore,
-    TrianumGovernor: c.TrianumGovernor,
-  })) {
+  for (const [name, address] of Object.entries(proxies)) {
+    console.log(`\n=== Verifying ${name} (proxy ${address}) ===`);
     try {
-      const impl = await getImpl(proxy);
-      console.log(`\n   ${label} proxy=${proxy}\n      → impl=${impl}`);
-      await verify(`${label} (impl)`, impl, []);
-    } catch (err: any) {
-      console.warn(`   ✗ Could not resolve impl for ${label}: ${err?.message || err}`);
+      await run("verify:verify", { address, constructorArguments: [] });
+      console.log(`  ✓ ${name} verified`);
+    } catch (err) {
+      console.error(`  ✗ ${name}:`, (err as Error).message);
     }
   }
 
-  console.log("\n" + "=".repeat(60));
-  console.log("  Verification pass complete.");
-  console.log(`  Explorer: https://evm-sidechain.xrpl.org/address/${c.KlerosCore}`);
-  console.log("=".repeat(60));
+  console.log(`\n=== Verifying TimelockController (non-proxy) ===`);
+  try {
+    await run("verify:verify", {
+      address: "0xdeEEb84c3A2CCfb3b640D91012fe0e1d33BEe438",
+      constructorArguments: [
+        TIMELOCK_MIN_DELAY,
+        TIMELOCK_PROPOSERS,
+        TIMELOCK_EXECUTORS,
+        TIMELOCK_ADMIN,
+      ],
+      contract: "@openzeppelin/contracts/governance/TimelockController.sol:TimelockController",
+    });
+    console.log("  ✓ TimelockController verified");
+  } catch (err) {
+    console.error("  ✗ TimelockController:", (err as Error).message);
+  }
 }
 
-main().catch((err) => {
-  console.error(err);
-  process.exit(1);
-});
+main().catch((e) => { console.error(e); process.exit(1); });

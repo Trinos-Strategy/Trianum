@@ -48,3 +48,5 @@ build/
 
 # Devnet/mainnet deployment outputs (emitted by scripts/deploy.ts)
 deployments/*.json
+hardhat.config.ts.bak2
+package-lock.json.broken.*
