@@ -5,14 +5,35 @@
 
 XRPL-native decentralized dispute resolution protocol. Three independent sources of legitimacy — common reason (*조리*), legal doctrine (*법리*), and party autonomy (*자치*) — converge through a **Dual Award** procedure and a stake-weighted juror panel into a single enforceable on-chain verdict in 3–5 weeks.
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](./LICENSE) ![Tests](https://img.shields.io/badge/tests-114%20passing-brightgreen) ![Stage](https://img.shields.io/badge/stage-MVP%20development-yellow) ![XRPL](https://img.shields.io/badge/chain-XRPL%20EVM%20Sidechain-0ea5e9) ![Solidity](https://img.shields.io/badge/Solidity-0.8.20-363636)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](./LICENSE) ![Tests](https://img.shields.io/badge/tests-114%20passing-brightgreen) ![Stage](https://img.shields.io/badge/stage-MVP%20live-brightgreen) ![Testnet](https://img.shields.io/badge/testnet-XRPL%20EVM%201449000-0ea5e9) ![Solidity](https://img.shields.io/badge/Solidity-0.8.20-363636)
 
 > **Heritage note.** Trianum is a derivative work of the [Kleros protocol](https://github.com/kleros/kleros) (MIT-licensed). Three core files (`KlerosCore.sol`, `DisputeKit.sol`, `SortitionModule.sol`) retain the Kleros prefix to acknowledge upstream origin; all other contracts, governance, and the TRN token are Trianum-original. See [NOTICE](./NOTICE).
 
 ---
 
+## 🟢 Live on XRPL EVM Testnet
+
+Seven UUPS proxy contracts deployed 2026-05-03 to XRPL EVM Sidechain Testnet (chain ID **1449000**). Three KFIP 2026 demonstration disputes seeded 2026-05-06 against `MockArbitrable`. Browse on the [Testnet Explorer](https://explorer.testnet.xrplevm.org).
+
+| Contract | Proxy address |
+|---|---|
+| **KlerosCore** | [`0x1BAC0e629fD897d69d4e67044f16B38A9270F24f`](https://explorer.testnet.xrplevm.org/address/0x1BAC0e629fD897d69d4e67044f16B38A9270F24f) |
+| **DisputeKit** | [`0xBbbeb9f3004ED582A3eB1d7F96607418c41771Dc`](https://explorer.testnet.xrplevm.org/address/0xBbbeb9f3004ED582A3eB1d7F96607418c41771Dc) |
+| **SortitionModule** | [`0xFbdcC4d4f080f759E9B59f757e4c43A3A429763c`](https://explorer.testnet.xrplevm.org/address/0xFbdcC4d4f080f759E9B59f757e4c43A3A429763c) |
+| **EscrowBridge** | [`0x8dBff83997190a896bB5CAe6B70FB741250E029F`](https://explorer.testnet.xrplevm.org/address/0x8dBff83997190a896bB5CAe6B70FB741250E029F) |
+| **TRNToken** | [`0x91b14CCF775141A6B9c7E3E60BF85DDa5de255ef`](https://explorer.testnet.xrplevm.org/address/0x91b14CCF775141A6B9c7E3E60BF85DDa5de255ef) |
+| **TimelockController** | [`0xdeEEb84c3A2CCfb3b640D91012fe0e1d33BEe438`](https://explorer.testnet.xrplevm.org/address/0xdeEEb84c3A2CCfb3b640D91012fe0e1d33BEe438) |
+| **TrianumGovernor** | [`0x4eDdB2D27D1Da8D9e9020E31AB2a5b32D7a70A9E`](https://explorer.testnet.xrplevm.org/address/0x4eDdB2D27D1Da8D9e9020E31AB2a5b32D7a70A9E) |
+
+**Deployment order:** TRNToken → SortitionModule → DisputeKit → MockAxelarGateway → EscrowBridge → KlerosCore → MockArbitrable → TimelockController → TrianumGovernor.
+
+**Demo disputes (live):** ID 0 — KFIP-Demo-1: DeFi Rug Pull (100 XRP) · ID 1 — KFIP-Demo-2: NFT Ownership (200 XRP) · ID 2 — KFIP-Demo-3: General Breach (300 XRP). Each carries a 10 XRP arbitration fee and is queryable on Explorer through the `KlerosCore` `getDispute(disputeId)` read.
+
+---
+
 ## Table of Contents
 
+- [Live on XRPL EVM Testnet](#-live-on-xrpl-evm-testnet)
 - [Why Trianum](#why-trianum)
 - [The Three-Fold Structure](#the-three-fold-structure-삼중성)
 - [Architecture](#architecture)
@@ -216,21 +237,22 @@ Deployment order (handled by `deploy.ts`): TRNToken → SortitionModule → Disp
 
 ## Current Status
 
-**Stage**: MVP development — all design, core contracts, and local simulation work. Testnet deployment and end-to-end XRPL Mainnet integration are in progress.
+**Stage**: MVP live on XRPL EVM Testnet — all design, core contracts, local simulation, testnet deployment, and three live demonstration disputes are in place. End-to-end XRPL Mainnet integration and the user-facing dApp are the remaining tracks.
 
 | Component | Status |
 |---|---|
-| Design documents (6) | ✅ Complete |
+| Design documents (8) | ✅ Complete |
 | Trianum Rules (Art. 1–35) | ✅ Complete |
-| Smart contract suite | ✅ Compiles · 114 tests pass |
-| Regulatory analysis (7-jurisdiction non-security) | ✅ Complete |
-| Security audit (external) | ⬜ Planned for Phase 2 |
-| XRPL EVM Sidechain testnet deployment | 🟡 Deployment scripts ready; live addresses TBD |
+| Smart contract suite | ✅ Compiles · 114 tests pass · 3 pending · 0 failing |
+| Regulatory analysis (7-jurisdiction non-security) | ✅ Complete (KR · US · UK · SG · HK · JP · UAE) |
+| **XRPL EVM Sidechain testnet deployment** | ✅ **Live — 7 UUPS proxies on chain 1449000 · 3 demo disputes seeded** |
+| Source verification on Blockscout | 🟡 Pending — DNS/solc-bin issue on testnet infra; Sourcify fallback in progress |
 | XRPL Mainnet native-escrow integration | 🟡 EVM side complete; XRPL-side companion contract is a stub |
-| Frontend / dApp | ⬜ Not in this repository |
+| Security audit (external) | ⬜ Planned for Phase 2 |
+| Frontend / dApp | ⬜ Not in this repository (KFIP 2026 acceleration track) |
 | Production launch | ⬜ Post-KFIP 2026 acceleration |
 
-This repository is therefore **production-grade as a Solidity protocol** and **work-in-progress as a deployed end-to-end service**. It is in this state by design: the KFIP 2026 submission frames this as a funded acceleration target, not a shipped product.
+This repository is **production-grade as a Solidity protocol with a live testnet deployment** and **work-in-progress as an end-to-end user-facing service**. It is in this state by design: the KFIP 2026 submission frames the dApp and Mainnet bridge wiring as funded acceleration targets, not shipped products.
 
 ---
 
@@ -249,7 +271,7 @@ We welcome contributions in the following areas:
 
 1. Open an issue before substantial changes so we can align scope
 2. Branch naming: `feat/<topic>`, `fix/<topic>`, `docs/<topic>`
-3. `main` is protected. All changes land through PRs with CI green (`npx hardhat compile` + `npx hardhat test`)
+3. `main` is protected. All changes land through PRs with the local Hardhat suite green (`./node_modules/.bin/hardhat compile` + `./node_modules/.bin/hardhat test`). Use the pinned binary, not `npx hardhat` — the latter can pull a different Hardhat major and break the toolchain.
 4. Commits follow [Conventional Commits](https://www.conventionalcommits.org/) (`feat(escrow): …`, `fix(hardhat): …`)
 
 See [CONTRIBUTING.md](./CONTRIBUTING.md) for details and [CODE_OF_CONDUCT.md](./CODE_OF_CONDUCT.md) for community standards.
