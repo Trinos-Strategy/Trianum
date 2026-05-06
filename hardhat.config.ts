@@ -24,15 +24,11 @@ const config: HardhatUserConfig = {
       chainId: Number(process.env.CHAIN_ID ?? 1449000),
       accounts: PRIVATE_KEY ? [PRIVATE_KEY] : [],
     },
-    // XRPL EVM Sidechain Devnet — the canonical XRPL EVM development
-    // network targeted by all Trianum protocol documents (whitepaper,
-    // rules, token paper). Chain ID 1440002 is the long-standing
-    // devnet identifier; this is NOT mainnet despite the legacy
-    // entry name in earlier configs.
     xrplEvmDevnet: {
       url: "https://rpc-evm-sidechain.xrpl.org",
       chainId: 1440002,
-      accounts: process.env.DEPLOYER_PRIVATE_KEY ? [process.env.DEPLOYER_PRIVATE_KEY] : [],
+      accounts: PRIVATE_KEY ? [PRIVATE_KEY] : [],
+    },
     xrplEvmTestnet: {
       url: "https://rpc.testnet.xrplevm.org",
       chainId: 1449000,
@@ -45,11 +41,9 @@ const config: HardhatUserConfig = {
     },
   },
   etherscan: {
-    // XRPL EVM Sidechain devnet uses an explorer at evm-sidechain.xrpl.org
-    // (no API key required for source verification on the public devnet
-    // explorer; placeholder value is accepted by hardhat-verify).
     apiKey: {
       xrplEvmDevnet: "no-api-key-required",
+      xrplEvmTestnet: process.env.BLOCKSCOUT_API_KEY ?? "empty",
     },
     customChains: [
       {
@@ -58,6 +52,14 @@ const config: HardhatUserConfig = {
         urls: {
           apiURL: "https://evm-sidechain.xrpl.org/api",
           browserURL: "https://evm-sidechain.xrpl.org",
+        },
+      },
+      {
+        network: "xrplEvmTestnet",
+        chainId: 1449000,
+        urls: {
+          apiURL: "https://explorer.testnet.xrplevm.org/api",
+          browserURL: "https://explorer.testnet.xrplevm.org",
         },
       },
     ],
@@ -69,19 +71,6 @@ const config: HardhatUserConfig = {
   contractSizer: {
     alphaSort: true,
     runOnCompile: false,
-  },
-  etherscan: {
-    apiKey: { xrplEvmTestnet: "empty" },
-    customChains: [
-      {
-        network: "xrplEvmTestnet",
-        chainId: 1449000,
-        urls: {
-          apiURL: "https://explorer.testnet.xrplevm.org/api",
-          browserURL: "https://explorer.testnet.xrplevm.org",
-        },
-      },
-    ],
   },
   sourcify: { enabled: true },
   mocha: { timeout: 200000 },
