@@ -4,7 +4,12 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
-    open-pull-requests-limit: 10
+    open-pull-requests-limit: 0  # version updates off; security updates unaffected
+    groups:
+      npm-security:
+        applies-to: security-updates
+        patterns:
+          - "*"
 
     # The Hardhat v3 family (hardhat@^3, hardhat-toolbox@^7, hardhat-ignition@^3,
     # hardhat-ignition-ethers@^3, ignition-core@^3, hardhat-verify@^3) is a hard
@@ -36,3 +41,4 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
+    open-pull-requests-limit: 0
